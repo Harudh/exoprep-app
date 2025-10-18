@@ -30,7 +30,7 @@ mixin AuthenticationMixin on State<AuthenticationView> {
       );
       await Future<void>.delayed(const Duration(seconds: 1));
       if (!mounted) return;
-      context.go(AppRoute.home.path);
+      context.go(AppRoute.selectExams.path);
     } else if (_authViewModel.authState.value.status == ViewModelStatus.error &&
         _authViewModel.authState.value.type == AuthErrorType.signup.toString()) {
       AppToasts.showError(
@@ -47,7 +47,7 @@ mixin AuthenticationMixin on State<AuthenticationView> {
       );
       await Future<void>.delayed(const Duration(seconds: 1));
       if (!mounted) return;
-      context.go(AppRoute.selectExams.path);
+      context.go(AppRoute.home.path);
     } else if (_authViewModel.authState.value.status == ViewModelStatus.error &&
         _authViewModel.authState.value.type == AuthErrorType.login.toString()) {
       AppToasts.showError(

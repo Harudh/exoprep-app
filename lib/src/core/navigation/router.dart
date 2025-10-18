@@ -50,6 +50,17 @@ final router = GoRouter(
       },
     ),
 
+    GoRoute(
+      name: AppRoute.selectExams.name,
+      path: AppRoute.selectExams.path,
+      pageBuilder: (context, state) {
+        return AppRouteTransition.defaultPageTransition(
+          child: const Scaffold(),
+          key: state.pageKey,
+        );
+      },
+    ),
+
     // Profile Routes Group
     /*GoRoute(
       name: AppRoute.profile.name,

@@ -62,9 +62,9 @@ app.*.map.json
 *.env
 
 # Firebase
-firebase_options.dart
-google-services.json
-GoogleService-Info.plist
+#firebase_options.dart
+#google-services.json
+#GoogleService-Info.plist
 
 # Keystore files (security)
 *.jks

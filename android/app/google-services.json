@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "675136919387",
+    "project_id": "exam-pyq-5e9c1",
+    "storage_bucket": "exam-pyq-5e9c1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:675136919387:android:3cfa2778c6eb494bd36c7e",
+        "android_client_info": {
+          "package_name": "com.harud.exampyq.exam_pyq"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "675136919387-huiu8frivam2hgd9tbqr73s74qvoasjc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChpV2NzZO2Q6VR0kVWm6YE85s3e1J5eEg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "675136919387-huiu8frivam2hgd9tbqr73s74qvoasjc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "675136919387-vth4te023irjhdclq968lidgj7g2mhfe.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.harud.exampyq.examPyq"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
