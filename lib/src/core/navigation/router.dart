@@ -9,6 +9,7 @@ import 'package:root/src/features/flashcards/flashcards_view.dart';
 import 'package:root/src/features/home/home_view.dart';
 import 'package:root/src/features/leaderboard/leaderboard_view.dart';
 import 'package:root/src/features/productivity/productivity_view.dart';
+import 'package:root/src/features/productivity/project_form_view.dart';
 import 'package:root/src/features/profile/profile_view.dart';
 import 'package:root/src/features/select_exams/select_exams_view.dart';
 
@@ -56,6 +57,18 @@ final router = GoRouter(
       },
     ),
 
+    GoRoute(
+      name: AppRoute.createProjectForm.name,
+      path: AppRoute.createProjectForm.path,
+      parentNavigatorKey: _rootNavigatorKey,
+      pageBuilder: (context, state) {
+        return AppRouteTransition.slideFromBottom(
+          child: const ProjectFormView(),
+          key: state.pageKey,
+        );
+      },
+    ),
+
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return Landing(navigationShell: navigationShell);
@@ -67,14 +80,16 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: AppRoute.home.path,
-              pageBuilder: (context, state) => const NoTransitionPage(child: HomeView()),
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: HomeView()),
               routes: [
                 GoRoute(
                   path: AppRoute.examDashboard.path,
-                  pageBuilder: (context, state) => AppRouteTransition.slideFromRight(
-                    child: const DetailsScreen(),
-                    key: state.pageKey,
-                  ),
+                  pageBuilder: (context, state) =>
+                      AppRouteTransition.slideFromRight(
+                        child: const DetailsScreen(),
+                        key: state.pageKey,
+                      ),
                 ),
               ],
             ),
@@ -86,8 +101,9 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: AppRoute.productivity.path,
-              pageBuilder: (context, state) => const NoTransitionPage(child: ProductivityView()),
-              // routes: [] for nested navigation
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: ProductivityView()),
+              // routes: [],
             ),
           ],
         ),
@@ -97,7 +113,8 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: AppRoute.flashcards.path,
-              pageBuilder: (context, state) => const NoTransitionPage(child: FlashcardsView()),
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: FlashcardsView()),
             ),
           ],
         ),
@@ -107,7 +124,8 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: AppRoute.leaderboard.path,
-              pageBuilder: (context, state) => const NoTransitionPage(child: LeaderboardView()),
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: LeaderboardView()),
             ),
           ],
         ),
@@ -117,7 +135,8 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: AppRoute.profile.path,
-              pageBuilder: (context, state) => const NoTransitionPage(child: ProfileView()),
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: ProfileView()),
             ),
           ],
         ),

@@ -7,7 +7,7 @@ analyzer:
     - "**/*.config.dart"
     - "build/**"
     - "lib/generated_plugin_registrant.dart"
-  
+
   language:
     strict-casts: true
     strict-raw-types: false

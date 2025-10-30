@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:root/src/core/app/app_scope.dart';
 import 'package:root/src/features/authentication/authentication_viewmodel.dart';
+import 'package:root/src/features/productivity/productivity_viewmodel.dart';
 
 extension AppScopeExtension on BuildContext {
   AuthenticationViewModel get authViewModel => AppScope.of(this).authViewModel;
+  ProductivityViewModel get productivityViewModel =>
+      AppScope.of(this).productivityViewModel;
   // ProfileViewModel get profileViewModel => AppScope.of(this).profileViewModel;
-// Add more accessors here when you add more viewmodels to the scope
+  // Add more accessors here when you add more viewmodels to the scope
 }
