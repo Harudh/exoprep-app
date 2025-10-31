@@ -1,3 +1,4 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:root/src/core/common/ui/widgets/cupertino_date_bottomsheet.dart';
@@ -184,8 +185,35 @@ class _RepeatingContentState extends State<RepeatingContent>
   }
 }
 
-class OneTimeContent extends StatelessWidget {
+class OneTimeContent extends StatefulWidget {
   const OneTimeContent({super.key});
+
+  @override
+  State<OneTimeContent> createState() => _OneTimeContentState();
+}
+
+class _OneTimeContentState extends State<OneTimeContent> {
+  late ExpandableController _controller;
+  bool isDeadlineDateSet = false;
+
+  @override
+  void initState() {
+    _controller = ExpandableController(initialExpanded: isDeadlineDateSet);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _toggleDeadlineButton(bool value) {
+    setState(() {
+      isDeadlineDateSet = value;
+      _controller.expanded = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -243,51 +271,75 @@ class OneTimeContent extends StatelessWidget {
         ),
         const SizedBox(height: 12),
 
-        Text(
-          'Deadline Date',
-          style: context.titleMedium!.copyWith(
-            fontWeight: FontWeight.w600,
+        ExpandablePanel(
+          controller: _controller,
+          theme: const ExpandableThemeData(
+            hasIcon: false,
+            tapBodyToCollapse: false,
+            tapBodyToExpand: false,
+            animationDuration: Duration(milliseconds: 500),
           ),
-        ),
-
-        const SizedBox(height: 8),
-        GestureDetector(
-          onTap: () {
-            HapticFeedback.lightImpact();
-            showDatePickerBottomSheet(
-              context: context,
-              title: 'Start Date',
-              initialDate: DateTime.now(),
-              onDateSelected: (date) {
-                debugPrint(
-                  'Selected date: ${date.day}/${date.month}/${date.year}',
-                );
-              },
-            );
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 8,
-            ),
-            decoration: BoxDecoration(
-              color: isDarkMode
-                  ? const Color(0xFF3A3A3A)
-                  : Colors.grey.shade300,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('1h 00m', style: context.bodyLarge),
-                Icon(
-                  Icons.keyboard_arrow_down,
-                  color: isDarkMode
-                      ? Colors.grey.shade300
-                      : Colors.grey.shade500,
-                  size: 28,
+          header: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Deadline Date',
+                style: context.titleMedium!.copyWith(
+                  fontWeight: FontWeight.w600,
                 ),
-              ],
+              ),
+
+              Switch(
+                value: isDeadlineDateSet,
+                onChanged: _toggleDeadlineButton,
+                activeThumbColor: Colors.white,
+                activeTrackColor: const Color(0xFF34C759),
+                inactiveThumbColor: Colors.white,
+                inactiveTrackColor: Colors.grey.shade700,
+              ),
+            ],
+          ),
+          collapsed: const SizedBox.shrink(),
+
+          expanded: GestureDetector(
+            onTap: () {
+              HapticFeedback.lightImpact();
+              showDatePickerBottomSheet(
+                context: context,
+                title: 'Start Date',
+                initialDate: DateTime.now(),
+                onDateSelected: (date) {
+                  debugPrint(
+                    'Selected date: ${date.day}/${date.month}/${date.year}',
+                  );
+                },
+              );
+            },
+            child: Container(
+              margin: const EdgeInsets.only(top: 8),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 8,
+              ),
+              decoration: BoxDecoration(
+                color: isDarkMode
+                    ? const Color(0xFF3A3A3A)
+                    : Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('1h 00m', style: context.bodyLarge),
+                  Icon(
+                    Icons.keyboard_arrow_down,
+                    color: isDarkMode
+                        ? Colors.grey.shade300
+                        : Colors.grey.shade500,
+                    size: 28,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

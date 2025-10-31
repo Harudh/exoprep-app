@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:root/src/core/common/ui/widgets/theme_toggle_switch.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
+import 'package:root/src/features/productivity/project_form/color_panel_picker.dart';
 import 'package:root/src/features/productivity/project_form/project_name.dart';
 import 'package:root/src/features/productivity/project_form/time_goal_section.dart';
 
@@ -78,6 +79,17 @@ class _ProjectFormViewState extends State<ProjectFormView> {
             ProjectName(projectName: _projectNameController),
 
             const SliverToBoxAdapter(child: TimeGoalWidget()),
+
+            SliverToBoxAdapter(
+              child: ColorPickerPanel(
+                selectedColorValue: 0xFF42A5F5,
+                onColorSelected: (colorValue) {
+                  debugPrint('Selected color: $colorValue');
+                  // Save to database here
+                  // saveColorToDatabase(colorValue);
+                },
+              ),
+            ),
           ],
         ),
       ),
