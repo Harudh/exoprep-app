@@ -1,10 +1,9 @@
-// ignore_for_file: unused_field
-
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:root/src/core/common/state/viewmodel_state.dart';
 import 'package:root/src/core/constants/enums.dart';
+import 'package:root/src/core/extensions/string_extensions.dart';
 import 'package:root/src/core/navigation/router.dart';
 import 'package:root/src/models/project_model/project_model.dart';
 import 'package:root/src/repositories/productivity_project_repository.dart';
@@ -180,14 +179,5 @@ class ProjectViewModel {
     oneTimeGoalStartDate.dispose();
     oneTimeHasDeadline.dispose();
     oneTimeDeadlineDate.dispose();
-  }
-}
-
-extension StringExtension on String {
-  String get extractMessage {
-    if (startsWith('Exception: ')) {
-      return replaceFirst('Exception: ', '');
-    }
-    return this;
   }
 }
