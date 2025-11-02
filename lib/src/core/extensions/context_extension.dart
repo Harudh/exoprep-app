@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 /// This reduces boilerplate code and provides a cleaner API for common operations
 extension ContextExtension on BuildContext {
   /*------------ Screen Dimensions ------------*/
-  
+
   /// Get the screen size
   Size get screenSize => MediaQuery.of(this).size;
 
@@ -21,12 +21,13 @@ extension ContextExtension on BuildContext {
   double responsiveHeight(double percent) => screenHeight * percent;
 
   /*------------ Device Information ------------*/
-  
+
   /// Check if the current theme is dark mode
   bool get isDarkMode => Theme.of(this).brightness == Brightness.dark;
 
   /// Check if the device is in landscape orientation
-  bool get isLandscape => MediaQuery.of(this).orientation == Orientation.landscape;
+  bool get isLandscape =>
+      MediaQuery.of(this).orientation == Orientation.landscape;
 
   /// Check if the device is a tablet (based on shortest side >= 600dp)
   bool get isTablet => screenSize.shortestSide >= 600;
@@ -35,7 +36,7 @@ extension ContextExtension on BuildContext {
   bool get isPhone => !isTablet;
 
   /*------------ Safe Area and Padding ------------*/
-  
+
   /// Get the screen padding (safe area)
   EdgeInsets get screenPadding => MediaQuery.of(this).padding;
 
@@ -55,7 +56,7 @@ extension ContextExtension on BuildContext {
   double get availableHeight => screenHeight - viewInsets.bottom;
 
   /*------------ Theme Shortcuts ------------*/
-  
+
   /// Get the current theme
   ThemeData get theme => Theme.of(this);
 
@@ -81,7 +82,7 @@ extension ContextExtension on BuildContext {
   Color get errorColor => colorScheme.error;
 
   /*------------ Text Style Shortcuts ------------*/
-  
+
   /// Display large text style
   TextStyle? get displayLarge => textTheme.displayLarge;
 
@@ -128,7 +129,7 @@ extension ContextExtension on BuildContext {
   TextStyle? get labelSmall => textTheme.labelSmall;
 
   /*------------ Responsive Breakpoints ------------*/
-  
+
   /// Check if screen width is extra small (< 576px)
   bool get isXs => screenWidth < 576;
 
@@ -145,7 +146,7 @@ extension ContextExtension on BuildContext {
   bool get isXl => screenWidth >= 1200;
 
   /*------------ Navigation Shortcuts ------------*/
-  
+
   /// Pop the current route
   void pop<T extends Object?>([T? result]) => Navigator.of(this).pop(result);
 
@@ -153,7 +154,7 @@ extension ContextExtension on BuildContext {
   bool get canPop => Navigator.of(this).canPop();
 
   /*------------ Utility Methods ------------*/
-  
+
   /// Show a snack bar with the given message
   void showSnackBar(String message, {Duration? duration}) {
     ScaffoldMessenger.of(this).showSnackBar(
