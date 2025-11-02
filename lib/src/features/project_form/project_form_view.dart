@@ -1,10 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:root/src/core/extensions/app_scope_extension.dart';
+import 'package:root/src/core/common/state/viewmodel_state.dart';
+import 'package:root/src/core/common/ui/overlays/toast.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
-import 'package:root/src/core/logger/logger.dart';
-import 'package:root/src/features/productivity/productivity_viewmodel.dart';
 import 'package:root/src/features/project_form/project_form_viewmodel.dart';
 import 'package:root/src/features/project_form/widgets/color_panel_picker.dart';
 import 'package:root/src/features/project_form/widgets/project_name.dart';
@@ -24,7 +25,7 @@ class _ProjectFormViewState extends State<ProjectFormView>
   @override
   Widget build(BuildContext context) {
     final isDarkMode = context.isDarkMode;
-    final viewModel = ProjectViewModel();
+
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(

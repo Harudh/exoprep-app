@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:isar_community/isar.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:root/data/models/project_model/project_model.dart';
+import 'package:root/data/models/project_model/project_schema_model.dart';
 
 class IsarDatabase {
   static Isar? _instance;
@@ -17,7 +17,7 @@ class IsarDatabase {
       final dir = await getApplicationDocumentsDirectory();
 
       _instance = await Isar.open(
-        [ProjectModelSchema], // Add more schemas here as needed
+        [ProjectSchemaModelSchema],
         directory: dir.path,
         name: 'app_database', // Database name
       );

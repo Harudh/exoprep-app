@@ -143,7 +143,9 @@ class ProjectViewModel {
       log('📋 Model: $model');
     } catch (e) {
       log('❌ Error saving project: $e');
-      rethrow;
+      projectFormState.value = ViewModelState.error(
+        error: e.toString().extractMessage,
+      );
     }
   }
 
@@ -171,5 +173,14 @@ class ProjectViewModel {
     oneTimeGoalStartDate.dispose();
     oneTimeHasDeadline.dispose();
     oneTimeDeadlineDate.dispose();
+  }
+}
+
+extension StringExtension on String {
+  String get extractMessage {
+    if (startsWith('Exception: ')) {
+      return replaceFirst('Exception: ', '');
+    }
+    return this;
   }
 }

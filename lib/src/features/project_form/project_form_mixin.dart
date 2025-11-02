@@ -1,33 +1,46 @@
 part of 'project_form_view.dart';
 
 mixin ProductivityMixin on State<ProjectFormView> {
-  late ProductivityViewModel _productivityViewModel;
-
   final TextEditingController _projectNameController = TextEditingController();
   // Add this getter
   TextEditingController get projectNameController => _projectNameController;
-  // final _projectService = ProjectLocalService();
+
+  final viewModel = ProjectViewModel();
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _productivityViewModel = context.productivityViewModel;
-      _productivityViewModel.productivityState.addListener(
-        _handleProductivityStateChange,
+      viewModel.projectFormState.addListener(
+        _handleProductivityFormStateChange,
       );
     });
-    ProjectViewModel();
+
     _initService();
     super.initState();
   }
 
   Future<void> _initService() async {
-    // await _projectService.initialize();
     setState(() {});
   }
 
-  Future<void> _handleProductivityStateChange() async {
-    final state = context.productivityViewModel.productivityState.value;
-    AppLogs.debug('Status: ${state.status} - Data: ${state.data}');
+  Future<void> _handleProductivityFormStateChange() async {
+    final state = viewModel.projectFormState.value;
+    log('Status: ${state.status} - Data: ${state.data}');
+    if (viewModel.projectFormState.value.status == ViewModelStatus.error) {
+      AppToasts.showError(
+        context,
+        title: 'Login Failed',
+        alignment: AlignmentGeometry.bottomCenter,
+        description: '${viewModel.projectFormState.value.error}',
+      );
+    } else if (viewModel.projectFormState.value.status ==
+        ViewModelStatus.success) {
+      AppToasts.showError(
+        context,
+        title: 'Success',
+        description: 'Successfuly added project',
+      );
+    }
   }
 
   @override

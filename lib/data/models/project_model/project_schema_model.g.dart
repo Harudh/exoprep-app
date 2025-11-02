@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'project_model.dart';
+part of 'project_schema_model.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,13 +9,14 @@ part of 'project_model.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-extension GetProjectModelCollection on Isar {
-  IsarCollection<ProjectModel> get projectModels => this.collection();
+extension GetProjectSchemaModelCollection on Isar {
+  IsarCollection<ProjectSchemaModel> get projectSchemaModels =>
+      this.collection();
 }
 
-const ProjectModelSchema = CollectionSchema(
-  name: r'ProjectModel',
-  id: 1822059982794199752,
+const ProjectSchemaModelSchema = CollectionSchema(
+  name: r'ProjectSchemaModel',
+  id: -5215058053692920852,
   properties: {
     r'createdAt': PropertySchema(
       id: 0,
@@ -42,7 +43,7 @@ const ProjectModelSchema = CollectionSchema(
       id: 5,
       name: r'timeGoalFrequency',
       type: IsarType.string,
-      enumMap: _ProjectModeltimeGoalFrequencyEnumValueMap,
+      enumMap: _ProjectSchemaModeltimeGoalFrequencyEnumValueMap,
     ),
     r'timeGoalOneTimeDeadlineDate': PropertySchema(
       id: 6,
@@ -63,7 +64,7 @@ const ProjectModelSchema = CollectionSchema(
       id: 9,
       name: r'timeGoalRepeatingFrequency',
       type: IsarType.string,
-      enumMap: _ProjectModeltimeGoalRepeatingFrequencyEnumValueMap,
+      enumMap: _ProjectSchemaModeltimeGoalRepeatingFrequencyEnumValueMap,
     ),
     r'updatedAt': PropertySchema(
       id: 10,
@@ -72,10 +73,10 @@ const ProjectModelSchema = CollectionSchema(
     ),
   },
 
-  estimateSize: _projectModelEstimateSize,
-  serialize: _projectModelSerialize,
-  deserialize: _projectModelDeserialize,
-  deserializeProp: _projectModelDeserializeProp,
+  estimateSize: _projectSchemaModelEstimateSize,
+  serialize: _projectSchemaModelSerialize,
+  deserialize: _projectSchemaModelDeserialize,
+  deserializeProp: _projectSchemaModelDeserializeProp,
   idName: r'id',
   indexes: {
     r'projectName': IndexSchema(
@@ -121,14 +122,14 @@ const ProjectModelSchema = CollectionSchema(
   links: {},
   embeddedSchemas: {},
 
-  getId: _projectModelGetId,
-  getLinks: _projectModelGetLinks,
-  attach: _projectModelAttach,
+  getId: _projectSchemaModelGetId,
+  getLinks: _projectSchemaModelGetLinks,
+  attach: _projectSchemaModelAttach,
   version: '3.3.0-dev.3',
 );
 
-int _projectModelEstimateSize(
-  ProjectModel object,
+int _projectSchemaModelEstimateSize(
+  ProjectSchemaModel object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -149,8 +150,8 @@ int _projectModelEstimateSize(
   return bytesCount;
 }
 
-void _projectModelSerialize(
-  ProjectModel object,
+void _projectSchemaModelSerialize(
+  ProjectSchemaModel object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -168,13 +169,13 @@ void _projectModelSerialize(
   writer.writeDateTime(offsets[10], object.updatedAt);
 }
 
-ProjectModel _projectModelDeserialize(
+ProjectSchemaModel _projectSchemaModelDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = ProjectModel(
+  final object = ProjectSchemaModel(
     createdAt: reader.readDateTimeOrNull(offsets[0]),
     hasTimeGoal: reader.readBoolOrNull(offsets[1]) ?? false,
     id: id,
@@ -182,21 +183,20 @@ ProjectModel _projectModelDeserialize(
     tagColor: reader.readLong(offsets[3]),
     timeGoalDurationMinutes: reader.readLongOrNull(offsets[4]),
     timeGoalFrequency:
-        _ProjectModeltimeGoalFrequencyValueEnumMap[reader.readStringOrNull(
-          offsets[5],
-        )],
+        _ProjectSchemaModeltimeGoalFrequencyValueEnumMap[reader
+            .readStringOrNull(offsets[5])],
     timeGoalOneTimeDeadlineDate: reader.readDateTimeOrNull(offsets[6]),
     timeGoalOneTimeHasDeadlineDate: reader.readBoolOrNull(offsets[7]) ?? false,
     timeGoalOneTimeStartDate: reader.readDateTimeOrNull(offsets[8]),
     timeGoalRepeatingFrequency:
-        _ProjectModeltimeGoalRepeatingFrequencyValueEnumMap[reader
+        _ProjectSchemaModeltimeGoalRepeatingFrequencyValueEnumMap[reader
             .readStringOrNull(offsets[9])],
     updatedAt: reader.readDateTimeOrNull(offsets[10]),
   );
   return object;
 }
 
-P _projectModelDeserializeProp<P>(
+P _projectSchemaModelDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -214,7 +214,7 @@ P _projectModelDeserializeProp<P>(
     case 4:
       return (reader.readLongOrNull(offset)) as P;
     case 5:
-      return (_ProjectModeltimeGoalFrequencyValueEnumMap[reader
+      return (_ProjectSchemaModeltimeGoalFrequencyValueEnumMap[reader
               .readStringOrNull(offset)])
           as P;
     case 6:
@@ -224,7 +224,7 @@ P _projectModelDeserializeProp<P>(
     case 8:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 9:
-      return (_ProjectModeltimeGoalRepeatingFrequencyValueEnumMap[reader
+      return (_ProjectSchemaModeltimeGoalRepeatingFrequencyValueEnumMap[reader
               .readStringOrNull(offset)])
           as P;
     case 10:
@@ -234,50 +234,53 @@ P _projectModelDeserializeProp<P>(
   }
 }
 
-const _ProjectModeltimeGoalFrequencyEnumValueMap = {
+const _ProjectSchemaModeltimeGoalFrequencyEnumValueMap = {
   r'onetime': r'onetime',
   r'recurring': r'recurring',
 };
-const _ProjectModeltimeGoalFrequencyValueEnumMap = {
+const _ProjectSchemaModeltimeGoalFrequencyValueEnumMap = {
   r'onetime': TimeGoalFrequency.onetime,
   r'recurring': TimeGoalFrequency.recurring,
 };
-const _ProjectModeltimeGoalRepeatingFrequencyEnumValueMap = {
+const _ProjectSchemaModeltimeGoalRepeatingFrequencyEnumValueMap = {
   r'daily': r'daily',
   r'weekly': r'weekly',
   r'monthly': r'monthly',
 };
-const _ProjectModeltimeGoalRepeatingFrequencyValueEnumMap = {
+const _ProjectSchemaModeltimeGoalRepeatingFrequencyValueEnumMap = {
   r'daily': TimeGoalRepeatingFrequency.daily,
   r'weekly': TimeGoalRepeatingFrequency.weekly,
   r'monthly': TimeGoalRepeatingFrequency.monthly,
 };
 
-Id _projectModelGetId(ProjectModel object) {
+Id _projectSchemaModelGetId(ProjectSchemaModel object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _projectModelGetLinks(ProjectModel object) {
+List<IsarLinkBase<dynamic>> _projectSchemaModelGetLinks(
+  ProjectSchemaModel object,
+) {
   return [];
 }
 
-void _projectModelAttach(
+void _projectSchemaModelAttach(
   IsarCollection<dynamic> col,
   Id id,
-  ProjectModel object,
+  ProjectSchemaModel object,
 ) {
   object.id = id;
 }
 
-extension ProjectModelQueryWhereSort
-    on QueryBuilder<ProjectModel, ProjectModel, QWhere> {
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhere> anyId() {
+extension ProjectSchemaModelQueryWhereSort
+    on QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QWhere> {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhere> anyProjectName() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhere>
+  anyProjectName() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'projectName'),
@@ -285,7 +288,8 @@ extension ProjectModelQueryWhereSort
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhere> anyTagColor() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhere>
+  anyTagColor() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'tagColor'),
@@ -293,7 +297,8 @@ extension ProjectModelQueryWhereSort
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhere> anyCreatedAt() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhere>
+  anyCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'createdAt'),
@@ -302,17 +307,17 @@ extension ProjectModelQueryWhereSort
   }
 }
 
-extension ProjectModelQueryWhere
-    on QueryBuilder<ProjectModel, ProjectModel, QWhereClause> {
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> idEqualTo(Id id) {
+extension ProjectSchemaModelQueryWhere
+    on QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QWhereClause> {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
+  idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(lower: id, upper: id));
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> idNotEqualTo(
-    Id id,
-  ) {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
+  idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -334,10 +339,8 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> idGreaterThan(
-    Id id, {
-    bool include = false,
-  }) {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
+  idGreaterThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -345,10 +348,8 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> idLessThan(
-    Id id, {
-    bool include = false,
-  }) {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
+  idLessThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -356,7 +357,8 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> idBetween(
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
+  idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -374,7 +376,7 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
   projectNameEqualTo(String projectName) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -386,7 +388,7 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
   projectNameNotEqualTo(String projectName) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -429,7 +431,7 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
   projectNameGreaterThan(String projectName, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -443,7 +445,7 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
   projectNameLessThan(String projectName, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -457,7 +459,7 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
   projectNameBetween(
     String lowerProjectName,
     String upperProjectName, {
@@ -477,7 +479,7 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
   projectNameStartsWith(String ProjectNamePrefix) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -490,7 +492,7 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
   projectNameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -499,7 +501,7 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
   projectNameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -528,9 +530,8 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> tagColorEqualTo(
-    int tagColor,
-  ) {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
+  tagColorEqualTo(int tagColor) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IndexWhereClause.equalTo(indexName: r'tagColor', value: [tagColor]),
@@ -538,7 +539,7 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
   tagColorNotEqualTo(int tagColor) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -581,7 +582,7 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
   tagColorGreaterThan(int tagColor, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -595,10 +596,8 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> tagColorLessThan(
-    int tagColor, {
-    bool include = false,
-  }) {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
+  tagColorLessThan(int tagColor, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IndexWhereClause.between(
@@ -611,7 +610,8 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> tagColorBetween(
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
+  tagColorBetween(
     int lowerTagColor,
     int upperTagColor, {
     bool includeLower = true,
@@ -630,7 +630,7 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
   createdAtIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -639,7 +639,7 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
   createdAtIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -653,9 +653,8 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> createdAtEqualTo(
-    DateTime? createdAt,
-  ) {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
+  createdAtEqualTo(DateTime? createdAt) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IndexWhereClause.equalTo(indexName: r'createdAt', value: [createdAt]),
@@ -663,7 +662,7 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
   createdAtNotEqualTo(DateTime? createdAt) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -706,7 +705,7 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
   createdAtGreaterThan(DateTime? createdAt, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -720,10 +719,8 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> createdAtLessThan(
-    DateTime? createdAt, {
-    bool include = false,
-  }) {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
+  createdAtLessThan(DateTime? createdAt, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IndexWhereClause.between(
@@ -736,7 +733,8 @@ extension ProjectModelQueryWhere
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> createdAtBetween(
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterWhereClause>
+  createdAtBetween(
     DateTime? lowerCreatedAt,
     DateTime? upperCreatedAt, {
     bool includeLower = true,
@@ -756,9 +754,9 @@ extension ProjectModelQueryWhere
   }
 }
 
-extension ProjectModelQueryFilter
-    on QueryBuilder<ProjectModel, ProjectModel, QFilterCondition> {
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+extension ProjectSchemaModelQueryFilter
+    on QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QFilterCondition> {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   createdAtIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -767,7 +765,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   createdAtIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -776,7 +774,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   createdAtEqualTo(DateTime? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -785,7 +783,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   createdAtGreaterThan(DateTime? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -798,7 +796,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   createdAtLessThan(DateTime? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -811,7 +809,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   createdAtBetween(
     DateTime? lower,
     DateTime? upper, {
@@ -831,7 +829,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   hasTimeGoalEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -840,9 +838,8 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition> idEqualTo(
-    Id value,
-  ) {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
+  idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'id', value: value),
@@ -850,10 +847,8 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition> idGreaterThan(
-    Id value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
+  idGreaterThan(Id value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -865,10 +860,8 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition> idLessThan(
-    Id value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
+  idLessThan(Id value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -880,7 +873,8 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition> idBetween(
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
+  idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -899,7 +893,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   projectNameEqualTo(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -912,7 +906,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   projectNameGreaterThan(
     String value, {
     bool include = false,
@@ -930,7 +924,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   projectNameLessThan(
     String value, {
     bool include = false,
@@ -948,7 +942,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   projectNameBetween(
     String lower,
     String upper, {
@@ -970,7 +964,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   projectNameStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -983,7 +977,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   projectNameEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -996,7 +990,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   projectNameContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1009,7 +1003,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   projectNameMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1022,7 +1016,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   projectNameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1031,7 +1025,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   projectNameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1040,7 +1034,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   tagColorEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1049,7 +1043,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   tagColorGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1062,7 +1056,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   tagColorLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1075,7 +1069,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   tagColorBetween(
     int lower,
     int upper, {
@@ -1095,7 +1089,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalDurationMinutesIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1104,7 +1098,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalDurationMinutesIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1113,7 +1107,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalDurationMinutesEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1125,7 +1119,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalDurationMinutesGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1138,7 +1132,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalDurationMinutesLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1151,7 +1145,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalDurationMinutesBetween(
     int? lower,
     int? upper, {
@@ -1171,7 +1165,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalFrequencyIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1180,7 +1174,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalFrequencyIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1189,7 +1183,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalFrequencyEqualTo(
     TimeGoalFrequency? value, {
     bool caseSensitive = true,
@@ -1205,7 +1199,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalFrequencyGreaterThan(
     TimeGoalFrequency? value, {
     bool include = false,
@@ -1223,7 +1217,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalFrequencyLessThan(
     TimeGoalFrequency? value, {
     bool include = false,
@@ -1241,7 +1235,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalFrequencyBetween(
     TimeGoalFrequency? lower,
     TimeGoalFrequency? upper, {
@@ -1263,7 +1257,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalFrequencyStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1276,7 +1270,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalFrequencyEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1289,7 +1283,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalFrequencyContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1302,7 +1296,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalFrequencyMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1315,7 +1309,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalFrequencyIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1324,7 +1318,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalFrequencyIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1333,7 +1327,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalOneTimeDeadlineDateIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1342,7 +1336,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalOneTimeDeadlineDateIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1353,7 +1347,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalOneTimeDeadlineDateEqualTo(DateTime? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1365,7 +1359,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalOneTimeDeadlineDateGreaterThan(
     DateTime? value, {
     bool include = false,
@@ -1381,7 +1375,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalOneTimeDeadlineDateLessThan(DateTime? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1394,7 +1388,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalOneTimeDeadlineDateBetween(
     DateTime? lower,
     DateTime? upper, {
@@ -1414,7 +1408,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalOneTimeHasDeadlineDateEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1426,7 +1420,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalOneTimeStartDateIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1435,7 +1429,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalOneTimeStartDateIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1444,7 +1438,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalOneTimeStartDateEqualTo(DateTime? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1456,7 +1450,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalOneTimeStartDateGreaterThan(DateTime? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1469,7 +1463,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalOneTimeStartDateLessThan(DateTime? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1482,7 +1476,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalOneTimeStartDateBetween(
     DateTime? lower,
     DateTime? upper, {
@@ -1502,7 +1496,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalRepeatingFrequencyIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1511,7 +1505,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalRepeatingFrequencyIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1522,7 +1516,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalRepeatingFrequencyEqualTo(
     TimeGoalRepeatingFrequency? value, {
     bool caseSensitive = true,
@@ -1538,7 +1532,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalRepeatingFrequencyGreaterThan(
     TimeGoalRepeatingFrequency? value, {
     bool include = false,
@@ -1556,7 +1550,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalRepeatingFrequencyLessThan(
     TimeGoalRepeatingFrequency? value, {
     bool include = false,
@@ -1574,7 +1568,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalRepeatingFrequencyBetween(
     TimeGoalRepeatingFrequency? lower,
     TimeGoalRepeatingFrequency? upper, {
@@ -1596,7 +1590,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalRepeatingFrequencyStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -1612,7 +1606,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalRepeatingFrequencyEndsWith(
     String value, {
     bool caseSensitive = true,
@@ -1628,7 +1622,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalRepeatingFrequencyContains(
     String value, {
     bool caseSensitive = true,
@@ -1644,7 +1638,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalRepeatingFrequencyMatches(
     String pattern, {
     bool caseSensitive = true,
@@ -1660,7 +1654,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalRepeatingFrequencyIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1672,7 +1666,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   timeGoalRepeatingFrequencyIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1684,7 +1678,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   updatedAtIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1693,7 +1687,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   updatedAtIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1702,7 +1696,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   updatedAtEqualTo(DateTime? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1711,7 +1705,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   updatedAtGreaterThan(DateTime? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1724,7 +1718,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   updatedAtLessThan(DateTime? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1737,7 +1731,7 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterFilterCondition>
   updatedAtBetween(
     DateTime? lower,
     DateTime? upper, {
@@ -1758,358 +1752,378 @@ extension ProjectModelQueryFilter
   }
 }
 
-extension ProjectModelQueryObject
-    on QueryBuilder<ProjectModel, ProjectModel, QFilterCondition> {}
+extension ProjectSchemaModelQueryObject
+    on QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QFilterCondition> {}
 
-extension ProjectModelQueryLinks
-    on QueryBuilder<ProjectModel, ProjectModel, QFilterCondition> {}
+extension ProjectSchemaModelQueryLinks
+    on QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QFilterCondition> {}
 
-extension ProjectModelQuerySortBy
-    on QueryBuilder<ProjectModel, ProjectModel, QSortBy> {
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy> sortByCreatedAt() {
+extension ProjectSchemaModelQuerySortBy
+    on QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QSortBy> {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
+  sortByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy> sortByCreatedAtDesc() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
+  sortByCreatedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy> sortByHasTimeGoal() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
+  sortByHasTimeGoal() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hasTimeGoal', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   sortByHasTimeGoalDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hasTimeGoal', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy> sortByProjectName() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
+  sortByProjectName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'projectName', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   sortByProjectNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'projectName', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy> sortByTagColor() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
+  sortByTagColor() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'tagColor', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy> sortByTagColorDesc() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
+  sortByTagColorDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'tagColor', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   sortByTimeGoalDurationMinutes() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalDurationMinutes', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   sortByTimeGoalDurationMinutesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalDurationMinutes', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   sortByTimeGoalFrequency() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalFrequency', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   sortByTimeGoalFrequencyDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalFrequency', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   sortByTimeGoalOneTimeDeadlineDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalOneTimeDeadlineDate', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   sortByTimeGoalOneTimeDeadlineDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalOneTimeDeadlineDate', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   sortByTimeGoalOneTimeHasDeadlineDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalOneTimeHasDeadlineDate', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   sortByTimeGoalOneTimeHasDeadlineDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalOneTimeHasDeadlineDate', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   sortByTimeGoalOneTimeStartDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalOneTimeStartDate', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   sortByTimeGoalOneTimeStartDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalOneTimeStartDate', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   sortByTimeGoalRepeatingFrequency() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalRepeatingFrequency', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   sortByTimeGoalRepeatingFrequencyDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalRepeatingFrequency', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy> sortByUpdatedAt() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
+  sortByUpdatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'updatedAt', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy> sortByUpdatedAtDesc() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
+  sortByUpdatedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'updatedAt', Sort.desc);
     });
   }
 }
 
-extension ProjectModelQuerySortThenBy
-    on QueryBuilder<ProjectModel, ProjectModel, QSortThenBy> {
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy> thenByCreatedAt() {
+extension ProjectSchemaModelQuerySortThenBy
+    on QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QSortThenBy> {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
+  thenByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy> thenByCreatedAtDesc() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
+  thenByCreatedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy> thenByHasTimeGoal() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
+  thenByHasTimeGoal() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hasTimeGoal', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   thenByHasTimeGoalDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hasTimeGoal', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy> thenById() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
+  thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
+  thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy> thenByProjectName() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
+  thenByProjectName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'projectName', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   thenByProjectNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'projectName', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy> thenByTagColor() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
+  thenByTagColor() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'tagColor', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy> thenByTagColorDesc() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
+  thenByTagColorDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'tagColor', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   thenByTimeGoalDurationMinutes() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalDurationMinutes', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   thenByTimeGoalDurationMinutesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalDurationMinutes', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   thenByTimeGoalFrequency() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalFrequency', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   thenByTimeGoalFrequencyDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalFrequency', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   thenByTimeGoalOneTimeDeadlineDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalOneTimeDeadlineDate', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   thenByTimeGoalOneTimeDeadlineDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalOneTimeDeadlineDate', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   thenByTimeGoalOneTimeHasDeadlineDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalOneTimeHasDeadlineDate', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   thenByTimeGoalOneTimeHasDeadlineDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalOneTimeHasDeadlineDate', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   thenByTimeGoalOneTimeStartDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalOneTimeStartDate', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   thenByTimeGoalOneTimeStartDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalOneTimeStartDate', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   thenByTimeGoalRepeatingFrequency() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalRepeatingFrequency', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
   thenByTimeGoalRepeatingFrequencyDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timeGoalRepeatingFrequency', Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy> thenByUpdatedAt() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
+  thenByUpdatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'updatedAt', Sort.asc);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterSortBy> thenByUpdatedAtDesc() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QAfterSortBy>
+  thenByUpdatedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'updatedAt', Sort.desc);
     });
   }
 }
 
-extension ProjectModelQueryWhereDistinct
-    on QueryBuilder<ProjectModel, ProjectModel, QDistinct> {
-  QueryBuilder<ProjectModel, ProjectModel, QDistinct> distinctByCreatedAt() {
+extension ProjectSchemaModelQueryWhereDistinct
+    on QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QDistinct> {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QDistinct>
+  distinctByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'createdAt');
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QDistinct> distinctByHasTimeGoal() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QDistinct>
+  distinctByHasTimeGoal() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'hasTimeGoal');
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QDistinct> distinctByProjectName({
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QDistinct>
+  distinctByProjectName({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'projectName', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QDistinct> distinctByTagColor() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QDistinct>
+  distinctByTagColor() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'tagColor');
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QDistinct>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QDistinct>
   distinctByTimeGoalDurationMinutes() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'timeGoalDurationMinutes');
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QDistinct>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QDistinct>
   distinctByTimeGoalFrequency({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(
@@ -2119,28 +2133,28 @@ extension ProjectModelQueryWhereDistinct
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QDistinct>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QDistinct>
   distinctByTimeGoalOneTimeDeadlineDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'timeGoalOneTimeDeadlineDate');
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QDistinct>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QDistinct>
   distinctByTimeGoalOneTimeHasDeadlineDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'timeGoalOneTimeHasDeadlineDate');
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QDistinct>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QDistinct>
   distinctByTimeGoalOneTimeStartDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'timeGoalOneTimeStartDate');
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QDistinct>
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QDistinct>
   distinctByTimeGoalRepeatingFrequency({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(
@@ -2150,88 +2164,97 @@ extension ProjectModelQueryWhereDistinct
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QDistinct> distinctByUpdatedAt() {
+  QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QDistinct>
+  distinctByUpdatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'updatedAt');
     });
   }
 }
 
-extension ProjectModelQueryProperty
-    on QueryBuilder<ProjectModel, ProjectModel, QQueryProperty> {
-  QueryBuilder<ProjectModel, int, QQueryOperations> idProperty() {
+extension ProjectSchemaModelQueryProperty
+    on QueryBuilder<ProjectSchemaModel, ProjectSchemaModel, QQueryProperty> {
+  QueryBuilder<ProjectSchemaModel, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<ProjectModel, DateTime?, QQueryOperations> createdAtProperty() {
+  QueryBuilder<ProjectSchemaModel, DateTime?, QQueryOperations>
+  createdAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'createdAt');
     });
   }
 
-  QueryBuilder<ProjectModel, bool, QQueryOperations> hasTimeGoalProperty() {
+  QueryBuilder<ProjectSchemaModel, bool, QQueryOperations>
+  hasTimeGoalProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'hasTimeGoal');
     });
   }
 
-  QueryBuilder<ProjectModel, String, QQueryOperations> projectNameProperty() {
+  QueryBuilder<ProjectSchemaModel, String, QQueryOperations>
+  projectNameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'projectName');
     });
   }
 
-  QueryBuilder<ProjectModel, int, QQueryOperations> tagColorProperty() {
+  QueryBuilder<ProjectSchemaModel, int, QQueryOperations> tagColorProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'tagColor');
     });
   }
 
-  QueryBuilder<ProjectModel, int?, QQueryOperations>
+  QueryBuilder<ProjectSchemaModel, int?, QQueryOperations>
   timeGoalDurationMinutesProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'timeGoalDurationMinutes');
     });
   }
 
-  QueryBuilder<ProjectModel, TimeGoalFrequency?, QQueryOperations>
+  QueryBuilder<ProjectSchemaModel, TimeGoalFrequency?, QQueryOperations>
   timeGoalFrequencyProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'timeGoalFrequency');
     });
   }
 
-  QueryBuilder<ProjectModel, DateTime?, QQueryOperations>
+  QueryBuilder<ProjectSchemaModel, DateTime?, QQueryOperations>
   timeGoalOneTimeDeadlineDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'timeGoalOneTimeDeadlineDate');
     });
   }
 
-  QueryBuilder<ProjectModel, bool, QQueryOperations>
+  QueryBuilder<ProjectSchemaModel, bool, QQueryOperations>
   timeGoalOneTimeHasDeadlineDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'timeGoalOneTimeHasDeadlineDate');
     });
   }
 
-  QueryBuilder<ProjectModel, DateTime?, QQueryOperations>
+  QueryBuilder<ProjectSchemaModel, DateTime?, QQueryOperations>
   timeGoalOneTimeStartDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'timeGoalOneTimeStartDate');
     });
   }
 
-  QueryBuilder<ProjectModel, TimeGoalRepeatingFrequency?, QQueryOperations>
+  QueryBuilder<
+    ProjectSchemaModel,
+    TimeGoalRepeatingFrequency?,
+    QQueryOperations
+  >
   timeGoalRepeatingFrequencyProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'timeGoalRepeatingFrequency');
     });
   }
 
-  QueryBuilder<ProjectModel, DateTime?, QQueryOperations> updatedAtProperty() {
+  QueryBuilder<ProjectSchemaModel, DateTime?, QQueryOperations>
+  updatedAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'updatedAt');
     });

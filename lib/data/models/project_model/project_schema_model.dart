@@ -1,10 +1,10 @@
 import 'package:isar_community/isar.dart';
 import 'package:root/src/core/constants/enums.dart';
 
-part 'project_model.g.dart';
+part 'project_schema_model.g.dart';
 
 @collection
-class ProjectModel {
+class ProjectSchemaModel {
   Id id = Isar.autoIncrement;
 
   @Index(type: IndexType.value)
@@ -34,7 +34,7 @@ class ProjectModel {
 
   DateTime? updatedAt;
 
-  ProjectModel({
+  ProjectSchemaModel({
     required this.projectName,
     required this.tagColor,
     this.id = Isar.autoIncrement,
