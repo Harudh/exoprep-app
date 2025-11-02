@@ -5,10 +5,10 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: da0d9209ca76bde579f2da330aeb9df62b6319c834fa7baae052021b0462401f
+      sha256: f7bac1065b51df46b2291296e1c1b3616a47aeb735aea46a8ca3dcb7bb700ee7
       url: "https://pub.dev"
     source: hosted
-    version: "85.0.0"
+    version: "86.0.0"
   _flutterfire_internals:
     dependency: transitive
     description:
@@ -29,10 +29,10 @@ packages:
     dependency: transitive
     description:
       name: analyzer
-      sha256: "974859dc0ff5f37bc4313244b3218c791810d03ab3470a579580279ba971a48d"
+      sha256: "4001e2de7c9d125af9504b4c4f64ebba507c9cb9c712caf02ac1d4c37824f58c"
       url: "https://pub.dev"
     source: hosted
-    version: "7.7.1"
+    version: "8.0.0"
   ansicolor:
     dependency: transitive
     description:
@@ -77,10 +77,10 @@ packages:
     dependency: transitive
     description:
       name: build
-      sha256: "825fed4d63050252a0b6e74f2d75844c4a85b664814be6993bd3493fb5239779"
+      sha256: ce76b1d48875e3233fde17717c23d1f60a91cc631597e49a400c89b475395b1d
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.1"
+    version: "3.1.0"
   build_config:
     dependency: transitive
     description:
@@ -97,14 +97,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.4"
+  build_resolvers:
+    dependency: transitive
+    description:
+      name: build_resolvers
+      sha256: d1d57f7807debd7349b4726a19fd32ec8bc177c71ad0febf91a20f84cd2d4b46
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.3"
   build_runner:
     dependency: "direct dev"
     description:
       name: build_runner
-      sha256: "4e54dbeefdc70691ba80b3bce3976af63b5425c8c07dface348dfee664a0edc1"
+      sha256: b24597fceb695969d47025c958f3837f9f0122e237c6a22cb082a5ac66c3ca30
       url: "https://pub.dev"
     source: hosted
-    version: "2.9.0"
+    version: "2.7.1"
+  build_runner_core:
+    dependency: transitive
+    description:
+      name: build_runner_core
+      sha256: "066dda7f73d8eb48ba630a55acb50c4a84a2e6b453b1cb4567f581729e794f7b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.3.1"
   built_collection:
     dependency: transitive
     description:
@@ -237,10 +253,18 @@ packages:
     dependency: transitive
     description:
       name: dart_style
-      sha256: "8a0e5fba27e8ee025d2ffb4ee820b4e6e2cf5e4246a6b1a477eb66866947e0bb"
+      sha256: c87dfe3d56f183ffe9106a18aebc6db431fc7c98c31a54b952a77f3d54a85697
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.1"
+    version: "3.1.2"
+  dartx:
+    dependency: transitive
+    description:
+      name: dartx
+      sha256: "8b25435617027257d43e6508b5fe061012880ddfdaa75a71d607c3de2a13d244"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   dbus:
     dependency: transitive
     description:
@@ -281,6 +305,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.7"
+  expandable:
+    dependency: "direct main"
+    description:
+      name: expandable
+      sha256: "9604d612d4d1146dafa96c6d8eec9c2ff0994658d6d09fed720ab788c7f5afc2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.1"
   fake_async:
     dependency: transitive
     description:
@@ -408,6 +440,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  frontend_server_client:
+    dependency: transitive
+    description:
+      name: frontend_server_client
+      sha256: f64a0333a82f30b0cca061bc3d143813a486dc086b574bfb233b7c1372427694
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0"
   get_it:
     dependency: "direct main"
     description:
@@ -552,6 +592,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  isar_community:
+    dependency: "direct main"
+    description:
+      name: isar_community
+      sha256: "28f59e54636c45ba0bb1b3b7f2656f1c50325f740cea6efcd101900be3fba546"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.3.0-dev.3"
+  isar_community_flutter_libs:
+    dependency: "direct main"
+    description:
+      name: isar_community_flutter_libs
+      sha256: c2934fe755bb3181cb67602fd5df0d080b3d3eb52799f98623aa4fc5acbea010
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.3.0-dev.3"
+  isar_community_generator:
+    dependency: "direct dev"
+    description:
+      name: isar_community_generator
+      sha256: "1d760de09ffbc837ad65476f14b6ad17381f0fb485e01bf77d76d825ef734bec"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.3.0-dev.3"
+  js:
+    dependency: transitive
+    description:
+      name: js
+      sha256: "53385261521cc4a0c4658fd0ad07a7d14591cf8fc33abbceae306ddb974888dc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.2"
   json_annotation:
     dependency: transitive
     description:
@@ -697,7 +769,7 @@ packages:
     source: hosted
     version: "1.1.0"
   path_provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider
       sha256: "50c5dd5b6e1aaf6fb3a78b33f6aa3afca52bf903a8a5298f53101fdaee55bbcd"
@@ -944,11 +1016,27 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  simple_gesture_detector:
+    dependency: transitive
+    description:
+      name: simple_gesture_detector
+      sha256: ba2cd5af24ff20a0b8d609cec3f40e5b0744d2a71804a2616ae086b9c19d19a3
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.1"
   sky_engine:
     dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
+  source_gen:
+    dependency: transitive
+    description:
+      name: source_gen
+      sha256: "7b19d6ba131c6eb98bfcbf8d56c1a7002eba438af2e7ae6f8398b2b0f4f381e3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
   source_span:
     dependency: transitive
     description:
@@ -1045,6 +1133,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.4.0"
+  table_calendar:
+    dependency: "direct main"
+    description:
+      name: table_calendar
+      sha256: "0c0c6219878b363a2d5f40c7afb159d845f253d061dc3c822aa0d5fe0f721982"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.0"
   talker_logger:
     dependency: "direct main"
     description:
@@ -1069,6 +1165,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.6"
+  time:
+    dependency: transitive
+    description:
+      name: time
+      sha256: "370572cf5d1e58adcb3e354c47515da3f7469dac3a95b447117e728e7be6f461"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.5"
+  timing:
+    dependency: transitive
+    description:
+      name: timing
+      sha256: "62ee18aca144e4a9f29d212f5a4c6a053be252b895ab14b5821996cff4ed90fe"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   toastification:
     dependency: "direct main"
     description:
@@ -1197,6 +1309,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.6.1"
+  xxh3:
+    dependency: transitive
+    description:
+      name: xxh3
+      sha256: "399a0438f5d426785723c99da6b16e136f4953fb1e9db0bf270bd41dd4619916"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   yaml:
     dependency: transitive
     description:

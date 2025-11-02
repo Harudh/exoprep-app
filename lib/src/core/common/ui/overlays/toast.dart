@@ -94,14 +94,28 @@ class AppToasts {
       context: context,
       alignment: alignment ?? Alignment.topCenter,
       style: style ?? ToastificationStyle.flat,
-      title: Text(title, style: TextStyle(color: context.isDarkMode ? Colors.white : Colors.black)),
+      title: Text(
+        title,
+        style: TextStyle(
+          color: context.isDarkMode ? Colors.white : Colors.black,
+        ),
+      ),
       autoCloseDuration: const Duration(seconds: 3),
-      description: Text(description, style: TextStyle(color: context.isDarkMode ? Colors.white : Colors.black)),
-      backgroundColor: isDark ? const Color(0xFF000000) : const Color(0xFFFFFFFF),
+      description: Text(
+        description,
+        style: TextStyle(
+          color: context.isDarkMode ? Colors.white : Colors.black,
+        ),
+      ),
+      backgroundColor: isDark
+          ? const Color(0xFF000000)
+          : const Color(0xFFFFFFFF),
       animationBuilder: (context, animation, alignment, child) {
         return ScaleTransition(scale: animation, child: child);
       },
-      borderSide: BorderSide(color: isDark ? Colors.grey.shade800 : Colors.grey.shade300),
+      borderSide: BorderSide(
+        color: isDark ? Colors.grey.shade800 : Colors.grey.shade300,
+      ),
       boxShadow: highModeShadow,
       showProgressBar: false,
       dragToClose: true,

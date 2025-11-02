@@ -9,3 +9,7 @@ enum AuthErrorType { login, signup, google, resetPassword }
 enum SelectExamSuccessType { examFetched, examUpdated }
 
 enum SelectExamErrorType { examFetchError, examUpdateError }
+
+enum TimeGoalFrequency { onetime, recurring }
+
+enum TimeGoalRepeatingFrequency { daily, weekly, monthly }
