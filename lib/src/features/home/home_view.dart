@@ -15,8 +15,16 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final List<Map<String, dynamic>> myExams = [
-    {'name': 'JEE Mains', 'color': const Color(0xFF6366F1), 'icon': Icons.engineering},
-    {'name': 'NEET', 'color': const Color(0xFFEC4899), 'icon': Icons.medical_services},
+    {
+      'name': 'JEE Mains',
+      'color': const Color(0xFF6366F1),
+      'icon': Icons.engineering,
+    },
+    {
+      'name': 'NEET',
+      'color': const Color(0xFFEC4899),
+      'icon': Icons.medical_services,
+    },
     {'name': 'GATE', 'color': const Color(0xFF8B5CF6), 'icon': Icons.computer},
     {'name': 'CAT', 'color': const Color(0xFF10B981), 'icon': Icons.school},
   ];
@@ -133,7 +141,11 @@ class _HomeViewState extends State<HomeView> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.add_circle_outline, size: 36, color: Colors.grey.shade400),
+                              Icon(
+                                Icons.add_circle_outline,
+                                size: 36,
+                                color: Colors.grey.shade400,
+                              ),
                               const SizedBox(height: 12),
                               Text(
                                 "Add New Exam",
@@ -158,7 +170,10 @@ class _HomeViewState extends State<HomeView> {
 
                     return GestureDetector(
                       onTap: () {
-                        AppRoute.examDashboard.pushNested(context, AppRoute.home);
+                        AppRoute.examDashboard.pushNested(
+                          context,
+                          AppRoute.home,
+                        );
                       },
                       child: Container(
                         width: cardWidth,
@@ -185,7 +200,10 @@ class _HomeViewState extends State<HomeView> {
                                   ),
                                 ),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: context.isDarkMode ? Colors.grey.shade900 : Colors.white,
                                     borderRadius: BorderRadius.circular(8),
@@ -195,7 +213,11 @@ class _HomeViewState extends State<HomeView> {
                                   ),
                                   child: Row(
                                     children: [
-                                      Icon(Icons.trending_up, size: 12, color: Colors.grey.shade600),
+                                      Icon(
+                                        Icons.trending_up,
+                                        size: 12,
+                                        color: Colors.grey.shade600,
+                                      ),
                                       const SizedBox(width: 4),
                                       Text(
                                         "#$rank",
@@ -263,7 +285,11 @@ class _HomeViewState extends State<HomeView> {
                                 children: [
                                   Row(
                                     children: [
-                                      const Icon(Icons.check_circle_outline, size: 34, color: Colors.green),
+                                      const Icon(
+                                        Icons.check_circle_outline,
+                                        size: 34,
+                                        color: Colors.green,
+                                      ),
                                       const SizedBox(width: 6),
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -292,7 +318,11 @@ class _HomeViewState extends State<HomeView> {
                                   ),
                                   Row(
                                     children: [
-                                      const Icon(Icons.local_fire_department, size: 34, color: Colors.orange),
+                                      const Icon(
+                                        Icons.local_fire_department,
+                                        size: 34,
+                                        color: Colors.orange,
+                                      ),
                                       const SizedBox(width: 6),
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -363,7 +393,10 @@ class _HomeViewState extends State<HomeView> {
                 (context, index) {
                   final exam = popularExams[index];
                   return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 6,
+                    ),
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: context.isDarkMode ? Colors.grey.shade900 : Colors.white,
@@ -430,7 +463,10 @@ class _HomeViewState extends State<HomeView> {
                 (context, index) {
                   final todo = todos[index];
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 6,
+                    ),
                     child: CupertinoContextMenu(
                       enableHapticFeedback: true,
                       actions: [
@@ -467,7 +503,9 @@ class _HomeViewState extends State<HomeView> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               GestureDetector(
-                                onTap: () => setState(() => todos[index]['completed'] = !(todos[index]['completed'] as bool)),
+                                onTap: () => setState(
+                                  () => todos[index]['completed'] = !(todos[index]['completed'] as bool),
+                                ),
                                 child: AnimatedContainer(
                                   duration: const Duration(milliseconds: 250),
                                   curve: Curves.easeInOut,

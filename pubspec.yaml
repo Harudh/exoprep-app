@@ -43,6 +43,9 @@ dependencies:
   isar_community_flutter_libs: 3.3.0-dev.3
   isar_community: 3.3.0-dev.3
   loading_indicator: ^3.1.1
+  file_picker: ^10.3.3
+  image_picker: ^1.2.0
+  timeago: ^3.7.1
 
 dev_dependencies:
   flutter_test:

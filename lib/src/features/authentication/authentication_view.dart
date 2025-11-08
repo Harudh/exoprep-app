@@ -32,9 +32,7 @@ class _AuthenticationViewState extends State<AuthenticationView> with Authentica
           child: ValueListenableBuilder<AuthenticationMode>(
             valueListenable: selectedMode,
             builder: (context, value, _) {
-              return value == AuthenticationMode.login
-                  ? LoginForm(selectedMode: selectedMode)
-                  : SignUpForm(selectedMode: selectedMode);
+              return value == AuthenticationMode.login ? LoginForm(selectedMode: selectedMode) : SignUpForm(selectedMode: selectedMode);
             },
           ),
         ),

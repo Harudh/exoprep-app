@@ -1,8 +1,11 @@
+// Update: lib/data/local/database/isar_database.dart
+
 import 'dart:developer';
 
 import 'package:isar_community/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:root/data/models/project_model/project_schema_model.dart';
+import 'package:root/data/models/flashcard_model/flashcard_schema_model.dart';
 
 class IsarDatabase {
   static Isar? _instance;
@@ -17,7 +20,11 @@ class IsarDatabase {
       final dir = await getApplicationDocumentsDirectory();
 
       _instance = await Isar.open(
-        [ProjectSchemaModelSchema],
+        [
+          ProjectSchemaModelSchema,
+          FlashcardSchemaModelSchema,
+          FlashcardSetSchemaModelSchema,
+        ],
         directory: dir.path,
         name: 'app_database',
       );
