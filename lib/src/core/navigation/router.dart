@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:root/src/core/app/splash.dart';
 import 'package:root/src/core/app/landing.dart';
 import 'package:root/src/core/navigation/routes.dart';
+import 'package:root/src/features/flash_cards/subfeatures/cards_list_view/view/cards_list_screen.dart';
+import 'package:root/src/features/flash_cards/subfeatures/create_flash_card/view/create_flash_cards_screen.dart';
 import 'package:root/src/features/flash_cards/subfeatures/decks_view/view/decks_list_screen.dart';
 import 'package:root/src/features/home/home_view.dart';
 import 'package:root/src/features/profile/profile_view.dart';
@@ -56,7 +58,19 @@ final router = GoRouter(
         return AppRouteTransition.slideFromBottom(child: const ProjectFormView(), key: state.pageKey);
       },
     ),
+    GoRoute(
+      path: AppRoute.createFlashCardsView.path,
+      name: AppRoute.createFlashCardsView.name,
+      pageBuilder: (context, state) {
+        final data = state.extra as Map<String, dynamic>;
 
+        final decksId = data['id'] as String;
+        return AppRouteTransition.slideFromBottom(
+          child: CreateFlashCardsScreen(deckId: decksId),
+          key: state.pageKey,
+        );
+      },
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return Landing(navigationShell: navigationShell);
@@ -110,6 +124,19 @@ final router = GoRouter(
 
                 return NoTransitionPage(
                   child: DecksListScreen(collectionId: id, collectionName: name),
+                );
+              },
+            ),
+            GoRoute(
+              path: AppRoute.cardsListView.path,
+              name: AppRoute.cardsListView.name,
+              pageBuilder: (context, state) {
+                final data = state.extra as Map<String, dynamic>;
+
+                final decksId = data['id'] as String;
+                final String name = data['name'] as String;
+                return NoTransitionPage(
+                  child: CardsListScreen(decksId: decksId, deckName: name),
                 );
               },
             ),

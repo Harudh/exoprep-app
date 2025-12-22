@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
+import 'package:root/src/core/navigation/routes.dart';
 import 'package:root/src/features/flash_cards/subfeatures/decks_view/cubit/decks_view_cubit.dart';
 import 'package:root/src/features/flash_cards/subfeatures/decks_view/widgets/create_decks_widget.dart';
 import 'package:root/src/features/flash_cards/subfeatures/decks_view/widgets/decks_list_tile.dart';
@@ -59,7 +61,12 @@ class _DecksListViewState extends State<DecksListView> {
                     ),
                     delegate: SliverChildBuilderDelegate((context, index) {
                       final deck = context.read<DecksViewCubit>().decks[index];
-                      return DeckTileWidget(deck: deck, onTap: () {});
+                      return DeckTileWidget(
+                        deck: deck,
+                        onTap: () {
+                          context.pushNamed(AppRoute.cardsListView.name, extra: {'id': deck.id, 'name': deck.name});
+                        },
+                      );
                     }, childCount: context.read<DecksViewCubit>().decks.length),
                   ),
                 ),

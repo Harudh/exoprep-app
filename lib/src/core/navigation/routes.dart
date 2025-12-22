@@ -15,10 +15,11 @@ enum AppRoute {
   flashcards('/flashcards'),
   leaderboard('/leaderboard'),
   profile('/profile'),
-
+  createFlashCardsView('/createFlashCardsView'),
   /* Nested Navigation */
   examDashboard('examDashboard'),
   decksListView('/decksListView'),
+  cardsListView('/cardsListView'),
 
   /* Productivity */
   createProjectForm('/createProjectForm');
