@@ -3,11 +3,11 @@ import 'dart:developer';
 import 'package:isar_community/isar.dart';
 import 'package:root/data/local/database/isar_database.dart';
 import 'package:root/src/features/flash_cards/models/data_model/decks_data_model.dart';
-import 'package:root/src/features/flash_cards/models/data_model/flash_cards_collection_data_model.dart';
 import 'package:root/src/features/flash_cards/models/data_model/flash_cards_data_model.dart';
 import 'package:root/src/features/flash_cards/models/isar_model.dart/decks_isar_model.dart';
-import 'package:root/src/features/flash_cards/models/isar_model.dart/flash_cards_collection_isar_model.dart';
 import 'package:root/src/features/flash_cards/models/isar_model.dart/flash_cards_isar_model.dart';
+import 'package:root/src/features/flash_cards/models/data_model/flash_cards_collection_data_model.dart';
+import 'package:root/src/features/flash_cards/models/isar_model.dart/flash_cards_collection_isar_model.dart';
 
 class FlashCardsRepository {
   Isar get _isar => IsarService.instance.isar;
@@ -199,8 +199,9 @@ class FlashCardsRepository {
 
 DeckDataModel _toDecksDataModel(DecksIsarModel isarModel) {
   return DeckDataModel(
-    id: isarModel.id.toString(), // Convert Isar Int ID back to String
+    id: isarModel.id.toString(),
     name: isarModel.name,
+    cardsCount: isarModel.cardsCount,
     collectionId: isarModel.collectionId,
     createdAt: isarModel.createdAt?.toIso8601String(),
     updatedAt: isarModel.updatedAt?.toIso8601String(),
