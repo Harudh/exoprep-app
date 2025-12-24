@@ -65,8 +65,9 @@ final router = GoRouter(
         final data = state.extra as Map<String, dynamic>;
 
         final decksId = data['id'] as String;
+        final deckName = data['name'] as String?;
         return AppRouteTransition.slideFromBottom(
-          child: CreateFlashCardsScreen(deckId: decksId),
+          child: CreateFlashCardsScreen(deckId: decksId, deckName: deckName ?? 'N/A'),
           key: state.pageKey,
         );
       },

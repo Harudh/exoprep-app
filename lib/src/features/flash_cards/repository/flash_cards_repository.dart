@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:isar_community/isar.dart';
 import 'package:root/data/local/database/isar_database.dart';
 import 'package:root/src/features/flash_cards/models/data_model/decks_data_model.dart';
 import 'package:root/src/features/flash_cards/models/data_model/flash_cards_collection_data_model.dart';
+import 'package:root/src/features/flash_cards/models/data_model/flash_cards_data_model.dart';
 import 'package:root/src/features/flash_cards/models/isar_model.dart/decks_isar_model.dart';
 import 'package:root/src/features/flash_cards/models/isar_model.dart/flash_cards_collection_isar_model.dart';
+import 'package:root/src/features/flash_cards/models/isar_model.dart/flash_cards_isar_model.dart';
 
 class FlashCardsRepository {
   Isar get _isar => IsarService.instance.isar;
@@ -52,6 +56,106 @@ class FlashCardsRepository {
     await _isar.writeTxn(() async {
       await _isar.decksIsarModels.put(isarModel);
     });
+  }
+
+  Future<void> saveFlashCards({required String deckId, required List<FlashCardDataModel> cards}) async {
+    final isarModels = cards.map((card) {
+      final data = FlashCardDataModel(
+        id: card.id,
+        deckId: card.deckId ?? deckId,
+        questionText: card.questionText,
+        answerText: card.answerText,
+        questionImages: card.questionImages,
+        answerImages: card.answerImages,
+        orderIndex: card.orderIndex,
+        createdAt: card.createdAt ?? DateTime.now().toIso8601String(),
+        updatedAt: DateTime.now().toIso8601String(),
+        deletedAt: card.deletedAt,
+      );
+      return FlashCardsIsarModel.fromDataModel(data);
+    }).toList();
+
+    await _isar.writeTxn(() async {
+      // putAll to insert/update multiple objects
+      await _isar.flashCardsIsarModels.putAll(isarModels);
+    });
+  }
+
+  Future<void> updateDeckAndCollectionCounts(String deckId) async {
+    try {
+      // 1. Get deck by id
+      final parsedDeckId = int.tryParse(deckId);
+      if (parsedDeckId == null) {
+        log('updateDeckAndCollectionCounts: Invalid deckId: $deckId');
+        return;
+      }
+
+      final deck = await _isar.decksIsarModels.where().idEqualTo(parsedDeckId).findFirst();
+
+      if (deck == null) {
+        log('updateDeckAndCollectionCounts: Deck not found for id: $deckId');
+        return;
+      }
+
+      // 2. Count flashcards for this deck
+      final cardsCount = await _isar.flashCardsIsarModels.filter().deckIdEqualTo(deckId).and().deletedAtIsNull().count();
+
+      // 3. Update deck.cardsCount
+      deck
+        ..cardsCount = cardsCount
+        ..updatedAt = DateTime.now();
+
+      // 4. Update collection.cardCount using collectionId from deck
+      final collectionId = deck.collectionId;
+      if (collectionId == null) {
+        log('updateDeckAndCollectionCounts: Deck has no collectionId');
+        // Still persist deck change
+        await _isar.writeTxn(() async {
+          await _isar.decksIsarModels.put(deck);
+        });
+        return;
+      }
+
+      final parsedCollectionId = int.tryParse(collectionId);
+      if (parsedCollectionId == null) {
+        log('updateDeckAndCollectionCounts: Invalid collectionId: $collectionId');
+        await _isar.writeTxn(() async {
+          await _isar.decksIsarModels.put(deck);
+        });
+        return;
+      }
+
+      final collection = await _isar.flashCardsCollectionIsarModels.where().idEqualTo(parsedCollectionId).findFirst();
+
+      if (collection == null) {
+        log('updateDeckAndCollectionCounts: Collection not found for id: $collectionId');
+        await _isar.writeTxn(() async {
+          await _isar.decksIsarModels.put(deck);
+        });
+        return;
+      }
+
+      final decksInCollection = await _isar.decksIsarModels
+          .filter()
+          .collectionIdEqualTo(collectionId)
+          .and()
+          .deletedAtIsNull()
+          .findAll();
+
+      final totalCardsInCollection = decksInCollection.fold<int>(0, (sum, d) => sum + (d.cardsCount ?? 0));
+
+      collection
+        ..cardCount = totalCardsInCollection
+        ..updatedAt = DateTime.now();
+
+      await _isar.writeTxn(() async {
+        await _isar.decksIsarModels.put(deck);
+        await _isar.flashCardsCollectionIsarModels.put(collection);
+      });
+    } catch (e, st) {
+      log('updateDeckAndCollectionCounts error: $e');
+      log('Stacktrace: $st');
+    }
   }
 }
 

@@ -43,7 +43,10 @@ class _CardsListViewState extends State<CardsListView> {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              context.pushNamed(AppRoute.createFlashCardsView.name, extra: {'id': context.read<CardsListViewCubit>().decksId});
+              context.pushNamed(
+                AppRoute.createFlashCardsView.name,
+                extra: {'id': context.read<CardsListViewCubit>().decksId, 'name': widget.deckName},
+              );
             },
             shape: const CircleBorder(),
             child: const Icon(Icons.add),

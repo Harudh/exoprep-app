@@ -5,6 +5,7 @@ import 'package:isar_community/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:root/src/features/flash_cards/models/isar_model.dart/decks_isar_model.dart';
 import 'package:root/src/features/flash_cards/models/isar_model.dart/flash_cards_collection_isar_model.dart';
+import 'package:root/src/features/flash_cards/models/isar_model.dart/flash_cards_isar_model.dart';
 
 /// Singleton service to manage Isar database instance
 class IsarService {
@@ -38,6 +39,7 @@ class IsarService {
       [
         FlashCardsCollectionIsarModelSchema,
         DecksIsarModelSchema,
+        FlashCardsIsarModelSchema,
 
         // Add more schemas here as you create them (e.g., TasksSchema)
       ],
@@ -63,6 +65,7 @@ class IsarService {
     // Add your collections here:
     _isar!.flashCardsCollectionIsarModels,
     _isar!.decksIsarModels,
+    _isar!.flashCardsCollectionIsarModels,
 
     // _isar!.yourNewTableModels, <-- Just add new ones here
   ];
