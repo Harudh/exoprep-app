@@ -157,6 +157,44 @@ class FlashCardsRepository {
       log('Stacktrace: $st');
     }
   }
+
+  Stream<List<FlashCardDataModel>> watchFlashCardsList(String deckId) {
+    return _isar.flashCardsIsarModels
+        .filter()
+        .deckIdEqualTo(deckId)
+        .and()
+        .deletedAtIsNull()
+        .sortByOrderIndex()
+        .watch(fireImmediately: true)
+        .map((isarModels) => isarModels.map((isarModel) => _toFlashCardDataModel(isarModel)).toList());
+  }
+
+  /// Delete a flashcard (soft delete)
+  Future<void> deleteFlashCard(String cardId) async {
+    try {
+      final parsedId = int.tryParse(cardId);
+      if (parsedId == null) {
+        log('deleteFlashCard: Invalid cardId: $cardId');
+        return;
+      }
+
+      final card = await _isar.flashCardsIsarModels.where().idEqualTo(parsedId).findFirst();
+
+      if (card == null) {
+        log('deleteFlashCard: Card not found for id: $cardId');
+        return;
+      }
+
+      card.deletedAt = DateTime.now();
+
+      await _isar.writeTxn(() async {
+        await _isar.flashCardsIsarModels.put(card);
+      });
+    } catch (e, st) {
+      log('deleteFlashCard error: $e');
+      log('Stacktrace: $st');
+    }
+  }
 }
 
 DeckDataModel _toDecksDataModel(DecksIsarModel isarModel) {
@@ -178,6 +216,21 @@ FlashCardsCollectionDataModel _toDataModel(FlashCardsCollectionIsarModel isarMod
     color: isarModel.colorHex,
     cardCount: isarModel.cardCount,
     deckIds: isarModel.deckIds,
+    createdAt: isarModel.createdAt?.toIso8601String(),
+    updatedAt: isarModel.updatedAt?.toIso8601String(),
+    deletedAt: isarModel.deletedAt?.toIso8601String(),
+  );
+}
+
+FlashCardDataModel _toFlashCardDataModel(FlashCardsIsarModel isarModel) {
+  return FlashCardDataModel(
+    id: isarModel.id.toString(),
+    deckId: isarModel.deckId,
+    questionText: isarModel.questionText,
+    answerText: isarModel.answerText,
+    questionImages: isarModel.questionImages,
+    answerImages: isarModel.answerImages,
+    orderIndex: isarModel.orderIndex,
     createdAt: isarModel.createdAt?.toIso8601String(),
     updatedAt: isarModel.updatedAt?.toIso8601String(),
     deletedAt: isarModel.deletedAt?.toIso8601String(),
