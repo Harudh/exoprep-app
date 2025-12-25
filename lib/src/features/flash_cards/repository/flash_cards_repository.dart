@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:isar_community/isar.dart';
 import 'package:root/data/local/database/isar_database.dart';
 import 'package:root/src/features/flash_cards/models/data_model/decks_data_model.dart';
@@ -76,21 +75,18 @@ class FlashCardsRepository {
     }).toList();
 
     await _isar.writeTxn(() async {
-      // putAll to insert/update multiple objects
       await _isar.flashCardsIsarModels.putAll(isarModels);
     });
   }
 
   Future<void> updateDeckAndCollectionCounts(String deckId, int cardsCount) async {
     try {
-      // 1. Parse deck id
       final parsedDeckId = int.tryParse(deckId);
       if (parsedDeckId == null) {
         log('updateDeckAndCollectionCounts: Invalid deckId: $deckId');
         return;
       }
 
-      // 2. Get deck
       final deck = await _isar.decksIsarModels.where().idEqualTo(parsedDeckId).findFirst();
 
       if (deck == null) {
@@ -98,12 +94,10 @@ class FlashCardsRepository {
         return;
       }
 
-      // 3. Update deck.cardsCount with given count
       deck
         ..cardsCount = (deck.cardsCount ?? 0) + cardsCount
         ..updatedAt = DateTime.now();
 
-      // 4. Get collectionId from deck
       final collectionId = deck.collectionId;
       if (collectionId == null) {
         log('updateDeckAndCollectionCounts: Deck has no collectionId');
@@ -122,7 +116,6 @@ class FlashCardsRepository {
         return;
       }
 
-      // 5. Load collection
       final collection = await _isar.flashCardsCollectionIsarModels.where().idEqualTo(parsedCollectionId).findFirst();
 
       if (collection == null) {
@@ -137,7 +130,6 @@ class FlashCardsRepository {
         ..cardCount = (collection.cardCount ?? 0) + cardsCount
         ..updatedAt = DateTime.now();
 
-      // 7. Persist deck and collection in a single transaction
       await _isar.writeTxn(() async {
         await _isar.decksIsarModels.put(deck);
         await _isar.flashCardsCollectionIsarModels.put(collection);
@@ -146,6 +138,17 @@ class FlashCardsRepository {
       log('updateDeckAndCollectionCounts error: $e');
       log('Stacktrace: $st');
     }
+  }
+
+  List<FlashCardDataModel> getFlashCardsList(String deckId) {
+    final isarModels = _isar.flashCardsIsarModels
+        .filter()
+        .deckIdEqualTo(deckId)
+        .deletedAtIsNull()
+        .sortByOrderIndex()
+        .findAllSync();
+
+    return isarModels.map((isarModel) => _toFlashCardDataModel(isarModel)).toList();
   }
 
   Stream<List<FlashCardDataModel>> watchFlashCardsList(String deckId) {
@@ -159,7 +162,6 @@ class FlashCardsRepository {
         .map((isarModels) => isarModels.map((isarModel) => _toFlashCardDataModel(isarModel)).toList());
   }
 
-  /// Delete a flashcard (soft delete)
   Future<void> deleteFlashCard(String cardId) async {
     try {
       final parsedId = int.tryParse(cardId);

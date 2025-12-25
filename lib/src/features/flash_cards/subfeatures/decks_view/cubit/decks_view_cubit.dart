@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:root/src/features/flash_cards/models/data_model/decks_data_model.dart';
+import 'package:root/src/features/flash_cards/models/data_model/flash_cards_data_model.dart';
 import 'package:root/src/features/flash_cards/repository/flash_cards_repository.dart';
 
 part 'decks_view_state.dart';
@@ -44,6 +45,16 @@ class DecksViewCubit extends Cubit<DecksViewState> {
             emit(LoadDecksErrorState(error.toString()));
           },
         );
+  }
+
+  List<FlashCardDataModel> getFlashCards(String deckId) {
+    try {
+      final list = _repository.getFlashCardsList(deckId);
+      return list;
+    } catch (e) {
+      log('Error in getting the FlashCardslist');
+      return [];
+    }
   }
 
   @override
