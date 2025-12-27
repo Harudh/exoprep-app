@@ -8,7 +8,7 @@ import 'package:root/src/core/extensions/context_extension.dart';
 import 'package:root/src/features/flash_cards/subfeatures/decks_view/cubit/decks_view_cubit.dart';
 import 'package:root/src/features/flash_cards/subfeatures/decks_view/widgets/decks_list_tile.dart';
 import 'package:root/src/features/flash_cards/subfeatures/decks_view/widgets/create_decks_widget.dart';
-import 'package:root/src/features/flash_cards/subfeatures/decks_view/widgets/dummy.dart';
+import 'package:root/src/features/flash_cards/subfeatures/decks_view/widgets/flas_cards_study_view.dart';
 
 class DecksListView extends StatefulWidget {
   const DecksListView({super.key, required this.collectionId, required this.collectionName});
@@ -75,11 +75,11 @@ class _DecksListViewState extends State<DecksListView> {
                                 actions: [
                                   CupertinoActionSheetAction(
                                     onPressed: () {
-                                      cubit.getFlashCards(deck.id!);
+                                      final list = cubit.getFlashCards(deck.id!);
                                       Navigator.pop(context);
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => const FlashCardsWaveStyle()),
+                                        MaterialPageRoute(builder: (context) => FlashCardsWaveStyle(flashCards: list)),
                                       );
                                     },
                                     child: Text('Study Cards', style: context.bodyLarge),

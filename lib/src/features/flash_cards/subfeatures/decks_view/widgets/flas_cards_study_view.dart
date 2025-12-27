@@ -1,33 +1,28 @@
+import 'dart:io';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:root/src/features/flash_cards/models/data_model/flash_cards_data_model.dart';
 
 class FlashCardsWaveStyle extends StatefulWidget {
-  const FlashCardsWaveStyle({super.key});
+  final List<FlashCardDataModel> flashCards;
+
+  const FlashCardsWaveStyle({super.key, required this.flashCards});
 
   @override
   State<FlashCardsWaveStyle> createState() => _FlashCardsWaveStyleState();
 }
 
 class _FlashCardsWaveStyleState extends State<FlashCardsWaveStyle> with TickerProviderStateMixin {
-  final List<Map<String, String>> _cards = [
-    {'q': 'What is Flutter?', 'a': 'Open-source UI SDK by Google'},
-    {'q': 'What is Dart?', 'a': 'Programming language for Flutter'},
-    {'q': 'What is a Widget?', 'a': 'Building blocks of Flutter UI'},
-    {'q': 'What is State Management?', 'a': 'Handling app state changes'},
-    {'q': 'What is Isar?', 'a': 'Fast NoSQL database for Flutter'},
-  ];
-
   int _currentIndex = 0;
   late AnimationController _waveController;
   late AnimationController _transitionController;
 
-  // Vibrant gradients - used for all modes
   final List<List<Color>> _gradients = [
-    [const Color(0xFF5B47E5), const Color(0xFF9D50BB)], // Vibrant Purple
-    [const Color(0xFFE648D5), const Color(0xFFFF4081)], // Hot Pink
-    [const Color(0xFF2196F3), const Color(0xFF00BCD4)], // Electric Blue
-    [const Color(0xFF00E676), const Color(0xFF1DE9B6)], // Neon Green
-    [const Color(0xFFFF6B6B), const Color(0xFFFFD93D)], // Warm Sunset
+    [const Color(0xFF5B47E5), const Color(0xFF9D50BB)],
+    [const Color(0xFFE648D5), const Color(0xFFFF4081)],
+    [const Color(0xFF2196F3), const Color(0xFF00BCD4)],
+    [const Color(0xFF00E676), const Color(0xFF1DE9B6)],
+    [const Color(0xFFFF6B6B), const Color(0xFFFFD93D)],
   ];
 
   @override
@@ -45,7 +40,7 @@ class _FlashCardsWaveStyleState extends State<FlashCardsWaveStyle> with TickerPr
   }
 
   void _changeCard(bool isNext) {
-    if (isNext && _currentIndex < _cards.length - 1) {
+    if (isNext && _currentIndex < widget.flashCards.length - 1) {
       _transitionController.forward().then((_) {
         setState(() => _currentIndex++);
         _transitionController.reverse();
@@ -60,6 +55,14 @@ class _FlashCardsWaveStyleState extends State<FlashCardsWaveStyle> with TickerPr
 
   @override
   Widget build(BuildContext context) {
+    if (widget.flashCards.isEmpty) {
+      return Scaffold(
+        body: Center(
+          child: Text('No flashcards available', style: TextStyle(fontSize: 18, color: Colors.grey[600])),
+        ),
+      );
+    }
+
     final currentGradient = _gradients[_currentIndex % _gradients.length];
 
     return Scaffold(
@@ -71,20 +74,17 @@ class _FlashCardsWaveStyleState extends State<FlashCardsWaveStyle> with TickerPr
         child: SafeArea(
           child: Stack(
             children: [
-              // Animated wave background
               Positioned.fill(
                 child: AnimatedBuilder(
                   animation: _waveController,
-                  builder: (context, child) {
-                    return CustomPaint(painter: _WavePainter(animation: _waveController.value));
-                  },
+                  builder: (context, child) => CustomPaint(painter: _WavePainter(animation: _waveController.value)),
                 ),
               ),
               Column(
                 children: [
-                  _buildTopBar(),
+                  _TopBar(currentIndex: _currentIndex, totalCards: widget.flashCards.length),
                   const SizedBox(height: 32),
-                  _buildDotIndicator(),
+                  _DotIndicator(currentIndex: _currentIndex, totalCards: widget.flashCards.length),
                   const Spacer(),
                   AnimatedBuilder(
                     animation: _transitionController,
@@ -93,17 +93,18 @@ class _FlashCardsWaveStyleState extends State<FlashCardsWaveStyle> with TickerPr
                         scale: 1 - (_transitionController.value * 0.1),
                         child: Opacity(
                           opacity: 1 - _transitionController.value,
-                          child: _WaveFlipCard(
-                            key: ValueKey(_currentIndex),
-                            question: _cards[_currentIndex]['q']!,
-                            answer: _cards[_currentIndex]['a']!,
-                          ),
+                          child: _WaveFlipCard(key: ValueKey(_currentIndex), flashCard: widget.flashCards[_currentIndex]),
                         ),
                       );
                     },
                   ),
                   const Spacer(),
-                  _buildBottomControls(),
+                  _BottomControls(
+                    currentIndex: _currentIndex,
+                    totalCards: widget.flashCards.length,
+                    onPrevious: () => _changeCard(false),
+                    onNext: () => _changeCard(true),
+                  ),
                   const SizedBox(height: 32),
                 ],
               ),
@@ -113,8 +114,16 @@ class _FlashCardsWaveStyleState extends State<FlashCardsWaveStyle> with TickerPr
       ),
     );
   }
+}
 
-  Widget _buildTopBar() {
+class _TopBar extends StatelessWidget {
+  final int currentIndex;
+  final int totalCards;
+
+  const _TopBar({required this.currentIndex, required this.totalCards});
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Row(
@@ -139,7 +148,7 @@ class _FlashCardsWaveStyleState extends State<FlashCardsWaveStyle> with TickerPr
               border: Border.all(color: Colors.white.withValues(alpha: 0.3), width: 1.5),
             ),
             child: Text(
-              '${_currentIndex + 1} / ${_cards.length}',
+              '${currentIndex + 1} / $totalCards',
               style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700, letterSpacing: 0.5),
             ),
           ),
@@ -148,21 +157,29 @@ class _FlashCardsWaveStyleState extends State<FlashCardsWaveStyle> with TickerPr
       ),
     );
   }
+}
 
-  Widget _buildDotIndicator() {
+class _DotIndicator extends StatelessWidget {
+  final int currentIndex;
+  final int totalCards;
+
+  const _DotIndicator({required this.currentIndex, required this.totalCards});
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(
-        _cards.length,
+        totalCards,
         (index) => AnimatedContainer(
           duration: const Duration(milliseconds: 300),
-          width: index == _currentIndex ? 32 : 8,
+          width: index == currentIndex ? 32 : 8,
           height: 8,
           margin: const EdgeInsets.symmetric(horizontal: 4),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: index == _currentIndex ? 1 : 0.4),
+            color: Colors.white.withValues(alpha: index == currentIndex ? 1 : 0.4),
             borderRadius: BorderRadius.circular(4),
-            boxShadow: index == _currentIndex
+            boxShadow: index == currentIndex
                 ? [BoxShadow(color: Colors.white.withValues(alpha: 0.5), blurRadius: 8, offset: const Offset(0, 2))]
                 : null,
           ),
@@ -170,17 +187,27 @@ class _FlashCardsWaveStyleState extends State<FlashCardsWaveStyle> with TickerPr
       ),
     );
   }
+}
 
-  Widget _buildBottomControls() {
+class _BottomControls extends StatelessWidget {
+  final int currentIndex;
+  final int totalCards;
+  final VoidCallback onPrevious;
+  final VoidCallback onNext;
+
+  const _BottomControls({required this.currentIndex, required this.totalCards, required this.onPrevious, required this.onNext});
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _CircleButton(icon: Icons.navigate_before_rounded, onPressed: _currentIndex > 0 ? () => _changeCard(false) : null),
+          _CircleButton(icon: Icons.navigate_before_rounded, onPressed: currentIndex > 0 ? onPrevious : null),
           _CircleButton(
             icon: Icons.navigate_next_rounded,
-            onPressed: _currentIndex < _cards.length - 1 ? () => _changeCard(true) : null,
+            onPressed: currentIndex < totalCards - 1 ? onNext : null,
             isLarge: true,
           ),
         ],
@@ -219,10 +246,9 @@ class _CircleButton extends StatelessWidget {
 }
 
 class _WaveFlipCard extends StatefulWidget {
-  final String question;
-  final String answer;
+  final FlashCardDataModel flashCard;
 
-  const _WaveFlipCard({super.key, required this.question, required this.answer});
+  const _WaveFlipCard({super.key, required this.flashCard});
 
   @override
   State<_WaveFlipCard> createState() => _WaveFlipCardState();
@@ -244,17 +270,19 @@ class _WaveFlipCardState extends State<_WaveFlipCard> with SingleTickerProviderS
     super.dispose();
   }
 
+  void _toggleCard() {
+    if (_showAnswer) {
+      _controller.reverse();
+    } else {
+      _controller.forward();
+    }
+    setState(() => _showAnswer = !_showAnswer);
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        if (_showAnswer) {
-          _controller.reverse();
-        } else {
-          _controller.forward();
-        }
-        setState(() => _showAnswer = !_showAnswer);
-      },
+      onTap: _toggleCard,
       child: AnimatedBuilder(
         animation: _controller,
         builder: (context, child) {
@@ -270,16 +298,37 @@ class _WaveFlipCardState extends State<_WaveFlipCard> with SingleTickerProviderS
                 ? Transform(
                     alignment: Alignment.center,
                     transform: Matrix4.rotationY(math.pi),
-                    child: _buildFace(widget.answer, false),
+                    child: _CardFace(
+                      text: widget.flashCard.answerText ?? 'No answer',
+                      images: widget.flashCard.answerImages,
+                      isQuestion: false,
+                    ),
                   )
-                : _buildFace(widget.question, true),
+                : _CardFace(
+                    text: widget.flashCard.questionText ?? 'No question',
+                    images: widget.flashCard.questionImages,
+                    isQuestion: true,
+                  ),
           );
         },
       ),
     );
   }
+}
 
-  Widget _buildFace(String text, bool isQuestion) {
+class _CardFace extends StatelessWidget {
+  final String text;
+  final List<String>? images;
+  final bool isQuestion;
+
+  const _CardFace({required this.text, this.images, required this.isQuestion});
+
+  bool _isNetworkImage(String path) {
+    return path.startsWith('http://') || path.startsWith('https://');
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       width: 340,
       height: 460,
@@ -306,19 +355,70 @@ class _WaveFlipCardState extends State<_WaveFlipCard> with SingleTickerProviderS
             ),
             child: Icon(isQuestion ? Icons.psychology_rounded : Icons.lightbulb_rounded, color: Colors.white, size: 40),
           ),
-          const SizedBox(height: 40),
-          Text(
-            text,
-            style: const TextStyle(
-              fontSize: 26,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
-              height: 1.4,
-              letterSpacing: -0.3,
+          const SizedBox(height: 24),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    text,
+                    style: const TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                      height: 1.4,
+                      letterSpacing: -0.3,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  if (images != null && images!.isNotEmpty) ...[
+                    const SizedBox(height: 16),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      alignment: WrapAlignment.center,
+                      children: images!.map((imagePath) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: _isNetworkImage(imagePath)
+                              ? Image.network(
+                                  imagePath,
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Container(
+                                      width: 100,
+                                      height: 100,
+                                      color: Colors.white.withValues(alpha: 0.2),
+                                      child: const Icon(Icons.image_not_supported, color: Colors.white),
+                                    );
+                                  },
+                                )
+                              : Image.file(
+                                  File(imagePath),
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Container(
+                                      width: 100,
+                                      height: 100,
+                                      color: Colors.white.withValues(alpha: 0.2),
+                                      child: const Icon(Icons.image_not_supported, color: Colors.white),
+                                    );
+                                  },
+                                ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ],
+              ),
             ),
-            textAlign: TextAlign.center,
           ),
-          const Spacer(),
+          const SizedBox(height: 16),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             decoration: BoxDecoration(
@@ -372,7 +472,6 @@ class _WavePainter extends CustomPainter {
 
     canvas.drawPath(path, paint);
 
-    // Add second wave for more depth
     final paint2 = Paint()
       ..color = Colors.white.withValues(alpha: 0.04)
       ..style = PaintingStyle.fill;
