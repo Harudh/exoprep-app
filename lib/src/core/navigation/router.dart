@@ -6,6 +6,7 @@ import 'package:root/src/core/navigation/routes.dart';
 import 'package:root/src/features/flash_cards/subfeatures/cards_list_view/view/cards_list_screen.dart';
 import 'package:root/src/features/flash_cards/subfeatures/create_flash_card/view/create_flash_cards_screen.dart';
 import 'package:root/src/features/flash_cards/subfeatures/decks_view/view/decks_list_screen.dart';
+import 'package:root/src/features/flash_cards/views/flash_cards_collection_screen.dart';
 import 'package:root/src/features/home/home_view.dart';
 import 'package:root/src/features/profile/profile_view.dart';
 import 'package:root/src/core/navigation/route_transition.dart';
@@ -13,7 +14,6 @@ import 'package:root/src/features/leaderboard/leaderboard_view.dart';
 import 'package:root/src/features/project_form/project_form_view.dart';
 import 'package:root/src/features/select_exams/select_exams_view.dart';
 import 'package:root/src/features/authentication/authentication_view.dart';
-import 'package:root/src/features/flash_cards/zahaan/flash_cards_collection_screen.dart';
 
 /// Global router configuration for the application
 /// This handles all navigation routing and transitions
