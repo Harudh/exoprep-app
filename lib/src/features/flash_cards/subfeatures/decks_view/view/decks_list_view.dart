@@ -9,7 +9,7 @@ import 'package:root/src/core/extensions/context_extension.dart';
 import 'package:root/src/features/flash_cards/subfeatures/decks_view/cubit/decks_view_cubit.dart';
 import 'package:root/src/features/flash_cards/subfeatures/decks_view/widgets/decks_list_tile.dart';
 import 'package:root/src/features/flash_cards/subfeatures/decks_view/widgets/create_decks_widget.dart';
-import 'package:root/src/features/flash_cards/subfeatures/decks_view/widgets/flas_cards_study_view.dart';
+import 'package:root/src/features/flash_cards/subfeatures/decks_view/widgets/flash_cards_study_view.dart';
 
 class DecksListView extends StatefulWidget {
   const DecksListView({super.key, required this.collectionId, required this.collectionName});

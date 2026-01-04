@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:root/src/core/extensions/context_extension.dart';
 import 'package:root/src/features/flash_cards/models/data_model/flash_cards_data_model.dart';
 
 class FlashCardTile extends StatelessWidget {
@@ -9,25 +10,24 @@ class FlashCardTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
       margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        border: Border.all(color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade400),
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         title: Text(
           card.questionText ?? 'No question',
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontWeight: FontWeight.w600),
+          style: context.bodyLarge!.copyWith(fontWeight: FontWeight.w700),
         ),
         subtitle: card.answerText != null
             ? Padding(
                 padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  card.answerText!,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: Colors.grey[600]),
-                ),
+                child: Text(card.answerText!, maxLines: 1, overflow: TextOverflow.ellipsis, style: context.bodyMedium),
               )
             : null,
         trailing: IconButton(
