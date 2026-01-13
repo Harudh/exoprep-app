@@ -24,16 +24,9 @@ class ExamCategorySection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: context.titleMedium,
-          ),
+          Text(title, style: context.titleMedium),
           const SizedBox(height: 12),
-          ExamChipList(
-            exams: exams,
-            isSelected: isSelected,
-            toggleExam: toggleExam,
-          ),
+          ExamChipList(exams: exams, isSelected: isSelected, toggleExam: toggleExam),
         ],
       ),
     );

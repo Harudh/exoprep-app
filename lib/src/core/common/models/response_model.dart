@@ -6,12 +6,7 @@ class ResponseModel {
   final String? message;
   final String? error;
 
-  ResponseModel({
-    required this.success,
-    this.data,
-    this.message,
-    this.error,
-  });
+  ResponseModel({required this.success, this.data, this.message, this.error});
 
   factory ResponseModel.fromJson(Map<String, dynamic> json) {
     return ResponseModel(
@@ -37,10 +32,7 @@ class ResponseModel {
         );
       }
     } catch (e) {
-      return ResponseModel(
-        success: false,
-        error: 'Failed to parse response: $e',
-      );
+      return ResponseModel(success: false, error: 'Failed to parse response: $e');
     }
   }
 

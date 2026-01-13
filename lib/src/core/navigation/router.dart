@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:root/src/core/app/splash.dart';
 import 'package:root/src/core/app/landing.dart';
 import 'package:root/src/core/navigation/routes.dart';
+import 'package:root/src/features/exam_dashboard/exam_dashboard_view.dart';
 import 'package:root/src/features/flash_cards/subfeatures/cards_list_view/view/cards_list_screen.dart';
 import 'package:root/src/features/flash_cards/subfeatures/create_flash_card/view/create_flash_cards_screen.dart';
 import 'package:root/src/features/flash_cards/subfeatures/decks_view/view/decks_list_screen.dart';
@@ -88,7 +89,7 @@ final router = GoRouter(
                 GoRoute(
                   path: AppRoute.examDashboard.path,
                   pageBuilder: (context, state) =>
-                      AppRouteTransition.slideFromRight(child: const DetailsScreen(), key: state.pageKey),
+                      AppRouteTransition.slideFromRight(child: const ExamDashboardView(), key: state.pageKey),
                 ),
               ],
             ),
@@ -200,14 +201,5 @@ class RootScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class DetailsScreen extends StatelessWidget {
-  const DetailsScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: const Text('Detail Screen')));
   }
 }

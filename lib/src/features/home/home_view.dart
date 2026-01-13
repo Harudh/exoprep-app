@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:root/src/core/common/ui/widgets/theme_toggle_switch.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
 import 'package:root/src/core/navigation/routes.dart';
 import 'package:root/src/core/theme/colors.dart';
+import 'package:icons_plus/icons_plus.dart';
+import 'package:flutter/material.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -15,16 +14,8 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final List<Map<String, dynamic>> myExams = [
-    {
-      'name': 'JEE Mains',
-      'color': const Color(0xFF6366F1),
-      'icon': Icons.engineering,
-    },
-    {
-      'name': 'NEET',
-      'color': const Color(0xFFEC4899),
-      'icon': Icons.medical_services,
-    },
+    {'name': 'JEE Mains', 'color': const Color(0xFF6366F1), 'icon': Icons.engineering},
+    {'name': 'NEET', 'color': const Color(0xFFEC4899), 'icon': Icons.medical_services},
     {'name': 'GATE', 'color': const Color(0xFF8B5CF6), 'icon': Icons.computer},
     {'name': 'CAT', 'color': const Color(0xFF10B981), 'icon': Icons.school},
   ];
@@ -63,18 +54,12 @@ class _HomeViewState extends State<HomeView> {
                       children: [
                         Text(
                           "Welcome back,",
-                          style: context.bodySmall!.copyWith(
-                            color: Colors.grey.shade600,
-                            letterSpacing: -0.2,
-                          ),
+                          style: context.bodySmall!.copyWith(color: Colors.grey.shade600, letterSpacing: -0.2),
                         ),
                         const SizedBox(height: 2),
                         Text(
                           "Zahaan Mahajan",
-                          style: context.headlineSmall!.copyWith(
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: -0.5,
-                          ),
+                          style: context.headlineSmall!.copyWith(fontWeight: FontWeight.w800, letterSpacing: -0.5),
                         ),
                       ],
                     ),
@@ -86,9 +71,7 @@ class _HomeViewState extends State<HomeView> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade100,
-                          border: Border.all(
-                            color: context.isDarkMode ? Colors.grey.shade700 : Colors.grey.shade300,
-                          ),
+                          border: Border.all(color: context.isDarkMode ? Colors.grey.shade700 : Colors.grey.shade300),
                         ),
                         child: const Icon(IonIcons.notifications, size: 22),
                       ),
@@ -103,13 +86,7 @@ class _HomeViewState extends State<HomeView> {
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  "Exams",
-                  style: context.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: -0.5,
-                  ),
-                ),
+                child: Text("Exams", style: context.titleMedium!.copyWith(fontWeight: FontWeight.w700, letterSpacing: -0.5)),
               ),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 12)),
@@ -132,27 +109,17 @@ class _HomeViewState extends State<HomeView> {
                         decoration: BoxDecoration(
                           color: Colors.transparent,
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300,
-                            width: 1.5,
-                          ),
+                          border: Border.all(color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300, width: 1.5),
                         ),
                         child: Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(
-                                Icons.add_circle_outline,
-                                size: 36,
-                                color: Colors.grey.shade400,
-                              ),
+                              Icon(Icons.add_circle_outline, size: 36, color: Colors.grey.shade400),
                               const SizedBox(height: 12),
                               Text(
                                 "Add New Exam",
-                                style: context.titleMedium!.copyWith(
-                                  color: Colors.grey.shade600,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                style: context.titleMedium!.copyWith(color: Colors.grey.shade600, fontWeight: FontWeight.w600),
                               ),
                             ],
                           ),
@@ -170,10 +137,7 @@ class _HomeViewState extends State<HomeView> {
 
                     return GestureDetector(
                       onTap: () {
-                        AppRoute.examDashboard.pushNested(
-                          context,
-                          AppRoute.home,
-                        );
+                        AppRoute.examDashboard.pushNested(context, AppRoute.home);
                       },
                       child: Container(
                         width: cardWidth,
@@ -182,9 +146,7 @@ class _HomeViewState extends State<HomeView> {
                         decoration: BoxDecoration(
                           color: context.isDarkMode ? Colors.grey.shade900 : Colors.white,
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300,
-                          ),
+                          border: Border.all(color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -194,37 +156,22 @@ class _HomeViewState extends State<HomeView> {
                               children: [
                                 Text(
                                   exam['name'] as String,
-                                  style: context.headlineSmall!.copyWith(
-                                    fontWeight: FontWeight.w800,
-                                    letterSpacing: -0.5,
-                                  ),
+                                  style: context.headlineSmall!.copyWith(fontWeight: FontWeight.w800, letterSpacing: -0.5),
                                 ),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: 4,
-                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                   decoration: BoxDecoration(
                                     color: context.isDarkMode ? Colors.grey.shade900 : Colors.white,
                                     borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(
-                                      color: context.isDarkMode ? Colors.grey.shade700 : Colors.grey.shade300,
-                                    ),
+                                    border: Border.all(color: context.isDarkMode ? Colors.grey.shade700 : Colors.grey.shade300),
                                   ),
                                   child: Row(
                                     children: [
-                                      Icon(
-                                        Icons.trending_up,
-                                        size: 12,
-                                        color: Colors.grey.shade600,
-                                      ),
+                                      Icon(Icons.trending_up, size: 12, color: Colors.grey.shade600),
                                       const SizedBox(width: 4),
                                       Text(
                                         "#$rank",
-                                        style: context.bodySmall!.copyWith(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 11,
-                                        ),
+                                        style: context.bodySmall!.copyWith(fontWeight: FontWeight.w700, fontSize: 11),
                                       ),
                                     ],
                                   ),
@@ -234,28 +181,16 @@ class _HomeViewState extends State<HomeView> {
                             const SizedBox(height: 4),
                             Text(
                               "Competitive Engineering Examination",
-                              style: context.bodySmall!.copyWith(
-                                color: Colors.grey.shade600,
-                                fontSize: 12,
-                              ),
+                              style: context.bodySmall!.copyWith(color: Colors.grey.shade600, fontSize: 12),
                             ),
                             const SizedBox(height: 16),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  "Progress",
-                                  style: context.bodySmall!.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                  ),
-                                ),
+                                Text("Progress", style: context.bodySmall!.copyWith(fontWeight: FontWeight.w600, fontSize: 12)),
                                 Text(
                                   "$papersGiven/$totalPapers papers",
-                                  style: context.bodySmall!.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 12,
-                                  ),
+                                  style: context.bodySmall!.copyWith(fontWeight: FontWeight.w700, fontSize: 12),
                                 ),
                               ],
                             ),
@@ -276,36 +211,22 @@ class _HomeViewState extends State<HomeView> {
                               decoration: BoxDecoration(
                                 color: context.isDarkMode ? Colors.grey.shade900 : Colors.white,
                                 borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade200,
-                                ),
+                                border: Border.all(color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade200),
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
                                   Row(
                                     children: [
-                                      const Icon(
-                                        Icons.check_circle_outline,
-                                        size: 34,
-                                        color: Colors.green,
-                                      ),
+                                      const Icon(Icons.check_circle_outline, size: 34, color: Colors.green),
                                       const SizedBox(width: 6),
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            "$accuracy%",
-                                            style: context.bodyLarge!.copyWith(
-                                              fontWeight: FontWeight.w800,
-                                            ),
-                                          ),
+                                          Text("$accuracy%", style: context.bodyLarge!.copyWith(fontWeight: FontWeight.w800)),
                                           Text(
                                             "Accuracy",
-                                            style: context.bodySmall!.copyWith(
-                                              color: Colors.grey.shade600,
-                                              fontSize: 10,
-                                            ),
+                                            style: context.bodySmall!.copyWith(color: Colors.grey.shade600, fontSize: 10),
                                           ),
                                         ],
                                       ),
@@ -318,27 +239,15 @@ class _HomeViewState extends State<HomeView> {
                                   ),
                                   Row(
                                     children: [
-                                      const Icon(
-                                        Icons.local_fire_department,
-                                        size: 34,
-                                        color: Colors.orange,
-                                      ),
+                                      const Icon(Icons.local_fire_department, size: 34, color: Colors.orange),
                                       const SizedBox(width: 6),
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            "$streak",
-                                            style: context.bodyLarge!.copyWith(
-                                              fontWeight: FontWeight.w800,
-                                            ),
-                                          ),
+                                          Text("$streak", style: context.bodyLarge!.copyWith(fontWeight: FontWeight.w800)),
                                           Text(
                                             "Day Streak",
-                                            style: context.bodySmall!.copyWith(
-                                              color: Colors.grey.shade600,
-                                              fontSize: 10,
-                                            ),
+                                            style: context.bodySmall!.copyWith(color: Colors.grey.shade600, fontSize: 10),
                                           ),
                                         ],
                                       ),
@@ -364,13 +273,7 @@ class _HomeViewState extends State<HomeView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Popular Exams",
-                      style: context.titleMedium!.copyWith(
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
+                    Text("Popular Exams", style: context.titleMedium!.copyWith(fontWeight: FontWeight.w700, letterSpacing: -0.5)),
                     Text(
                       "View all",
                       style: context.bodySmall!.copyWith(
@@ -389,182 +292,41 @@ class _HomeViewState extends State<HomeView> {
 
             // Popular Exams List
             SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final exam = popularExams[index];
-                  return Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 6,
-                    ),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: context.isDarkMode ? Colors.grey.shade900 : Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300,
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final exam = popularExams[index];
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: context.isDarkMode ? Colors.grey.shade900 : Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              exam['name'] as String,
+                              style: context.bodyLarge!.copyWith(fontWeight: FontWeight.w600, letterSpacing: -0.3),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              "${exam['date']} • ${exam['enrolled']} students",
+                              style: context.bodySmall!.copyWith(color: Colors.grey.shade600, fontSize: 12),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                exam['name'] as String,
-                                style: context.bodyLarge!.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: -0.3,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                "${exam['date']} • ${exam['enrolled']} students",
-                                style: context.bodySmall!.copyWith(
-                                  color: Colors.grey.shade600,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Icon(
-                          Icons.chevron_right,
-                          color: Colors.grey.shade400,
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                childCount: popularExams.length,
-              ),
+                      Icon(Icons.chevron_right, color: Colors.grey.shade400),
+                    ],
+                  ),
+                );
+              }, childCount: popularExams.length),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 24)),
-
-            // Todo List Section
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  "Today",
-                  style: context.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: -0.5,
-                  ),
-                ),
-              ),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 12)),
-
-            // Todo Items
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final todo = todos[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 6,
-                    ),
-                    child: CupertinoContextMenu(
-                      enableHapticFeedback: true,
-                      actions: [
-                        CupertinoContextMenuAction(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          trailingIcon: Icons.edit_outlined,
-                          child: Text(
-                            'Edit',
-                            style: context.bodyMedium!.copyWith(
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        CupertinoContextMenuAction(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          trailingIcon: Icons.delete_outline,
-                          isDestructiveAction: true,
-                          child: Text(
-                            'Delete',
-                            style: context.bodyMedium!.copyWith(
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ],
-                      child: IntrinsicWidth(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: context.isDarkMode ? Colors.black : Colors.white,
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              GestureDetector(
-                                onTap: () => setState(
-                                  () => todos[index]['completed'] = !(todos[index]['completed'] as bool),
-                                ),
-                                child: AnimatedContainer(
-                                  duration: const Duration(milliseconds: 250),
-                                  curve: Curves.easeInOut,
-                                  height: 22,
-                                  width: 22,
-                                  decoration: BoxDecoration(
-                                    color: (todos[index]['completed'] as bool) ? AppColors.primaryColor : Colors.transparent,
-                                    border: Border.all(
-                                      color: !(todos[index]['completed'] as bool)
-                                          ? context.isDarkMode
-                                                ? Colors.grey.shade700
-                                                : Colors.grey.shade400
-                                          : AppColors.primaryColor,
-                                      width: 1.5,
-                                    ),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: (todos[index]['completed'] as bool)
-                                      ? Icon(
-                                          Icons.check,
-                                          size: 14,
-                                          color: context.isDarkMode ? Colors.black : Colors.white,
-                                        )
-                                      : null,
-                                ),
-                              ),
-                              const SizedBox(width: 14),
-                              Expanded(
-                                child: AnimatedDefaultTextStyle(
-                                  duration: const Duration(milliseconds: 250),
-                                  curve: Curves.easeInOut,
-                                  style: context.bodyMedium!.copyWith(
-                                    decoration: (todos[index]['completed'] as bool)
-                                        ? TextDecoration.lineThrough
-                                        : TextDecoration.none,
-                                    decorationColor: Colors.grey.shade500,
-                                    color: (todos[index]['completed'] as bool)
-                                        ? Colors.grey.shade500
-                                        : (context.isDarkMode ? Colors.white : Colors.black),
-                                    letterSpacing: -0.3,
-                                  ),
-                                  child: Text(todo['task'] as String),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-                childCount: todos.length,
-              ),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 40)),
           ],
         ),
       ),

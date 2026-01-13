@@ -8,12 +8,7 @@ class ExamChipList extends StatelessWidget {
   final bool Function(String id) isSelected;
   final void Function(String id) toggleExam;
 
-  const ExamChipList({
-    required this.exams,
-    required this.isSelected,
-    required this.toggleExam,
-    super.key,
-  });
+  const ExamChipList({required this.exams, required this.isSelected, required this.toggleExam, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +33,7 @@ class ExamChipList extends StatelessWidget {
           backgroundColor: isDark ? Colors.transparent : Colors.grey.shade100,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
-            side: BorderSide(
-              color: selected ? Colors.blue : (isDark ? Colors.grey.shade700 : Colors.grey.shade300),
-            ),
+            side: BorderSide(color: selected ? Colors.blue : (isDark ? Colors.grey.shade700 : Colors.grey.shade300)),
           ),
           showCheckmark: false,
         );

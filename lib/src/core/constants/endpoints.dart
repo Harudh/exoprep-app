@@ -11,4 +11,7 @@ class AppEndpoints {
 
   /*----------------- Select Exams Endpoints -------------------*/
   static String get getExams => '$baseURL/api/v1/exams';
+
+  /*----------------- Papers Endpoints -------------------*/
+  static String getPapers(String query) => '$baseURL/api/v1/papers?$query';
 }
