@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:root/src/core/common/state/viewmodel_state.dart';
-import 'package:root/src/core/constants/enums.dart';
-import 'package:root/src/models/exam_model/exam_model.dart';
 import 'package:root/src/repositories/select_exams_repository.dart';
+import 'package:root/src/core/common/state/viewmodel_state.dart';
+import 'package:root/src/models/exam_model/exam_model.dart';
+import 'package:root/src/core/constants/enums.dart';
+import 'package:flutter/material.dart';
 
 class SelectExamsViewModel {
   final SelectExamsRepository _selectExamsRepository;

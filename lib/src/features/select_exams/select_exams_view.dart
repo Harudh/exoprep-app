@@ -1,16 +1,16 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:root/src/features/select_exams/widgets/exam_category_section.dart';
+import 'package:root/src/features/select_exams/select_exams_viewmodel.dart';
+import 'package:root/src/core/common/ui/widgets/theme_toggle_switch.dart';
+import 'package:root/src/core/extensions/context_extension.dart';
 import 'package:root/src/core/common/state/viewmodel_state.dart';
 import 'package:root/src/core/common/ui/overlays/toast.dart';
-import 'package:root/src/core/common/ui/widgets/theme_toggle_switch.dart';
-import 'package:root/src/core/constants/enums.dart';
-import 'package:root/src/core/extensions/context_extension.dart';
-import 'package:root/src/core/navigation/routes.dart';
-import 'package:root/src/core/theme/colors.dart';
-import 'package:root/src/features/select_exams/select_exams_viewmodel.dart';
-import 'package:root/src/features/select_exams/widgets/exam_category_section.dart';
 import 'package:root/src/models/exam_model/exam_model.dart';
+import 'package:root/src/core/navigation/routes.dart';
+import 'package:root/src/core/constants/enums.dart';
+import 'package:root/src/core/theme/colors.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 part 'select_exams_mixin.dart';
 
@@ -38,10 +38,7 @@ class _SelectExamsViewState extends State<SelectExamsView> with SelectExamsMixin
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 'Select Exam',
-                style: context.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: isDark ? Colors.white : Colors.grey[900],
-                ),
+                style: context.titleLarge?.copyWith(fontWeight: FontWeight.w600, color: isDark ? Colors.white : Colors.grey[900]),
               ),
               centerTitle: false,
               expandedTitleScale: 1,
@@ -52,10 +49,7 @@ class _SelectExamsViewState extends State<SelectExamsView> with SelectExamsMixin
             surfaceTintColor: Colors.transparent,
           ),
           if (noChildren.isEmpty && withChildren.isEmpty)
-            const SliverFillRemaining(
-              hasScrollBody: false,
-              child: Center(child: CupertinoActivityIndicator()),
-            )
+            const SliverFillRemaining(hasScrollBody: false, child: Center(child: CupertinoActivityIndicator()))
           else
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
@@ -102,10 +96,7 @@ class _SelectExamsViewState extends State<SelectExamsView> with SelectExamsMixin
                   }
                   return Text(
                     "Continue",
-                    style: context.titleMedium!.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: context.titleMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
                   );
                 },
               ),

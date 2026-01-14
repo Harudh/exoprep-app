@@ -14,4 +14,10 @@ class AppEndpoints {
 
   /*----------------- Papers Endpoints -------------------*/
   static String getPapers(String query) => '$baseURL/api/v1/papers?$query';
+
+  /*----------------- Subjects Endpoints -------------------*/
+  static String getSubjects(String query) => '$baseURL/api/v1/subjects?$query';
+
+  /*----------------- Questions Endpoints -------------------*/
+  static String getQuestions(String query) => '$baseURL/api/v1/questions?$query';
 }

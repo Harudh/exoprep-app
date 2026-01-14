@@ -164,28 +164,170 @@ class _PaperCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: context.isDarkMode ? Colors.grey.shade900 : Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(paper.name, style: context.bodyLarge!.copyWith(fontWeight: FontWeight.w600, letterSpacing: -0.3)),
-                const SizedBox(height: 4),
-                Text(paper.description, style: context.bodySmall!.copyWith(color: Colors.grey.shade600, fontSize: 12)),
-              ],
+    return GestureDetector(
+      onTap: () {
+        _showPaperOptionsDialog(context);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: context.isDarkMode ? Colors.grey.shade900 : Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(paper.name, style: context.bodyLarge!.copyWith(fontWeight: FontWeight.w600, letterSpacing: -0.3)),
+                  const SizedBox(height: 4),
+                  Text(paper.description, style: context.bodySmall!.copyWith(color: Colors.grey.shade600, fontSize: 12)),
+                ],
+              ),
             ),
+            Icon(Icons.chevron_right, color: Colors.grey.shade400),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showPaperOptionsDialog(BuildContext context) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: Colors.black54,
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return _PaperOptionsDialog(paper: paper);
+      },
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        return ScaleTransition(
+          scale: CurvedAnimation(parent: animation, curve: Curves.easeOutBack),
+          child: FadeTransition(opacity: animation, child: child),
+        );
+      },
+    );
+  }
+}
+
+class _PaperOptionsDialog extends StatelessWidget {
+  final Paper paper;
+
+  const _PaperOptionsDialog({required this.paper});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Material(
+        color: Colors.transparent,
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 40),
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: context.isDarkMode ? Colors.grey.shade900 : Colors.white,
+            borderRadius: BorderRadius.circular(20),
           ),
-          Icon(Icons.chevron_right, color: Colors.grey.shade400),
-        ],
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    paper.name,
+                    style: context.titleMedium!.copyWith(fontWeight: FontWeight.w700, letterSpacing: -0.5),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    paper.description,
+                    style: context.bodySmall!.copyWith(color: Colors.grey.shade600, fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
+                  _DialogOptionButton(
+                    icon: Icons.visibility_outlined,
+                    label: 'View Paper',
+                    onTap: () {
+                      Navigator.pop(context);
+                      context.push(AppRoute.readPaper.path, extra: paper);
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  _DialogOptionButton(
+                    icon: Icons.edit_note_outlined,
+                    label: 'Attempt Paper',
+                    onTap: () {
+                      Navigator.pop(context);
+                      context.push(AppRoute.instructions.path, extra: paper);
+                    },
+                    isPrimary: true,
+                  ),
+                ],
+              ),
+              Positioned(
+                top: -12,
+                right: -12,
+                child: CircleAvatar(
+                  radius: 18,
+                  backgroundColor: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade200,
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    iconSize: 20,
+                    icon: Icon(Icons.close, color: context.isDarkMode ? Colors.white : Colors.black),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _DialogOptionButton extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+  final bool isPrimary;
+
+  const _DialogOptionButton({required this.icon, required this.label, required this.onTap, this.isPrimary = false});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+        decoration: BoxDecoration(
+          color: isPrimary ? context.colorScheme.primary : (context.isDarkMode ? Colors.grey.shade900 : null),
+          border: !isPrimary ? Border.all(color: context.isDarkMode ? Colors.grey.shade700 : Colors.grey.shade300) : null,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: isPrimary ? Colors.white : (context.isDarkMode ? Colors.white : Colors.black87), size: 22),
+            const SizedBox(width: 12),
+            Text(
+              label,
+              style: context.bodyMedium!.copyWith(
+                fontWeight: FontWeight.w600,
+                letterSpacing: -0.3,
+                color: isPrimary ? Colors.white : (context.isDarkMode ? Colors.white : Colors.black87),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

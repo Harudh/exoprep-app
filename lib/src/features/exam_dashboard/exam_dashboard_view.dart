@@ -3,6 +3,8 @@ import 'package:root/src/core/extensions/app_scope_extension.dart';
 import 'package:root/src/core/common/state/viewmodel_state.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
 import 'package:root/src/models/paper_model/paper_model.dart';
+import 'package:root/src/core/navigation/routes.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 
 part 'widgets/practice_papers_section.dart';

@@ -16,10 +16,17 @@ enum AppRoute {
   leaderboard('/leaderboard'),
   profile('/profile'),
   createFlashCardsView('/createFlashCardsView'),
+
   /* Nested Navigation */
   examDashboard('examDashboard'),
   decksListView('/decksListView'),
   cardsListView('/cardsListView'),
+
+  /* Paper */
+  readPaper('/readPaper'),
+  instructions('/instructions'),
+  attemptPaper('/attemptPaper'),
+  questions('/questions'),
 
   /* Productivity */
   createProjectForm('/createProjectForm');

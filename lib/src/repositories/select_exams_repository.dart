@@ -1,10 +1,9 @@
-import 'dart:developer';
-
-import 'package:dio/dio.dart';
 import 'package:root/src/core/exceptions/network_exception.dart';
 import 'package:root/src/models/exam_model/exam_model.dart';
 import 'package:root/src/services/select_exams_service.dart';
 import 'package:root/src/services/user_service.dart';
+import 'package:dio/dio.dart';
+import 'dart:developer';
 
 class SelectExamsRepository {
   final SelectExamsService _selectExamsService;
