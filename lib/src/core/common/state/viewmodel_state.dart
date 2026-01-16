@@ -12,7 +12,9 @@ class ViewModelState<T> {
 
   factory ViewModelState.loading({T? mode}) => ViewModelState(status: ViewModelStatus.loading, data: mode);
 
-  factory ViewModelState.success({dynamic data, T? type}) => ViewModelState(status: ViewModelStatus.success, data: data, type: type);
+  factory ViewModelState.success({dynamic data, T? type}) =>
+      ViewModelState(status: ViewModelStatus.success, data: data, type: type);
 
-  factory ViewModelState.error({String? error, T? type}) => ViewModelState(status: ViewModelStatus.error, error: error, type: type);
+  factory ViewModelState.error({String? error, T? type}) =>
+      ViewModelState(status: ViewModelStatus.error, error: error, type: type);
 }

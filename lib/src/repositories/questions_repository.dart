@@ -12,7 +12,7 @@ class QuestionsRepository {
   Future<List<Question>> getQuestions({required String query}) async {
     try {
       final response = await _questionsService.getQuestions(query: query);
-      log('Response: $response');
+      log('Questions: $response');
       final papersJson = (response.data?['questions'] as List<dynamic>?) ?? [];
       return papersJson.map((json) => Question.fromJson(json as Map<String, dynamic>)).toList();
     } on DioException catch (e) {

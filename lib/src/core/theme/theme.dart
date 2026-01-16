@@ -13,16 +13,16 @@ class AppTheme {
     fontFamily: 'Inter',
     brightness: Brightness.light,
     primaryColor: AppColors.primaryColor,
-    scaffoldBackgroundColor: AppColors.lightBackgroundColor,
     textTheme: AppTextTheme.lightTextTheme,
-
+    scaffoldBackgroundColor: AppColors.lightBackgroundColor,
     splashColor: AppColors.primaryColor.withValues(alpha: 0.15),
     highlightColor: AppColors.primaryColor.withValues(alpha: 0.10),
+    drawerTheme: const DrawerThemeData(backgroundColor: AppColors.lightBackgroundColor),
 
     // Color scheme
     colorScheme: const ColorScheme.light(
       primary: AppColors.primaryColor,
-      surface: AppColors.darkSurfaceColor,
+      surface: AppColors.lightTextColor,
       onSurface: AppColors.darkTextColor,
       onSecondary: Colors.white,
     ),
@@ -33,17 +33,13 @@ class AppTheme {
       centerTitle: true,
       backgroundColor: AppColors.lightBackgroundColor,
       foregroundColor: AppColors.lightTextColor,
-      titleTextStyle: AppTextTheme.lightTextTheme.headlineSmall?.copyWith(
-        fontWeight: FontWeight.w600,
-      ),
+      titleTextStyle: AppTextTheme.lightTextTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
     ),
 
     // Card theme
     cardTheme: CardThemeData(
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       color: AppColors.lightSurfaceColor,
     ),
 
@@ -91,20 +87,20 @@ class AppTheme {
     fontFamily: 'Inter',
     brightness: Brightness.dark,
     primaryColor: AppColors.primaryColor,
-    scaffoldBackgroundColor: AppColors.darkBackgroundColor,
     textTheme: AppTextTheme.darkTextTheme,
-
+    scaffoldBackgroundColor: AppColors.darkBackgroundColor,
     splashColor: AppColors.primaryColor.withValues(alpha: 0.15),
     highlightColor: AppColors.primaryColor.withValues(alpha: 0.10),
+    drawerTheme: const DrawerThemeData(backgroundColor: AppColors.darkBackgroundColor),
 
     // Color scheme
     colorScheme: const ColorScheme.dark(
       primary: AppColors.primaryColor,
-      surface: AppColors.darkSurfaceColor,
+      surface: AppColors.lightSurfaceColor,
       error: AppColors.errorColor,
       onPrimary: Colors.white,
       onSecondary: Colors.white,
-      onSurface: AppColors.darkTextColor,
+      onSurface: AppColors.lightTextColor,
       onError: Colors.white,
     ),
 
@@ -114,17 +110,13 @@ class AppTheme {
       centerTitle: true,
       backgroundColor: AppColors.darkBackgroundColor,
       foregroundColor: AppColors.darkTextColor,
-      titleTextStyle: AppTextTheme.darkTextTheme.headlineSmall?.copyWith(
-        fontWeight: FontWeight.w600,
-      ),
+      titleTextStyle: AppTextTheme.darkTextTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
     ),
 
     // Card theme
     cardTheme: CardThemeData(
       elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       color: AppColors.darkSurfaceColor,
     ),
 
@@ -133,13 +125,8 @@ class AppTheme {
       style: ElevatedButton.styleFrom(
         elevation: 2,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        textStyle: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
       ),
     ),
 

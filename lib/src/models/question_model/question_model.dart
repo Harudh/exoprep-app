@@ -44,7 +44,6 @@ class Question {
       'title': title,
       'image': image,
       'answer': answer,
-      'options': options,
       'paper': paper.toJson(),
       'topic': topic.toJson(),
       'created_at': createdAt.toIso8601String(),

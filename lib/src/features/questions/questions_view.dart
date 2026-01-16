@@ -1,7 +1,21 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:root/src/core/common/ui/widgets/theme_toggle_switch.dart';
 import 'package:root/src/models/paper_model/paper_model.dart';
-import 'package:root/src/models/question_model/question_model.dart';
+import 'package:root/src/core/extensions/context_extension.dart';
+import 'package:root/src/core/common/state/viewmodel_state.dart';
 import 'package:root/src/models/subject_model/subject_model.dart';
+import 'package:root/src/models/question_model/question_model.dart';
+import 'package:root/src/features/questions/questions_viewmodel.dart';
+
+part 'widgets/navigation_buttons.dart';
+part 'widgets/question_number.dart';
+part 'widgets/question_title.dart';
+part 'widgets/question_image.dart';
+part 'widgets/question_card.dart';
+part 'widgets/option_tile.dart';
+part 'questions_mixin.dart';
 
 class QuestionsView extends StatefulWidget {
   const QuestionsView({super.key, required this.paper, required this.subjects, required this.questions});
@@ -14,138 +28,194 @@ class QuestionsView extends StatefulWidget {
   State<QuestionsView> createState() => _QuestionsViewState();
 }
 
-class _QuestionsViewState extends State<QuestionsView> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: widget.subjects.length, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  // Filter questions by subject
-  List<Question> _getQuestionsForSubject(String subjectId) {
-    return widget.questions.where((question) {
-      return question.topic.subject.id == subjectId;
-    }).toList();
-  }
-
+class _QuestionsViewState extends State<QuestionsView> with QuestionsMixin {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.paper.name),
-        centerTitle: true,
-        bottom: widget.subjects.isEmpty
-            ? null
-            : TabBar(
-                controller: _tabController,
-                isScrollable: true,
-                indicatorSize: TabBarIndicatorSize.tab,
-                tabs: widget.subjects.map((subject) {
-                  final questionCount = _getQuestionsForSubject(subject.id).length;
-                  return Tab(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(subject.name),
-                        const SizedBox(width: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            '$questionCount',
-                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }).toList(),
-              ),
+    return DefaultTabController(
+      length: widget.subjects.length,
+      child: Scaffold(
+        appBar: _QuestionsAppBar(paperName: widget.paper.name, subjects: widget.subjects),
+        drawer: const Drawer(),
+        body: _QuestionsBody(viewModel: viewModel, subjects: widget.subjects, questions: widget.questions),
       ),
-      body: widget.subjects.isEmpty
-          ? const Center(child: Text('No subjects available'))
-          : TabBarView(
-              controller: _tabController,
-              children: widget.subjects.map((subject) {
-                final subjectQuestions = _getQuestionsForSubject(subject.id);
-
-                if (subjectQuestions.isEmpty) {
-                  return Center(child: Text('No questions available for ${subject.name}'));
-                }
-
-                return ListView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: subjectQuestions.length,
-                  itemBuilder: (context, index) {
-                    final question = subjectQuestions[index];
-                    return _QuestionCard(question: question, questionNumber: index + 1);
-                  },
-                );
-              }).toList(),
-            ),
     );
   }
 }
 
-class _QuestionCard extends StatelessWidget {
-  final Question question;
-  final int questionNumber;
+class _QuestionsAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const _QuestionsAppBar({required this.paperName, required this.subjects});
 
-  const _QuestionCard({required this.question, required this.questionNumber});
+  final String paperName;
+  final List<Subject> subjects;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(8)),
-                  child: Text(
-                    'Q$questionNumber',
-                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(question.title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, height: 1.4)),
-                ),
-              ],
-            ),
-            if (question.topic.name.isNotEmpty) ...[
-              const SizedBox(height: 12),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(6)),
-                child: Text(
-                  question.topic.name,
-                  style: TextStyle(fontSize: 12, color: Colors.grey.shade700, fontWeight: FontWeight.w500),
-                ),
-              ),
-            ],
-          ],
+    return AppBar(
+      title: Text(paperName, style: context.titleMedium),
+      actions: [
+        IconButton(onPressed: () => context.pop(), icon: const Icon(Icons.close)),
+        ThemeToggleSwitch(),
+      ],
+      bottom: _QuestionsTabBar(subjects: subjects),
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 48);
+}
+
+class _QuestionsTabBar extends StatelessWidget implements PreferredSizeWidget {
+  const _QuestionsTabBar({required this.subjects});
+
+  final List<Subject> subjects;
+
+  @override
+  Widget build(BuildContext context) {
+    return PreferredSize(
+      preferredSize: preferredSize,
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: TabBar(
+          isScrollable: false,
+          tabAlignment: TabAlignment.fill,
+          dividerColor: Colors.transparent,
+          splashFactory: NoSplash.splashFactory,
+          labelColor: context.colorScheme.primary,
+          indicatorSize: TabBarIndicatorSize.label,
+          indicatorColor: context.colorScheme.primary,
+          tabs: subjects.map((s) => Tab(text: s.name)).toList(),
+          labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+          unselectedLabelColor: context.colorScheme.surface.withValues(alpha: 0.6),
+          unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
         ),
       ),
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(48);
+}
+
+class _QuestionsBody extends StatelessWidget {
+  const _QuestionsBody({required this.viewModel, required this.subjects, required this.questions});
+
+  final QuestionsViewModel viewModel;
+  final List<Subject> subjects;
+  final List<Question> questions;
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<ViewModelState>(
+      valueListenable: viewModel.questionsState,
+      builder: (context, state, _) {
+        if (state.status == ViewModelStatus.loading) {
+          return const _LoadingView();
+        }
+
+        if (state.status == ViewModelStatus.error) {
+          return _ErrorView(errorMessage: state.error);
+        }
+
+        return _QuestionsTabBarView(subjects: subjects, questions: questions, viewModel: viewModel);
+      },
+    );
+  }
+}
+
+class _LoadingView extends StatelessWidget {
+  const _LoadingView();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(child: CircularProgressIndicator());
+  }
+}
+
+class _ErrorView extends StatelessWidget {
+  const _ErrorView({required this.errorMessage});
+
+  final String? errorMessage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(errorMessage ?? 'An error occurred', style: TextStyle(color: context.colorScheme.error)),
+    );
+  }
+}
+
+class _QuestionsTabBarView extends StatelessWidget {
+  const _QuestionsTabBarView({required this.subjects, required this.questions, required this.viewModel});
+
+  final List<Subject> subjects;
+  final List<Question> questions;
+  final QuestionsViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return TabBarView(
+      children: subjects.map((subject) {
+        final subjectQuestions = questions.where((q) => q.topic.subject.id == subject.id).toList();
+
+        if (subjectQuestions.isEmpty) {
+          return _EmptyQuestionsView(subjectName: subject.name);
+        }
+
+        return _QuestionsPageView(questions: subjectQuestions, viewModel: viewModel);
+      }).toList(),
+    );
+  }
+}
+
+class _EmptyQuestionsView extends StatelessWidget {
+  const _EmptyQuestionsView({required this.subjectName});
+
+  final String subjectName;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text("No questions found for $subjectName", style: TextStyle(color: context.colorScheme.onSurface)),
+    );
+  }
+}
+
+class _QuestionsPageView extends StatelessWidget {
+  const _QuestionsPageView({required this.questions, required this.viewModel});
+
+  final List<Question> questions;
+  final QuestionsViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<int>(
+      valueListenable: viewModel.currentQuestionIndex,
+      builder: (context, currentIndex, _) {
+        return Column(
+          children: [
+            Expanded(
+              child: PageView.builder(
+                controller: viewModel.pageController,
+                itemCount: questions.length,
+                physics: const NeverScrollableScrollPhysics(),
+                onPageChanged: (index) => viewModel.setCurrentQuestionIndex(index),
+                itemBuilder: (context, index) {
+                  return SingleChildScrollView(
+                    padding: const EdgeInsets.all(16),
+                    child: _QuestionCard(question: questions[index], questionNumber: index + 1, viewModel: viewModel),
+                  );
+                },
+              ),
+            ),
+            _NavigationButtons(
+              viewModel: viewModel,
+              currentIndex: currentIndex,
+              totalQuestions: questions.length,
+              currentQuestion: questions[currentIndex],
+            ),
+          ],
+        );
+      },
     );
   }
 }
