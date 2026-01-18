@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:root/src/core/extensions/context_extension.dart';
 import 'package:root/src/core/theme/colors.dart';
 
 class LeaderboardView extends StatefulWidget {
@@ -63,19 +64,9 @@ class _LeaderboardViewState extends State<LeaderboardView> {
   Widget _buildHeader(Color textColor, bool isDark) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          CircleAvatar(
-            backgroundColor: (isDark ? Colors.white : Colors.black).withValues(alpha: 0.1),
-            child: Icon(Icons.arrow_back, color: textColor, size: 20),
-          ),
-          Text(
-            "Leaderboard",
-            style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(width: 40),
-        ],
+      child: Text(
+        "Leaderboard",
+        style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.w600),
       ),
     );
   }
@@ -223,10 +214,7 @@ class _LeaderboardViewState extends State<LeaderboardView> {
         children: [
           const Icon(Icons.add, size: 10, color: Colors.purpleAccent),
           const SizedBox(width: 2),
-          Text(
-            "$score",
-            style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
-          ),
+          Text("$score", style: context.labelLarge),
         ],
       ),
     );
