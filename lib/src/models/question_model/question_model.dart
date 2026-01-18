@@ -92,15 +92,15 @@ class SubjectInQuestion {
 class TopicInQuestion {
   final String id;
   final String name;
-  final String description;
+  final String? description;
   final SubjectInQuestion subject;
   final DateTime createdAt;
   final DateTime updatedAt;
 
   TopicInQuestion({
     required this.id,
+    this.description,
     required this.name,
-    required this.description,
     required this.subject,
     required this.createdAt,
     required this.updatedAt,
@@ -110,7 +110,7 @@ class TopicInQuestion {
     return TopicInQuestion(
       id: json['id'] as String,
       name: json['name'] as String,
-      description: json['description'] as String,
+      description: json['description'] as String?,
       subject: SubjectInQuestion.fromJson(json['subject'] as Map<String, dynamic>),
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),

@@ -7,6 +7,8 @@ class _QuestionCard extends StatelessWidget {
   final int questionNumber;
   final QuestionsViewModel viewModel;
 
+  bool _isNumericalQuestion() => question.answer != null && question.answer!.isNotEmpty;
+
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDarkMode;
@@ -30,13 +32,77 @@ class _QuestionCard extends StatelessWidget {
             _QuestionImage(base64Image: question.image!),
           ],
           const SizedBox(height: 20),
-          _OptionsSection(question: question, viewModel: viewModel),
-          if (question.answer != null && question.answer!.isNotEmpty) ...[
-            const SizedBox(height: 20),
-            _AnswerExplanation(answer: question.answer!),
-          ],
+          if (_isNumericalQuestion())
+            _NumericalAnswerInput(question: question, viewModel: viewModel)
+          else
+            _OptionsSection(question: question, viewModel: viewModel),
         ],
       ),
+    );
+  }
+}
+
+class _NumericalAnswerInput extends StatelessWidget {
+  const _NumericalAnswerInput({required this.question, required this.viewModel});
+
+  final Question question;
+  final QuestionsViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = context.isDarkMode;
+    final colorScheme = context.colorScheme;
+
+    return ValueListenableBuilder<Map<String, String>>(
+      valueListenable: viewModel.numericalAnswers,
+      builder: (context, numericalAnswers, _) {
+        final controller = TextEditingController(text: numericalAnswers[question.id] ?? '');
+
+        // Update cursor position to end when text changes
+        controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Enter your numerical answer:',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: isDark ? const Color(0xFF9CA3AF) : const Color(0xFF6B7280),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: controller,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: true),
+              decoration: InputDecoration(
+                hintText: 'Enter answer',
+                hintStyle: TextStyle(color: isDark ? const Color(0xFF6B7280) : const Color(0xFF9CA3AF)),
+                filled: true,
+                fillColor: isDark ? const Color(0xFF2A2A2A) : const Color(0xFFF3F4F6),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: isDark ? const Color(0xFF3F3F3F) : const Color(0xFFD1D5DB), width: 1),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: isDark ? const Color(0xFF3F3F3F) : const Color(0xFFD1D5DB), width: 1),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: colorScheme.primary, width: 1.5),
+                ),
+              ),
+              style: TextStyle(fontSize: 16, color: isDark ? const Color(0xFFE5E5E5) : const Color(0xFF1F2937)),
+              onChanged: (value) {
+                viewModel.setNumericalAnswer(question.id, value);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

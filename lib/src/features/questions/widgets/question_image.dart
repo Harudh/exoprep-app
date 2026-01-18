@@ -1,4 +1,3 @@
-// widgets/question_image.dart
 part of '../questions_view.dart';
 
 class _QuestionImage extends StatelessWidget {
@@ -21,27 +20,29 @@ class _QuestionImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = context.isDarkMode;
     final imageBytes = _decodeBase64();
 
     if (imageBytes == null) {
-      return _ErrorImagePlaceholder(isDark: isDark);
+      return const _ErrorImagePlaceholder();
     }
 
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: (isDark ? const Color(0xFF2A2A2A) : const Color(0xFFE5E7EB)).withValues(alpha: 0.5), width: 1),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Image.memory(
-          imageBytes,
-          fit: BoxFit.contain,
-          errorBuilder: (context, error, stackTrace) {
-            debugPrint('Error loading image: $error');
-            return _ErrorImagePlaceholder(isDark: isDark);
-          },
+    return RepaintBoundary(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.withValues(alpha: 0.3), width: 1),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: Image.memory(
+            imageBytes,
+            fit: BoxFit.contain,
+            gaplessPlayback: true,
+            errorBuilder: (context, error, stackTrace) {
+              debugPrint('Error loading image: $error');
+              return const _ErrorImagePlaceholder();
+            },
+          ),
         ),
       ),
     );
@@ -49,20 +50,32 @@ class _QuestionImage extends StatelessWidget {
 }
 
 class _ErrorImagePlaceholder extends StatelessWidget {
-  const _ErrorImagePlaceholder({required this.isDark});
-
-  final bool isDark;
+  const _ErrorImagePlaceholder();
 
   @override
   Widget build(BuildContext context) {
+    final isDark = context.isDarkMode;
+    final colorScheme = context.colorScheme;
+
     return Container(
       height: 200,
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF2A2A2A) : const Color(0xFFF3F4F6),
+        color: isDark ? colorScheme.surfaceContainerHighest : colorScheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: colorScheme.outline.withValues(alpha: 0.2), width: 1),
       ),
       child: Center(
-        child: Icon(Icons.broken_image_outlined, size: 48, color: isDark ? const Color(0xFF6B7280) : const Color(0xFF9CA3AF)),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.broken_image_outlined, size: 48, color: colorScheme.onSurfaceVariant),
+            const SizedBox(height: 8),
+            Text(
+              'Image unavailable',
+              style: TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant, fontWeight: FontWeight.w400),
+            ),
+          ],
+        ),
       ),
     );
   }

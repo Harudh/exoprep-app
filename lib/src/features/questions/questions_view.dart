@@ -1,15 +1,18 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:root/src/core/common/ui/widgets/theme_toggle_switch.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:root/src/models/paper_model/paper_model.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
 import 'package:root/src/core/common/state/viewmodel_state.dart';
 import 'package:root/src/models/subject_model/subject_model.dart';
 import 'package:root/src/models/question_model/question_model.dart';
 import 'package:root/src/features/questions/questions_viewmodel.dart';
+import 'package:root/src/core/common/ui/widgets/theme_toggle_switch.dart';
 
+part 'widgets/finish_paper_dialog.dart';
 part 'widgets/navigation_buttons.dart';
+part 'widgets/questions_drawer.dart';
 part 'widgets/question_number.dart';
 part 'widgets/question_title.dart';
 part 'widgets/question_image.dart';
@@ -33,10 +36,18 @@ class _QuestionsViewState extends State<QuestionsView> with QuestionsMixin {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: widget.subjects.length,
-      child: Scaffold(
-        appBar: _QuestionsAppBar(paperName: widget.paper.name, subjects: widget.subjects),
-        drawer: const Drawer(),
-        body: _QuestionsBody(viewModel: viewModel, subjects: widget.subjects, questions: widget.questions),
+      child: GestureDetector(
+        onTap: () => context.unfocus(),
+        child: Scaffold(
+          drawer: QuestionsDrawer(viewModel: viewModel, questions: widget.questions, subjects: widget.subjects),
+          appBar: _QuestionsAppBar(paperName: widget.paper.name, subjects: widget.subjects),
+          body: _QuestionsBody(
+            viewModel: viewModel,
+            subjects: widget.subjects,
+            questions: widget.questions,
+            paperID: widget.paper.id,
+          ),
+        ),
       ),
     );
   }
@@ -52,10 +63,7 @@ class _QuestionsAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(paperName, style: context.titleMedium),
-      actions: [
-        IconButton(onPressed: () => context.pop(), icon: const Icon(Icons.close)),
-        ThemeToggleSwitch(),
-      ],
+      actions: [IconButton(onPressed: () => context.pop(), icon: const Icon(Icons.close))],
       bottom: _QuestionsTabBar(subjects: subjects),
     );
   }
@@ -97,11 +105,12 @@ class _QuestionsTabBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class _QuestionsBody extends StatelessWidget {
-  const _QuestionsBody({required this.viewModel, required this.subjects, required this.questions});
+  const _QuestionsBody({required this.paperID, required this.viewModel, required this.subjects, required this.questions});
 
   final QuestionsViewModel viewModel;
   final List<Subject> subjects;
   final List<Question> questions;
+  final String paperID;
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +125,7 @@ class _QuestionsBody extends StatelessWidget {
           return _ErrorView(errorMessage: state.error);
         }
 
-        return _QuestionsTabBarView(subjects: subjects, questions: questions, viewModel: viewModel);
+        return _QuestionsTabBarView(subjects: subjects, questions: questions, viewModel: viewModel, paperID: paperID);
       },
     );
   }
@@ -144,9 +153,23 @@ class _ErrorView extends StatelessWidget {
   }
 }
 
-class _QuestionsTabBarView extends StatelessWidget {
-  const _QuestionsTabBarView({required this.subjects, required this.questions, required this.viewModel});
+class _EmptyQuestionsView extends StatelessWidget {
+  const _EmptyQuestionsView({required this.subjectName});
 
+  final String subjectName;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text("No questions found for $subjectName", style: TextStyle(color: context.colorScheme.surface)),
+    );
+  }
+}
+
+class _QuestionsTabBarView extends StatelessWidget {
+  const _QuestionsTabBarView({required this.paperID, required this.subjects, required this.questions, required this.viewModel});
+
+  final String paperID;
   final List<Subject> subjects;
   final List<Question> questions;
   final QuestionsViewModel viewModel;
@@ -161,57 +184,83 @@ class _QuestionsTabBarView extends StatelessWidget {
           return _EmptyQuestionsView(subjectName: subject.name);
         }
 
-        return _QuestionsPageView(questions: subjectQuestions, viewModel: viewModel);
+        return _QuestionsPageView(
+          subject: subject,
+          subjects: subjects,
+          questions: subjectQuestions,
+          allQuestions: questions,
+          viewModel: viewModel,
+          paperID: paperID,
+        );
       }).toList(),
     );
   }
 }
 
-class _EmptyQuestionsView extends StatelessWidget {
-  const _EmptyQuestionsView({required this.subjectName});
+class _QuestionsPageView extends StatefulWidget {
+  const _QuestionsPageView({
+    required this.subject,
+    required this.subjects,
+    required this.questions,
+    required this.allQuestions,
+    required this.viewModel,
+    required this.paperID,
+  });
 
-  final String subjectName;
+  final Subject subject;
+  final List<Subject> subjects;
+  final List<Question> questions;
+  final List<Question> allQuestions;
+  final QuestionsViewModel viewModel;
+  final String paperID;
 
   @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text("No questions found for $subjectName", style: TextStyle(color: context.colorScheme.onSurface)),
-    );
-  }
+  State<_QuestionsPageView> createState() => _QuestionsPageViewState();
 }
 
-class _QuestionsPageView extends StatelessWidget {
-  const _QuestionsPageView({required this.questions, required this.viewModel});
-
-  final List<Question> questions;
-  final QuestionsViewModel viewModel;
+class _QuestionsPageViewState extends State<_QuestionsPageView> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
+    final pageController = widget.viewModel.getSubjectPageController(widget.subject.id);
+    final questionIndexNotifier = widget.viewModel.getSubjectQuestionIndex(widget.subject.id);
+
     return ValueListenableBuilder<int>(
-      valueListenable: viewModel.currentQuestionIndex,
+      valueListenable: questionIndexNotifier,
       builder: (context, currentIndex, _) {
         return Column(
           children: [
             Expanded(
               child: PageView.builder(
-                controller: viewModel.pageController,
-                itemCount: questions.length,
+                controller: pageController,
+                itemCount: widget.questions.length,
                 physics: const NeverScrollableScrollPhysics(),
-                onPageChanged: (index) => viewModel.setCurrentQuestionIndex(index),
+                onPageChanged: (index) => widget.viewModel.setSubjectQuestionIndex(widget.subject.id, index),
                 itemBuilder: (context, index) {
                   return SingleChildScrollView(
                     padding: const EdgeInsets.all(16),
-                    child: _QuestionCard(question: questions[index], questionNumber: index + 1, viewModel: viewModel),
+                    child: _QuestionCard(
+                      question: widget.questions[index],
+                      questionNumber: index + 1,
+                      viewModel: widget.viewModel,
+                    ),
                   );
                 },
               ),
             ),
             _NavigationButtons(
-              viewModel: viewModel,
+              viewModel: widget.viewModel,
+              subject: widget.subject,
+              subjects: widget.subjects,
               currentIndex: currentIndex,
-              totalQuestions: questions.length,
-              currentQuestion: questions[currentIndex],
+              totalQuestionsInSubject: widget.questions.length,
+              currentQuestion: widget.questions[currentIndex],
+              paperId: widget.paperID,
+              allQuestions: widget.allQuestions,
             ),
           ],
         );
