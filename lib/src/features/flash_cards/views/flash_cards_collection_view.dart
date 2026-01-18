@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:root/src/core/common/ui/widgets/circle_button.dart';
 import 'package:root/src/core/navigation/routes.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
 import 'package:root/src/features/flash_cards/cubit/flash_cards_cubit.dart';
@@ -32,14 +33,7 @@ class _FlashCardsCollectionViewState extends State<FlashCardsCollectionView> {
                 surfaceTintColor: context.theme.colorScheme.surface,
                 elevation: 0,
                 actions: [
-                  Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade500),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Icon(Icons.more_vert),
-                  ),
+                  CircleButton(icon: Icons.more_vert),
                   const SizedBox(width: 8),
                 ],
                 flexibleSpace: FlexibleSpaceBar(

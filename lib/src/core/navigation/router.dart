@@ -9,12 +9,12 @@ import 'package:root/src/features/questions/questions_view.dart';
 import 'package:root/src/models/paper_model/paper_model.dart';
 import 'package:root/src/core/navigation/route_transition.dart';
 import 'package:root/src/features/read_paper/read_paper_view.dart';
-import 'package:root/src/features/leaderboard/leaderboard_view.dart';
 import 'package:root/src/features/project_form/project_form_view.dart';
 import 'package:root/src/features/select_exams/select_exams_view.dart';
 import 'package:root/src/features/attempt_paper/instructions_view.dart';
 import 'package:root/src/features/attempt_paper/attempt_paper_view.dart';
 import 'package:root/src/features/authentication/authentication_view.dart';
+import 'package:root/src/features/leaderboard/views/screen/leaderboard_screen.dart';
 import 'package:root/src/features/exam_dashboard/exam_dashboard_view.dart';
 import 'package:root/src/features/flash_cards/views/flash_cards_collection_screen.dart';
 import 'package:root/src/features/flash_cards/subfeatures/decks_view/view/decks_list_screen.dart';
@@ -158,18 +158,6 @@ final router = GoRouter(
           ],
         ),
 
-        /* Productivity */
-        // StatefulShellBranch(
-        //   routes: [
-        //     GoRoute(
-        //       path: AppRoute.productivity.path,
-        //       pageBuilder: (context, state) =>
-        //           const NoTransitionPage(child: ProductivityView()),
-        //       // routes: [],
-        //     ),
-        //   ],
-        // ),
-
         /* Flashcards */
         StatefulShellBranch(
           routes: [
@@ -212,7 +200,7 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: AppRoute.leaderboard.path,
-              pageBuilder: (context, state) => const NoTransitionPage(child: LeaderboardView()),
+              pageBuilder: (context, state) => const NoTransitionPage(child: LeaderboardScreen()),
             ),
           ],
         ),
