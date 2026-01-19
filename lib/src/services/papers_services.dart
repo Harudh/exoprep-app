@@ -9,4 +9,14 @@ class PapersService {
     final response = await _dioClient.get(AppEndpoints.getPapers(query));
     return ResponseModel.fromResponse(response);
   }
+
+  Future<ResponseModel> getPaperDetails({required String paperID}) async {
+    final response = await _dioClient.get(AppEndpoints.getPaperDetails(paperID));
+    return ResponseModel.fromResponse(response);
+  }
+
+  Future<ResponseModel> submitPaper({required Map<String, dynamic> data}) async {
+    final response = await _dioClient.post(AppEndpoints.submitPaper, data: data);
+    return ResponseModel.fromResponse(response);
+  }
 }

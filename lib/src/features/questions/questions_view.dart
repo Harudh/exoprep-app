@@ -119,7 +119,7 @@ class _QuestionsBody extends StatelessWidget {
           return const _LoadingView();
         }
 
-        if (state.status == ViewModelStatus.error) {
+        if (state.status == ViewModelStatus.error && state.type == QuestionStates.dataLoadingError) {
           return _ErrorView(errorMessage: state.error);
         }
 

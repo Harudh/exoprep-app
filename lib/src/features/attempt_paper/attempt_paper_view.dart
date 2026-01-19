@@ -42,7 +42,7 @@ class _AttemptPaperViewState extends State<AttemptPaperView> with AttemptPaperMi
               paper: widget.paper,
               subjects: viewModel.subjectsData.value,
               questions: viewModel.questionsData.value,
-              onContinue: _startAttempt,
+              onContinue: () {},
             );
           }
 
@@ -50,11 +50,6 @@ class _AttemptPaperViewState extends State<AttemptPaperView> with AttemptPaperMi
         },
       ),
     );
-  }
-
-  void _startAttempt() {
-    // Navigate to the actual paper attempt screen
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Starting paper attempt...')));
   }
 }
 

@@ -21,22 +21,13 @@ class DioClient {
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
         sendTimeout: const Duration(seconds: 30),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
       ),
     );
 
     // Add interceptors
     _dio.interceptors.add(_authInterceptor());
-    _dio.interceptors.add(
-      LogInterceptor(
-        requestBody: true,
-        responseBody: true,
-        responseHeader: false,
-      ),
-    );
+    _dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true, responseHeader: false));
   }
 
   // Auth interceptor to add Firebase token
@@ -261,15 +252,7 @@ class DioClient {
       if (files != null && files.isNotEmpty) {
         for (final file in files) {
           final fileName = file.path.split('/').last;
-          formData.files.add(
-            MapEntry(
-              fileFieldName,
-              await MultipartFile.fromFile(
-                file.path,
-                filename: fileName,
-              ),
-            ),
-          );
+          formData.files.add(MapEntry(fileFieldName, await MultipartFile.fromFile(file.path, filename: fileName)));
         }
       }
 
@@ -302,15 +285,7 @@ class DioClient {
       if (files != null && files.isNotEmpty) {
         for (final file in files) {
           final fileName = file.path.split('/').last;
-          formData.files.add(
-            MapEntry(
-              fileFieldName,
-              await MultipartFile.fromFile(
-                file.path,
-                filename: fileName,
-              ),
-            ),
-          );
+          formData.files.add(MapEntry(fileFieldName, await MultipartFile.fromFile(file.path, filename: fileName)));
         }
       }
 
@@ -343,15 +318,7 @@ class DioClient {
       if (files != null && files.isNotEmpty) {
         for (final file in files) {
           final fileName = file.path.split('/').last;
-          formData.files.add(
-            MapEntry(
-              fileFieldName,
-              await MultipartFile.fromFile(
-                file.path,
-                filename: fileName,
-              ),
-            ),
-          );
+          formData.files.add(MapEntry(fileFieldName, await MultipartFile.fromFile(file.path, filename: fileName)));
         }
       }
 

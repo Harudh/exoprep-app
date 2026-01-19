@@ -65,11 +65,8 @@ class _NavigationButtonsState extends State<_NavigationButtons> {
 
     if (shouldSubmit != true || !mounted) return;
 
-    setState(() {
-      _isSubmitting = true;
-    });
+    setState(() => _isSubmitting = true);
 
-    // Show loading dialog
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -100,9 +97,9 @@ class _NavigationButtonsState extends State<_NavigationButtons> {
       } else if (state.status == ViewModelStatus.error && state.type == QuestionStates.submissionError) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(state.error ?? 'Failed to submit test'),
+            content: Text('Failed to submit paper'),
             backgroundColor: Colors.red,
-            duration: const Duration(seconds: 4),
+            duration: const Duration(seconds: 10),
             action: SnackBarAction(label: 'Retry', textColor: Colors.white, onPressed: () => _handleFinish(context)),
           ),
         );
@@ -120,9 +117,7 @@ class _NavigationButtonsState extends State<_NavigationButtons> {
       );
     } finally {
       if (mounted) {
-        setState(() {
-          _isSubmitting = false;
-        });
+        setState(() => _isSubmitting = false);
       }
     }
   }
@@ -135,9 +130,7 @@ class _NavigationButtonsState extends State<_NavigationButtons> {
   }
 
   IconData get _buttonIcon {
-    if (_isLastQuestionInSubject && _isLastSubject) {
-      return Icons.check;
-    }
+    if (_isLastQuestionInSubject && _isLastSubject) return Icons.check;
     return Icons.arrow_forward;
   }
 

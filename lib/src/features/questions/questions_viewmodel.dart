@@ -1,14 +1,21 @@
+import 'dart:developer';
+
 import 'package:root/src/core/constants/enums.dart';
 import 'package:root/src/models/question_model/attempted_question_model.dart';
+import 'package:root/src/models/question_model/paper_submission.dart';
 import 'package:root/src/models/question_model/question_model.dart';
 import 'package:root/src/core/common/state/viewmodel_state.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
-class QuestionsViewModel {
-  QuestionsViewModel();
+import 'package:root/src/repositories/papers_repository.dart';
 
-  final ValueNotifier<ViewModelState> questionsState = ValueNotifier(ViewModelState.idle());
+class QuestionsViewModel {
+  final PapersRepository _papersRepository;
+
+  QuestionsViewModel({PapersRepository? papersRepository}) : _papersRepository = papersRepository ?? PapersRepository();
+
+  final ValueNotifier<ViewModelState> questionsState = ValueNotifier(ViewModelState.idle(data: QuestionStates.idle));
 
   final ValueNotifier<int> currentQuestionIndex = ValueNotifier(0);
 
@@ -17,6 +24,9 @@ class QuestionsViewModel {
   final ValueNotifier<Map<String, String>> numericalAnswers = ValueNotifier({});
 
   final ValueNotifier<Set<String>> markedForLater = ValueNotifier({});
+
+  // Track test start time
+  DateTime? testStartTime;
 
   final Map<String, PageController> _subjectPageControllers = {};
   final Map<String, ValueNotifier<int>> _subjectQuestionIndices = {};
@@ -34,6 +44,10 @@ class QuestionsViewModel {
       questionsState.value = ViewModelState.error(error: 'No questions available', type: QuestionStates.dataLoadingError);
       return;
     }
+
+    // Start tracking test time
+    testStartTime = DateTime.now();
+
     questionsState.value = ViewModelState.success(data: questions, type: QuestionStates.dataLoadedSuccess);
   }
 
@@ -151,37 +165,68 @@ class QuestionsViewModel {
     return AttemptedQuestions(paperId: paperId, questions: attemptedQuestions);
   }
 
+  // Prepare data for API submission (without correct answers and time tracking)
+  PaperSubmission prepareApiSubmissionData(String paperId, List<Question> allQuestions) {
+    final responses = allQuestions.map((question) {
+      // Check if it's a numerical question
+      if (question.answer != null && question.answer!.isNotEmpty) {
+        return QuestionResponse(questionId: question.id, attemptedAnswer: numericalAnswers.value[question.id]);
+      } else {
+        // MCQ question
+        return QuestionResponse(questionId: question.id, attemptedOptionIndexes: selectedAnswers.value[question.id]);
+      }
+    }).toList();
+
+    return PaperSubmission(
+      paperId: paperId,
+      startedAt: testStartTime ?? DateTime.now(),
+      completedAt: DateTime.now(),
+      responses: responses,
+    );
+  }
+
+  // Prepare data for local result calculation (with correct answers)
+  AttemptedQuestions prepareLocalResultData(String paperId, List<Question> allQuestions) {
+    final attemptedQuestions = allQuestions.map((question) {
+      // Check if it's a numerical question
+      if (question.answer != null && question.answer!.isNotEmpty) {
+        return AttemptedQuestion(
+          questionId: question.id,
+          correctAnswer: question.answer,
+          attemptedAnswer: numericalAnswers.value[question.id],
+          correctOptionIndexes: null,
+          attemptedOptionIndexes: null,
+        );
+      } else {
+        // MCQ question
+        return AttemptedQuestion(
+          questionId: question.id,
+          correctAnswer: null,
+          attemptedAnswer: null,
+          correctOptionIndexes: question.correctOptionIndexes,
+          attemptedOptionIndexes: selectedAnswers.value[question.id],
+        );
+      }
+    }).toList();
+
+    return AttemptedQuestions(paperId: paperId, questions: attemptedQuestions);
+  }
+
   Future<void> submitPaper(String paperId, List<Question> allQuestions) async {
     try {
-      // Use data for loading state
       questionsState.value = ViewModelState.loading(mode: QuestionStates.submissionLoading);
-
-      final submissionData = prepareSubmissionData(paperId, allQuestions);
-
-      debugPrint('Submission Data: ${jsonEncode(submissionData.toJson())}');
-
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 2));
-
-      // Use type for success state
+      final data = prepareApiSubmissionData(paperId, allQuestions);
+      log('API Submission Data: ${jsonEncode(data.toJson())}');
+      await _papersRepository.submitPaper(data: data.toJson());
       questionsState.value = ViewModelState.success(data: 'Submitted', type: QuestionStates.submissionSuccess);
     } catch (e) {
       debugPrint('Error submitting paper: $e');
-      // Use type for error state
       questionsState.value = ViewModelState.error(
         error: 'Failed to submit paper: ${e.toString()}',
         type: QuestionStates.submissionError,
       );
       rethrow;
     }
-  }
-
-  void setLoading() {
-    questionsState.value = ViewModelState.loading();
-  }
-
-  void setError(String error) {
-    questionsState.value = ViewModelState.error(error: error);
   }
 
   void dispose() {
