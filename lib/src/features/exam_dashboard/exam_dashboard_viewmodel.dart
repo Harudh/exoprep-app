@@ -1,7 +1,8 @@
+import 'package:root/src/models/paper_model/attempted_paper_model.dart';
 import 'package:root/src/core/common/state/viewmodel_state.dart';
-import 'package:root/src/core/constants/enums.dart';
 import 'package:root/src/models/paper_model/paper_model.dart';
 import 'package:root/src/repositories/papers_repository.dart';
+import 'package:root/src/core/constants/enums.dart';
 import 'package:root/src/core/logger/logger.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,7 @@ class ExamDashboardViewModel {
   // Future-ready notifiers for other sections
   // final ValueNotifier<StreakData?> streakData = ValueNotifier(null);
   // final ValueNotifier<ContinueProgress?> continueProgress = ValueNotifier(null);
-  // final ValueNotifier<List<CompletedTest>> recentlyCompleted = ValueNotifier([]);
+  final ValueNotifier<List<AttemptedPaper>> recentlyAttemptedPapers = ValueNotifier([]);
 
   /// Fetch all dashboard data concurrently
   Future<void> fetchDashboardData({required String examID}) async {
@@ -35,10 +36,9 @@ class ExamDashboardViewModel {
       await Future.wait([
         _fetchPYQPapers(examID),
         _fetchMockTestPapers(examID),
-        // Add future API calls here as you create them
         // _fetchStreakData(examID),
         // _fetchContinueProgress(examID),
-        // _fetchRecentlyCompleted(examID),
+        _fetchRecentlyCompleted(examID),
       ], eagerError: false); // eagerError: false continues even if one fails
 
       AppLogs.info('All dashboard data fetched successfully');
@@ -54,6 +54,7 @@ class ExamDashboardViewModel {
     try {
       final query = 'page=1&pageSize=5&exam_id=$examID&paperType=PYQ';
       final result = await _papersRepository.getPapers(query: query);
+      //await Future.delayed(Duration(seconds: 2));
 
       pyqPapers.value = result;
       pyqState.value = ViewModelState.success(data: result, type: ExamDashboardStates.practice.toString());
@@ -73,6 +74,7 @@ class ExamDashboardViewModel {
     try {
       final query = 'page=1&pageSize=5&exam_id=$examID&paperType=MOCK';
       final result = await _papersRepository.getPapers(query: query);
+      //await Future.delayed(Duration(seconds: 2));
 
       mockTestPapers.value = result;
       mockTestState.value = ViewModelState.success(data: result, type: ExamDashboardStates.practice.toString());
@@ -131,27 +133,21 @@ class ExamDashboardViewModel {
   //   }
   // }
 
-  // Future<void> _fetchRecentlyCompleted(String examID) async {
-  //   recentsState.value = ViewModelState.loading(
-  //     mode: ExamDashboardStates.recents.toString()
-  //   );
-  //
-  //   try {
-  //     final result = await _papersRepository.getRecentlyCompleted(examID: examID);
-  //     recentlyCompleted.value = result;
-  //     recentsState.value = ViewModelState.success(
-  //       data: result,
-  //       type: ExamDashboardStates.recents.toString()
-  //     );
-  //     AppLogs.info('Recently completed fetched successfully');
-  //   } catch (e) {
-  //     AppLogs.warning("Error fetching recently completed: $e");
-  //     recentsState.value = ViewModelState.error(
-  //       error: e.toString(),
-  //       type: ExamDashboardStates.recents.toString()
-  //     );
-  //   }
-  // }
+  Future<void> _fetchRecentlyCompleted(String examID) async {
+    recentsState.value = ViewModelState.loading(mode: ExamDashboardStates.recents.toString());
+    final query = 'exam_id=$examID&page=1&pageSize=10';
+
+    try {
+      final result = await _papersRepository.recentlyAttemptedPapers(query: query);
+      //await Future.delayed(Duration(seconds: 2));
+      recentlyAttemptedPapers.value = result;
+      recentsState.value = ViewModelState.success(data: result, type: ExamDashboardStates.recents.toString());
+      AppLogs.info('Recently completed fetched successfully');
+    } catch (e) {
+      AppLogs.warning("Error fetching recently completed: $e");
+      recentsState.value = ViewModelState.error(error: e.toString(), type: ExamDashboardStates.recents.toString());
+    }
+  }
 
   /// Refresh specific section independently
   Future<void> refreshPYQPapers(String examID) async {
@@ -171,9 +167,9 @@ class ExamDashboardViewModel {
   //   await _fetchContinueProgress(examID);
   // }
 
-  // Future<void> refreshRecentlyCompleted(String examID) async {
-  //   await _fetchRecentlyCompleted(examID);
-  // }
+  Future<void> refreshRecentlyCompleted(String examID) async {
+    await _fetchRecentlyCompleted(examID);
+  }
 
   void dispose() {
     streakState.dispose();

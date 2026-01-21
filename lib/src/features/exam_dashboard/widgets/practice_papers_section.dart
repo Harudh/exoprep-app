@@ -95,14 +95,15 @@ class _PYQTab extends StatelessWidget {
     return ValueListenableBuilder<ViewModelState>(
       valueListenable: viewModel.pyqState,
       builder: (context, state, child) {
+        // Update inside _PYQTab builder:
         if (state.status == ViewModelStatus.loading) {
-          return const Center(child: CircularProgressIndicator());
+          return const _PapersLoadingWidget();
         }
 
         if (state.status == ViewModelStatus.error) {
           return _PapersErrorWidget(
-            message: 'Failed to load PYQ papers',
-            onRetry: () => viewModel.refreshPYQPapers(context.examDashboardViewModel.examID),
+            message: 'We couldn\'t load the PYQ papers.',
+            onRetry: () => viewModel.refreshPYQPapers(viewModel.examID),
           );
         }
 
@@ -112,11 +113,100 @@ class _PYQTab extends StatelessWidget {
         }
 
         return ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: ExamDashboardView.horizontalPadding),
           itemCount: papers.length,
           itemBuilder: (context, index) => _PaperCard(paper: papers[index]),
         );
       },
+    );
+  }
+}
+
+class _PapersLoadingWidget extends StatefulWidget {
+  const _PapersLoadingWidget();
+
+  @override
+  State<_PapersLoadingWidget> createState() => _PapersLoadingWidgetState();
+}
+
+class _PapersLoadingWidgetState extends State<_PapersLoadingWidget> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 1500))..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = context.isDarkMode;
+
+    return ListView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: ExamDashboardView.horizontalPadding),
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: 4,
+      itemBuilder: (context, index) {
+        return AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) {
+            return Container(
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                // Base background color of the card
+                color: isDark ? Colors.grey.shade900 : Colors.grey.shade50,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: isDark ? Colors.grey.shade800 : Colors.grey.shade200),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  stops: [0.0, _controller.value, 1.0],
+                  colors: isDark
+                      ? [Colors.transparent, Colors.white.withValues(alpha: 0.05), Colors.transparent]
+                      : [Colors.transparent, Colors.white.withValues(alpha: 0.6), Colors.transparent],
+                ),
+              ),
+              child: child,
+            );
+          },
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Increased visibility for skeleton blocks in dark mode
+                    _skeletonBlock(width: 180, height: 16, isDark: isDark),
+                    const SizedBox(height: 8),
+                    _skeletonBlock(width: 240, height: 12, isDark: isDark),
+                  ],
+                ),
+              ),
+              Icon(Icons.chevron_right, color: isDark ? Colors.grey.shade700 : Colors.grey.shade300),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _skeletonBlock({required double width, required double height, required bool isDark}) {
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        // High contrast for the "lines" inside the card
+        color: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
+        borderRadius: BorderRadius.circular(4),
+      ),
     );
   }
 }
@@ -131,14 +221,15 @@ class _MockTestsTab extends StatelessWidget {
     return ValueListenableBuilder<ViewModelState>(
       valueListenable: viewModel.mockTestState,
       builder: (context, state, child) {
+        // Update inside _MockTestsTab builder:
         if (state.status == ViewModelStatus.loading) {
-          return const Center(child: CircularProgressIndicator());
+          return const _PapersLoadingWidget();
         }
 
         if (state.status == ViewModelStatus.error) {
           return _PapersErrorWidget(
-            message: 'Failed to load mock tests',
-            onRetry: () => viewModel.refreshMockTests(context.examDashboardViewModel.examID),
+            message: 'We couldn\'t load the mock tests.',
+            onRetry: () => viewModel.refreshMockTests(viewModel.examID),
           );
         }
 
@@ -148,6 +239,7 @@ class _MockTestsTab extends StatelessWidget {
         }
 
         return ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: ExamDashboardView.horizontalPadding),
           itemBuilder: (context, index) => _PaperCard(paper: papers[index]),
           itemCount: papers.length,
@@ -341,16 +433,63 @@ class _PapersErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = context.isDarkMode;
+
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.error_outline, color: Colors.red.shade400, size: 48),
-          const SizedBox(height: 16),
-          Text(message, style: context.bodyMedium!.copyWith(color: Colors.red.shade400)),
-          const SizedBox(height: 16),
-          ElevatedButton.icon(onPressed: onRetry, icon: const Icon(Icons.refresh), label: const Text('Retry')),
-        ],
+      // Center it within the TabView height
+      child: Container(
+        margin: const EdgeInsets.all(ExamDashboardView.horizontalPadding),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.05),
+              blurRadius: 15,
+              offset: const Offset(0, 8),
+            ),
+          ],
+          border: Border.all(color: isDark ? Colors.red.shade900.withValues(alpha: 0.3) : Colors.red.shade100),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(color: Colors.red.withValues(alpha: 0.1), shape: BoxShape.circle),
+                  child: const Icon(Icons.error_outline_rounded, color: Colors.redAccent, size: 24),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Content Unavailable", style: context.bodyLarge!.copyWith(fontWeight: FontWeight.bold)),
+                      Text(message, style: context.bodySmall!.copyWith(color: Colors.grey)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: onRetry,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: isDark ? Colors.white : Colors.black,
+                  foregroundColor: isDark ? Colors.black : Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  elevation: 0,
+                ),
+                child: const Text("Try Again"),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

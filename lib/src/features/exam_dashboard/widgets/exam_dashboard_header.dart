@@ -9,8 +9,9 @@ class ExamDashboardHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(ExamDashboardView.horizontalPadding, 16, ExamDashboardView.horizontalPadding, 0),
+        padding: const EdgeInsets.fromLTRB(ExamDashboardView.horizontalPadding, 64, ExamDashboardView.horizontalPadding, 0),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
               onTap: () => Navigator.pop(context),
@@ -25,8 +26,8 @@ class ExamDashboardHeader extends StatelessWidget {
                 child: const Icon(Icons.arrow_back, size: 22),
               ),
             ),
-            const SizedBox(width: 12),
             Text(examName, style: context.headlineSmall!.copyWith(fontWeight: FontWeight.w800, letterSpacing: -0.5)),
+            SizedBox(width: 48),
           ],
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:root/src/core/common/ui/widgets/background_gradient.dart';
 import 'package:root/src/core/common/ui/widgets/theme_toggle_switch.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
 import 'package:root/src/core/navigation/routes.dart';
@@ -39,13 +40,13 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: const ThemeToggleSwitch(),
-      body: SafeArea(
+      body: BackgroundGradient(
         child: CustomScrollView(
           slivers: [
             // Header
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+                padding: const EdgeInsets.fromLTRB(20, 64, 20, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

@@ -1,11 +1,15 @@
+import 'package:root/src/core/common/ui/widgets/background_gradient.dart';
 import 'package:root/src/features/exam_dashboard/exam_dashboard_viewmodel.dart';
 import 'package:root/src/core/extensions/app_scope_extension.dart';
 import 'package:root/src/core/common/state/viewmodel_state.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
+import 'package:root/src/models/paper_model/attempted_paper_model.dart';
 import 'package:root/src/models/paper_model/paper_model.dart';
 import 'package:root/src/core/navigation/routes.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 
 part 'widgets/practice_papers_section.dart';
 part 'widgets/exam_dashboard_header.dart';
@@ -29,7 +33,7 @@ class _ExamDashboardViewState extends State<ExamDashboardView> with ExamDashboar
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: BackgroundGradient(
         child: CustomScrollView(
           slivers: [
             const ExamDashboardHeader(examName: "JEE Mains"),
@@ -52,7 +56,21 @@ class _ExamDashboardViewState extends State<ExamDashboardView> with ExamDashboar
       floatingActionButton: FloatingActionButton.extended(
         icon: const Icon(Icons.quiz),
         label: const Text('Quick Quiz'),
-        onPressed: () {},
+        onPressed: () async {
+          final user = FirebaseAuth.instance.currentUser!;
+          final token = await user.getIdToken();
+
+          // This function splits the token into chunks of 800 characters
+          // so the console doesn't truncate (cut off) the long string.
+          void printFullToken(String text) {
+            final pattern = RegExp('.{1,800}');
+            pattern.allMatches(text).forEach((match) => print(match.group(0)));
+          }
+
+          print('--- START TOKEN ---');
+          printFullToken(token!);
+          print('--- END TOKEN ---');
+        },
         backgroundColor: context.isDarkMode ? Colors.grey.shade800 : Colors.black,
         foregroundColor: Colors.white,
       ),

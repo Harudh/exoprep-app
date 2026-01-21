@@ -10,6 +10,11 @@ class PapersService {
     return ResponseModel.fromResponse(response);
   }
 
+  Future<ResponseModel> recentlyAttemptedPapers({required String query}) async {
+    final response = await _dioClient.get(AppEndpoints.recentAttempts(query));
+    return ResponseModel.fromResponse(response);
+  }
+
   Future<ResponseModel> getPaperDetails({required String paperID}) async {
     final response = await _dioClient.get(AppEndpoints.getPaperDetails(paperID));
     return ResponseModel.fromResponse(response);

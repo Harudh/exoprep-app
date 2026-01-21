@@ -17,6 +17,8 @@ class AppEndpoints {
 
   static String getPaperDetails(String paperID) => '$baseURL/api/v1/papers/$paperID';
 
+  static String recentAttempts(String query) => '$baseURL/api/v1/quiz/attempts?$query';
+
   /*----------------- Subjects Endpoints -------------------*/
   static String getSubjects(String query) => '$baseURL/api/v1/subjects?$query';
 
