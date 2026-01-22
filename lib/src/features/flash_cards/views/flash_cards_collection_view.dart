@@ -1,13 +1,14 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:root/src/core/common/ui/widgets/circle_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toastification/toastification.dart';
 import 'package:root/src/core/navigation/routes.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
+import 'package:root/src/core/common/ui/widgets/circle_button.dart';
+import 'package:root/src/core/common/ui/widgets/background_gradient.dart';
 import 'package:root/src/features/flash_cards/cubit/flash_cards_cubit.dart';
 import 'package:root/src/features/flash_cards/widgets/collection_card_tile.dart';
-import 'package:toastification/toastification.dart';
 
 import 'create_flashcard_collection_widget.dart';
 
@@ -25,57 +26,63 @@ class _FlashCardsCollectionViewState extends State<FlashCardsCollectionView> {
       listener: (prev, curr) => {},
       builder: (context, state) {
         return Scaffold(
-          body: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                floating: true,
-                backgroundColor: context.theme.scaffoldBackgroundColor,
-                surfaceTintColor: context.theme.colorScheme.surface,
-                elevation: 0,
-                actions: [
-                  CircleButton(icon: Icons.more_vert),
-                  const SizedBox(width: 8),
-                ],
-                flexibleSpace: FlexibleSpaceBar(
-                  titlePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                  centerTitle: false,
-                  title: Text(
-                    'Flashcards',
-                    style: TextStyle(color: context.bodyLarge?.color, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-
-              if (state is LoadingState && context.read<FlashCardsCubit>().collections.isEmpty) ...[
-                const SliverFillRemaining(child: Center(child: CircularProgressIndicator())),
-              ] else if (state is CollectionsLoadedState || context.read<FlashCardsCubit>().collections.isNotEmpty) ...[
-                SliverPadding(
-                  padding: const EdgeInsets.all(16),
-                  sliver: SliverGrid(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.88,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
+          extendBody: true,
+          backgroundColor: Colors.transparent,
+          body: BackgroundGradient(
+            child: CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  backgroundColor: Colors.transparent,
+                  floating: true,
+                  elevation: 0,
+                  actions: [
+                    CircleButton(icon: Icons.more_vert),
+                    const SizedBox(width: 12),
+                  ],
+                  flexibleSpace: FlexibleSpaceBar(
+                    titlePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    centerTitle: false,
+                    title: Text(
+                      'Flashcards',
+                      style: TextStyle(color: context.bodyLarge?.color, fontWeight: FontWeight.bold),
                     ),
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      final collection = context.read<FlashCardsCubit>().collections[index];
-                      return CollectionCardTile(
-                        title: collection.title ?? '',
-                        tag: collection.tag ?? '',
-                        accentColor: Color(collection.color!),
-                        cardCount: collection.cardCount ?? 0,
-                        onTap: () {
-                          context.pushNamed(AppRoute.decksListView.name, extra: {'id': collection.id, 'name': collection.title});
-                        },
-                      );
-                    }, childCount: context.read<FlashCardsCubit>().collections.length),
                   ),
                 ),
-              ] else if (context.read<FlashCardsCubit>().collections.isEmpty) ...[
-                const SliverFillRemaining(child: Center(child: Text('No collections yet'))),
+
+                if (state is LoadingState && context.read<FlashCardsCubit>().collections.isEmpty) ...[
+                  const SliverFillRemaining(child: Center(child: CircularProgressIndicator())),
+                ] else if (state is CollectionsLoadedState || context.read<FlashCardsCubit>().collections.isNotEmpty) ...[
+                  SliverPadding(
+                    padding: const EdgeInsets.all(16),
+                    sliver: SliverGrid(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.88,
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 12,
+                      ),
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        final collection = context.read<FlashCardsCubit>().collections[index];
+                        return CollectionCardTile(
+                          title: collection.title ?? '',
+                          tag: collection.tag ?? '',
+                          accentColor: Color(collection.color!),
+                          cardCount: collection.cardCount ?? 0,
+                          onTap: () {
+                            context.pushNamed(
+                              AppRoute.decksListView.name,
+                              extra: {'id': collection.id, 'name': collection.title},
+                            );
+                          },
+                        );
+                      }, childCount: context.read<FlashCardsCubit>().collections.length),
+                    ),
+                  ),
+                ] else if (context.read<FlashCardsCubit>().collections.isEmpty) ...[
+                  const SliverFillRemaining(child: Center(child: Text('No collections yet'))),
+                ],
               ],
-            ],
+            ),
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: showCollectionCreationDialog,

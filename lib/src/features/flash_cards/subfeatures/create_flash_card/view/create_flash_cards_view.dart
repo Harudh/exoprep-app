@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:root/src/core/common/ui/widgets/circle_button.dart';
 import 'package:root/src/core/navigation/router.dart';
 import 'package:root/src/core/utils/file_helper.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
@@ -81,13 +82,12 @@ class _CreateFlashCardViewState extends State<CreateFlashCardView> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
-          widget.deckName,
-          style: TextStyle(color: textColor, fontWeight: FontWeight.w900, fontSize: 16),
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.close, color: textColor),
-          onPressed: () => router.pop(),
+        title: Text(widget.deckName, style: context.titleLarge),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 12.0),
+          child: Center(
+            child: CircleButton(icon: Icons.close, ontap: () => router.pop()),
+          ),
         ),
         actions: [
           if (_isSaving)
@@ -99,18 +99,9 @@ class _CreateFlashCardViewState extends State<CreateFlashCardView> {
             )
           else
             Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: GestureDetector(
-                onTap: _handleSave,
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade500),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Icon(Icons.done, size: 20),
-                ),
+              padding: const EdgeInsets.only(right: 12.0),
+              child: Center(
+                child: CircleButton(icon: Icons.done, ontap: _handleSave),
               ),
             ),
         ],
@@ -141,11 +132,14 @@ class _CreateFlashCardViewState extends State<CreateFlashCardView> {
             }),
             style: ElevatedButton.styleFrom(
               side: BorderSide(color: textColor.withValues(alpha: 0.1)),
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
               foregroundColor: Colors.transparent,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
-            child: Text("ADD ANOTHER CARD", style: context.bodySmall!.copyWith(color: Colors.white)),
+            child: Text(
+              "ADD ANOTHER CARD",
+              style: context.bodyLarge!.copyWith(color: context.isDarkMode ? Colors.black : Colors.white),
+            ),
           ),
         ),
       ),

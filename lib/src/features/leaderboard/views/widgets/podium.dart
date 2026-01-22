@@ -95,7 +95,7 @@ class PodiumColumn extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 4),
-          _scoreChip(context, streakData ? user.currentStreak.toStringAsFixed(0) : user.avgScore.toStringAsFixed(0)),
+          _scoreChip(context, streakData ? user.currentStreak.toStringAsFixed(0) : user.totalPoints.toStringAsFixed(2)),
           const SizedBox(height: 12),
           Container(
             height: height,

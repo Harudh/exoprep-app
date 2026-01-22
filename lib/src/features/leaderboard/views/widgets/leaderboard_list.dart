@@ -83,7 +83,7 @@ class RankListWidget extends StatelessWidget {
               Divider(color: (context.isDarkMode ? Colors.white : Colors.black).withValues(alpha: 0.05), height: 30),
           itemBuilder: (context, index) {
             final user = displayUsers[index];
-            final int score = isStreakMode ? user.currentStreak : user.totalPoints.toInt();
+            final score = isStreakMode ? user.currentStreak : user.totalPoints.toInt();
 
             return Row(
               children: [

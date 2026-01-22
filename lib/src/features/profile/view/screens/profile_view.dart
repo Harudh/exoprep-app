@@ -6,8 +6,8 @@ import 'package:root/src/core/navigation/routes.dart';
 import 'package:root/src/core/navigation/router.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
 import 'package:root/src/core/common/ui/widgets/background_gradient.dart';
-import 'package:root/src/features/profile/view/widgets/profile_headers.dart';
 import 'package:root/src/features/profile/view/widgets/profile_tile.dart';
+import 'package:root/src/features/profile/view/widgets/profile_headers.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
