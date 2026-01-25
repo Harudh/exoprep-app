@@ -14,4 +14,9 @@ class UserService {
     final response = await _dioClient.put(AppEndpoints.user, data: data);
     return ResponseModel.fromResponse(response);
   }
+
+  Future<ResponseModel> getCurrentUser() async {
+    final response = await _dioClient.get(AppEndpoints.getUser);
+    return ResponseModel.fromResponse(response);
+  }
 }

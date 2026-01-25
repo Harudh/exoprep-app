@@ -31,7 +31,7 @@ class FlashCardTile extends StatelessWidget {
               )
             : null,
         trailing: IconButton(
-          icon: const Icon(Icons.delete_outline),
+          icon: const Icon(Icons.delete_outline, color: Colors.red),
           onPressed: () {
             showDialog(
               context: context,

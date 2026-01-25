@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:root/src/core/extensions/context_extension.dart';
 
 class CreateCardTile extends StatelessWidget {
   final int index;
@@ -53,7 +54,7 @@ class CreateCardTile extends StatelessWidget {
               questionController.text.isEmpty ? "New Flashcard" : questionController.text,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: baseColor),
+              style: context.bodyMedium!.copyWith(color: baseColor),
             ),
             trailing: IconButton(
               icon: Icon(Icons.delete_outline_rounded, color: Colors.red.withValues(alpha: 0.7), size: 20),

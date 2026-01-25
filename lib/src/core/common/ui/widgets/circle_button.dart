@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
 
 class CircleButton extends StatelessWidget {
-  const CircleButton({super.key, required this.icon, this.iconSize, this.containerSize});
+  const CircleButton({super.key, required this.icon, this.iconSize, this.containerSize, this.ontap});
 
   final IconData icon;
   final double? iconSize;
   final double? containerSize;
-
+  final void Function()? ontap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: ontap,
       child: Container(
         height: containerSize ?? 44,
         width: containerSize ?? 44,

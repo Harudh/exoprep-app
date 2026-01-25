@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
+import 'package:root/src/features/leaderboard/views/widgets/loader.dart';
+import 'package:root/src/features/leaderboard/views/widgets/podium.dart';
 import 'package:root/src/core/common/ui/widgets/background_gradient.dart';
 import 'package:root/src/features/leaderboard/cubit/leaderboard_cubit.dart';
 import 'package:root/src/features/leaderboard/views/widgets/empty_widget.dart';
 import 'package:root/src/features/leaderboard/views/widgets/exam_selector.dart';
 import 'package:root/src/features/leaderboard/views/widgets/leaderboard_list.dart';
-import 'package:root/src/features/leaderboard/views/widgets/loader.dart';
-import 'package:root/src/features/leaderboard/views/widgets/podium.dart';
+import 'package:root/src/features/leaderboard/views/widgets/try_again_widget.dart';
 
 class LeaderboardView extends StatefulWidget {
   const LeaderboardView({super.key});
@@ -28,45 +29,51 @@ class _LeaderboardViewState extends State<LeaderboardView> {
         if (state is LeaderboardLoadingState) {
           return LeaderboardLoadingWidget();
         }
-        return Scaffold(
-          extendBody: true,
-          body: BackgroundGradient(
-            child: SafeArea(
-              bottom: false,
-              child: Column(
-                children: [
-                  ExamSelector(),
-                  const SizedBox(height: 20),
-                  if (cubit.streaksLeaderboard.isEmpty) ...[LeaderboardEmptyWidget()],
-                  if (cubit.streaksLeaderboard.isNotEmpty) ...[
-                    _buildTabs(),
-                    const SizedBox(height: 30),
-                    ValueListenableBuilder(
-                      valueListenable: selectedIndex,
-                      builder: (context, value, child) {
-                        return PodiumWidget(
-                          users: value == 0 ? cubit.scoreLeaderboard : cubit.streaksLeaderboard,
-                          streakData: value == 1,
-                        );
-                      },
-                    ),
-                    Expanded(
-                      child: ValueListenableBuilder(
+        if (state is LeaderboardDataSuccessState) {
+          return Scaffold(
+            extendBody: true,
+            body: BackgroundGradient(
+              child: SafeArea(
+                bottom: false,
+                child: Column(
+                  children: [
+                    ExamSelector(),
+                    const SizedBox(height: 20),
+                    if (cubit.streaksLeaderboard.isEmpty) ...[LeaderboardEmptyWidget()],
+                    if (cubit.streaksLeaderboard.isNotEmpty) ...[
+                      _buildTabs(),
+                      const SizedBox(height: 30),
+                      ValueListenableBuilder(
                         valueListenable: selectedIndex,
                         builder: (context, value, child) {
-                          return RankListWidget(
+                          return PodiumWidget(
                             users: value == 0 ? cubit.scoreLeaderboard : cubit.streaksLeaderboard,
-                            isStreakMode: value == 1,
+                            streakData: value == 1,
                           );
                         },
                       ),
-                    ),
+                      Expanded(
+                        child: ValueListenableBuilder(
+                          valueListenable: selectedIndex,
+                          builder: (context, value, child) {
+                            return RankListWidget(
+                              users: value == 0 ? cubit.scoreLeaderboard : cubit.streaksLeaderboard,
+                              isStreakMode: value == 1,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ],
-                ],
+                ),
               ),
             ),
-          ),
-        );
+          );
+        }
+        if (state is ErrorState) {
+          return TryAgainWidget(onRetry: () => cubit.getInitialData(), message: 'Please try again');
+        }
+        return LeaderboardEmptyWidget();
       },
     );
   }
