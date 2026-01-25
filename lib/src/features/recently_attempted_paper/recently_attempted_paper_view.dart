@@ -98,15 +98,15 @@ class _RecentlyAttemptedPaperViewState extends State<RecentlyAttemptedPaperView>
                     sliver: SliverList(
                       delegate: SliverChildListDelegate([
                         _PaperHeaderCard(paper: paper, mixin: this),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 8),
                         _ScoreSummaryCard(paper: paper),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 8),
                         _PerformanceBreakdownCard(paper: paper),
                         if (paper.insights.accuracyByTopic.isNotEmpty) ...[
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 8),
                           _TopicInsightsCard(insights: paper.insights),
                         ],
-                        const SizedBox(height: 32),
+                        const SizedBox(height: 16),
                         GestureDetector(
                           onTap: () {
                             context.push(
