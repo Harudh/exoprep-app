@@ -37,9 +37,9 @@ class AttemptPaperViewModel {
 
       await Future.wait([_fetchPaperDetails(paperID), _fetchSubjects(examID), _fetchQuestions(paperID)], eagerError: false);
 
-      if (questionsData.value.isEmpty) {
+      /* if (questionsData.value.isEmpty) {
         throw Exception('No questions available for this paper');
-      }
+      }*/
 
       dataState.value = ViewModelState.success(
         data: {'paperDetail': paperDetails.value, 'subjects': subjectsData.value, 'questions': questionsData.value},

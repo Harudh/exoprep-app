@@ -11,7 +11,7 @@ class PapersService {
   }
 
   Future<ResponseModel> recentlyAttemptedPapers({required String query}) async {
-    final response = await _dioClient.get(AppEndpoints.recentAttempts(query));
+    final response = await _dioClient.get(AppEndpoints.getRecentAttempts(query));
     return ResponseModel.fromResponse(response);
   }
 
@@ -22,6 +22,11 @@ class PapersService {
 
   Future<ResponseModel> submitPaper({required Map<String, dynamic> data}) async {
     final response = await _dioClient.post(AppEndpoints.submitPaper, data: data);
+    return ResponseModel.fromResponse(response);
+  }
+
+  Future<ResponseModel> getRecentlyAttemptedPaper({required String attemptedPaperId}) async {
+    final response = await _dioClient.get(AppEndpoints.getRecentlyAttemptedPaper(attemptedPaperId));
     return ResponseModel.fromResponse(response);
   }
 }

@@ -27,3 +27,5 @@ enum QuestionStates {
   submissionSuccess,
   submissionError,
 }
+
+enum AttemptedPaperStates { idle, dataLoading, dataLoadedSuccess, dataLoadingError }

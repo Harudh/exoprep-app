@@ -18,7 +18,6 @@ mixin QuestionsMixin on State<QuestionsView> {
   }
 
   Future<void> _autoSubmitPaper() async {
-    // Show auto-submit dialog
     showDialog(context: context, barrierDismissible: false, builder: (context) => const _AutoSubmitDialog());
 
     try {
@@ -28,7 +27,7 @@ mixin QuestionsMixin on State<QuestionsView> {
 
       if (!mounted) return;
 
-      Navigator.of(context).pop(); // Close auto-submit dialog
+      Navigator.of(context).pop();
 
       final state = viewModel.questionsState.value;
       if (state.status == ViewModelStatus.success && state.type == QuestionStates.submissionSuccess) {

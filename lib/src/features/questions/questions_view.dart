@@ -44,7 +44,7 @@ class _QuestionsViewState extends State<QuestionsView> with QuestionsMixin {
       builder: (BuildContext dialogContext) {
         return _QuitPaperDialog(
           attemptedCount: viewModel.attemptedCount,
-          totalQuestions: widget.questions.length, // Correct total
+          totalQuestions: widget.questions.length,
         );
       },
     );

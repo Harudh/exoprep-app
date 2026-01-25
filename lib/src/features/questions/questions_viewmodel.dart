@@ -1,4 +1,4 @@
-import 'package:root/src/models/question_model/attempted_question_model.dart';
+import 'package:root/src/models/question_model/attempted_question_response_model.dart';
 import 'package:root/src/models/question_model/paper_submission.dart';
 import 'package:root/src/models/question_model/question_model.dart';
 import 'package:root/src/core/common/state/viewmodel_state.dart';
@@ -14,12 +14,12 @@ class QuestionsViewModel {
 
   // ==================== DEBUG CONFIGURATION ====================
   // Set to true for testing with shorter timer
-  static const bool _debugMode = false; // Change to false for production
+  static const bool _debugMode = false;
 
   // Alternatively, use different test durations:
-  static const int _debugTimerSeconds = 30; // 30 seconds
-  // static const int _debugTimerSeconds = 60;  // 1 minute
-  // static const int _debugTimerSeconds = 300; // 5 minutes
+  static const int _debugTimerSeconds = 30;
+  // static const int _debugTimerSeconds = 60;
+  // static const int _debugTimerSeconds = 300;
   // ============================================================
 
   QuestionsViewModel({PapersRepository? papersRepository}) : _papersRepository = papersRepository ?? PapersRepository();
@@ -53,10 +53,8 @@ class QuestionsViewModel {
       return;
     }
 
-    // Start tracking test time
     testStartTime = DateTime.now();
 
-    // Initialize countdown timer with debug override
     if (_debugMode) {
       remainingSeconds.value = _debugTimerSeconds;
       debugPrint('⚠️ DEBUG MODE ACTIVE ⚠️');
@@ -78,7 +76,6 @@ class QuestionsViewModel {
       if (remainingSeconds.value > 0) {
         remainingSeconds.value--;
 
-        // Debug logging for last 10 seconds
         if (_debugMode && remainingSeconds.value <= 10) {
           debugPrint('⏱️ Timer: ${remainingSeconds.value} seconds remaining');
         }
@@ -86,7 +83,6 @@ class QuestionsViewModel {
         timer.cancel();
         debugPrint('⏰ Timer ended - triggering auto-submit');
 
-        // Auto-submit when timer ends
         if (onTimerEnd != null) {
           onTimerEnd!();
         }
@@ -109,7 +105,6 @@ class QuestionsViewModel {
   }
 
   bool get isTimerCritical {
-    // In debug mode with short timer, make last 5 seconds critical
     if (_debugMode && _debugTimerSeconds <= 30) {
       return remainingSeconds.value <= 5;
     }
@@ -205,7 +200,7 @@ class QuestionsViewModel {
     }
   }
 
-  AttemptedQuestions prepareSubmissionData(String paperId, List<Question> allQuestions) {
+  AttemptedQuestionsResponse prepareSubmissionData(String paperId, List<Question> allQuestions) {
     final List<AttemptedQuestion> attemptedQuestions = allQuestions.map((question) {
       if (question.answer != null && question.answer!.isNotEmpty) {
         return AttemptedQuestion(
@@ -226,7 +221,7 @@ class QuestionsViewModel {
       }
     }).toList();
 
-    return AttemptedQuestions(paperId: paperId, questions: attemptedQuestions);
+    return AttemptedQuestionsResponse(paperId: paperId, questions: attemptedQuestions);
   }
 
   PaperSubmission prepareApiSubmissionData(String paperId, List<Question> allQuestions) {
@@ -256,7 +251,7 @@ class QuestionsViewModel {
     );
   }
 
-  AttemptedQuestions prepareLocalResultData(String paperId, List<Question> allQuestions) {
+  AttemptedQuestionsResponse prepareLocalResultData(String paperId, List<Question> allQuestions) {
     final attemptedQuestions = allQuestions.map((question) {
       if (question.answer != null && question.answer!.isNotEmpty) {
         return AttemptedQuestion(
@@ -277,7 +272,7 @@ class QuestionsViewModel {
       }
     }).toList();
 
-    return AttemptedQuestions(paperId: paperId, questions: attemptedQuestions);
+    return AttemptedQuestionsResponse(paperId: paperId, questions: attemptedQuestions);
   }
 
   Future<void> submitPaper(String paperId, List<Question> allQuestions) async {

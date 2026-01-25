@@ -1,4 +1,4 @@
-import 'package:root/src/models/question_model/attempted_question_model.dart';
+import 'package:root/src/models/question_model/attempted_question_response_model.dart';
 import 'package:root/src/models/question_model/question_model.dart';
 import 'package:root/src/models/subject_model/subject_model.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
@@ -18,7 +18,7 @@ class PaperResultView extends StatefulWidget {
   final Paper paper;
   final List<Subject> subjects;
   final List<Question> questions;
-  final AttemptedQuestions attemptedQuestions;
+  final AttemptedQuestionsResponse attemptedQuestions;
 
   @override
   State<PaperResultView> createState() => _PaperResultViewState();

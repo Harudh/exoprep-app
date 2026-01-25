@@ -17,10 +17,13 @@ import 'package:root/src/features/attempt_paper/attempt_paper_view.dart';
 import 'package:root/src/features/authentication/authentication_view.dart';
 import 'package:root/src/features/exam_dashboard/exam_dashboard_view.dart';
 import 'package:root/src/features/profile/view/screens/profile_screen.dart';
-import 'package:root/src/models/question_model/attempted_question_model.dart';
+import 'package:root/src/models/paper_model/recently_attempted_paper_model.dart';
 import 'package:root/src/features/leaderboard/views/screen/leaderboard_screen.dart';
+import 'package:root/src/models/question_model/attempted_question_response_model.dart';
 import 'package:root/src/features/flash_cards/views/flash_cards_collection_screen.dart';
+import 'package:root/src/features/recently_attempted_paper/recently_attempted_paper_view.dart';
 import 'package:root/src/features/flash_cards/subfeatures/decks_view/view/decks_list_screen.dart';
+import 'package:root/src/features/recently_attempted_questions/recently_attempted_questions_view.dart';
 import 'package:root/src/features/flash_cards/subfeatures/cards_list_view/view/cards_list_screen.dart';
 import 'package:root/src/features/flash_cards/subfeatures/create_flash_card/view/create_flash_cards_screen.dart';
 
@@ -131,10 +134,39 @@ final router = GoRouter(
         final paper = params['paper'] as Paper;
         final subjects = params['subjects'] as List<Subject>;
         final questions = params['questions'] as List<Question>;
-        final attemptedQuestions = params['attempted_questions'] as AttemptedQuestions;
+        final attemptedQuestions = params['attempted_questions'] as AttemptedQuestionsResponse;
 
         return AppRouteTransition.slideFromBottom(
           child: PaperResultView(paper: paper, subjects: subjects, questions: questions, attemptedQuestions: attemptedQuestions),
+          key: state.pageKey,
+        );
+      },
+    ),
+
+    /* Attempted Papers */
+    GoRoute(
+      path: AppRoute.recentlyAttemptedPaper.path,
+      name: AppRoute.recentlyAttemptedPaper.name,
+      pageBuilder: (context, state) {
+        final data = state.extra as Map<String, dynamic>;
+        final attemptedPaperId = data['attempted_paper_id'] as String;
+        final paperId = data['paper_id'] as String;
+        return AppRouteTransition.slideFromRight(
+          child: RecentlyAttemptedPaperView(recentlyAttemptedPaperId: attemptedPaperId, paperId: paperId),
+          key: state.pageKey,
+        );
+      },
+    ),
+
+    GoRoute(
+      path: AppRoute.recentlyAttemptedQuestions.path,
+      name: AppRoute.recentlyAttemptedQuestions.name,
+      pageBuilder: (context, state) {
+        final data = state.extra as Map<String, dynamic>;
+        final recentlyAttemptedPaper = data['recentlyAttemptedPaper'] as RecentlyAttemptedPaper;
+        final questions = data['questions'] as List<Question>;
+        return AppRouteTransition.slideFromRight(
+          child: RecentlyAttemptedQuestionsView(recentlyAttemptedPaper: recentlyAttemptedPaper, questions: questions),
           key: state.pageKey,
         );
       },

@@ -171,7 +171,7 @@ class _PapersLoadingWidgetState extends State<_PapersLoadingWidget> with SingleT
                   stops: [0.0, _controller.value, 1.0],
                   colors: isDark
                       ? [Colors.transparent, Colors.white.withValues(alpha: 0.05), Colors.transparent]
-                      : [Colors.transparent, Colors.white.withValues(alpha: 0.6), Colors.transparent],
+                      : [Colors.transparent, Colors.white.withValues(alpha: 0.1), Colors.transparent],
                 ),
               ),
               child: child,

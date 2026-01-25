@@ -58,27 +58,273 @@ class _AttemptPaperViewState extends State<AttemptPaperView> with AttemptPaperMi
   }
 }
 
-class _LoadingView extends StatelessWidget {
+class _LoadingView extends StatefulWidget {
   const _LoadingView();
+
+  @override
+  State<_LoadingView> createState() => _LoadingViewState();
+}
+
+class _LoadingViewState extends State<_LoadingView> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDarkMode;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Test Overview'), centerTitle: true),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(color: AppColors.primaryColor),
-            const SizedBox(height: 16),
-            Text(
-              'Loading test overview...',
-              style: TextStyle(fontSize: 14, color: isDark ? const Color(0xFF9CA3AF) : const Color(0xFF6B7280)),
+      body: Stack(
+        children: [
+          CustomScrollView(
+            slivers: [
+              // App Bar Shimmer
+              SliverAppBar(
+                backgroundColor: Colors.transparent,
+                expandedHeight: 120,
+                floating: false,
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  title: _skeletonBlock(
+                    width: 120,
+                    height: 18,
+                    isDark: isDark,
+                    borderRadius: 4,
+                  ),
+                  centerTitle: true,
+                  titlePadding: const EdgeInsets.only(bottom: 16),
+                ),
+              ),
+
+              // Content Shimmer
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Header Card Shimmer
+                      _buildShimmerCard(
+                        isDark: isDark,
+                        padding: const EdgeInsets.only(left: 20, right: 30, top: 18, bottom: 24),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _skeletonBlock(width: 200, height: 24, isDark: isDark),
+                            const SizedBox(height: 8),
+                            _skeletonBlock(width: 250, height: 14, isDark: isDark),
+                            const SizedBox(height: 16),
+                            ...[
+                              _buildDetailRowShimmer(isDark: isDark),
+                              const SizedBox(height: 8),
+                              _buildDetailRowShimmer(isDark: isDark),
+                              const SizedBox(height: 8),
+                              _buildDetailRowShimmer(isDark: isDark),
+                              const SizedBox(height: 8),
+                              _buildDetailRowShimmer(isDark: isDark),
+                              const SizedBox(height: 8),
+                              _buildDetailRowShimmer(isDark: isDark),
+                            ],
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: 24),
+
+                      // Section Title Shimmer
+                      _skeletonBlock(width: 160, height: 20, isDark: isDark),
+                      const SizedBox(height: 16),
+
+                      // Instruction Cards Shimmer
+                      ...[
+                        _buildInstructionCardShimmer(isDark: isDark),
+                        const SizedBox(height: 12),
+                        _buildInstructionCardShimmer(isDark: isDark),
+                        const SizedBox(height: 12),
+                        _buildInstructionCardShimmer(isDark: isDark),
+                        const SizedBox(height: 12),
+                        _buildInstructionCardShimmer(isDark: isDark),
+                      ],
+
+                      const SizedBox(height: 100),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          // Floating Button Shimmer
+          Positioned(
+            left: 16,
+            right: 16,
+            bottom: 16,
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (context, _) {
+                return Container(
+                  height: 56,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      stops: [0.0, _controller.value, 1.0],
+                      colors: isDark
+                          ? [
+                        Colors.grey.shade800,
+                        Colors.grey.shade700,
+                        Colors.grey.shade800,
+                      ]
+                          : [
+                        Colors.grey.shade300,
+                        Colors.grey.shade200,
+                        Colors.grey.shade300,
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
-          ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildShimmerCard({
+    required bool isDark,
+    required Widget child,
+    EdgeInsets padding = const EdgeInsets.all(16),
+  }) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, _) {
+        return Container(
+          padding: padding,
+          decoration: BoxDecoration(
+            color: isDark ? const Color(0xFF1A1A1A) : Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: isDark ? const Color(0xFF2A2A2A) : const Color(0xFFE5E7EB),
+            ),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: [0.0, _controller.value, 1.0],
+              colors: isDark
+                  ? [
+                Colors.transparent,
+                Colors.white.withValues(alpha: 0.03),
+                Colors.transparent,
+              ]
+                  : [
+                Colors.transparent,
+                Colors.white.withValues(alpha: 0.1),
+                Colors.transparent,
+              ],
+            ),
+          ),
+          child: child,
+        );
+      },
+    );
+  }
+
+  Widget _buildDetailRowShimmer({required bool isDark}) {
+    return Row(
+      children: [
+        _skeletonBlock(width: 20, height: 20, isDark: isDark, borderRadius: 4),
+        const SizedBox(width: 12),
+        Expanded(
+          child: _skeletonBlock(width: double.infinity, height: 14, isDark: isDark),
         ),
+        const SizedBox(width: 12),
+        _skeletonBlock(width: 60, height: 14, isDark: isDark),
+      ],
+    );
+  }
+
+  Widget _buildInstructionCardShimmer({required bool isDark}) {
+    return _buildShimmerCard(
+      isDark: isDark,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              const SizedBox(width: 12),
+              _skeletonBlock(width: 140, height: 16, isDark: isDark),
+            ],
+          ),
+          const SizedBox(height: 12),
+          ...[
+            _buildBulletPointShimmer(isDark: isDark),
+            const SizedBox(height: 8),
+            _buildBulletPointShimmer(isDark: isDark),
+            const SizedBox(height: 8),
+            _buildBulletPointShimmer(isDark: isDark),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBulletPointShimmer({required bool isDark}) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(top: 6),
+          width: 6,
+          height: 6,
+          decoration: BoxDecoration(
+            color: isDark ? Colors.grey.shade700 : Colors.grey.shade300,
+            shape: BoxShape.circle,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: _skeletonBlock(width: double.infinity, height: 14, isDark: isDark),
+        ),
+      ],
+    );
+  }
+
+  Widget _skeletonBlock({
+    required double width,
+    required double height,
+    required bool isDark,
+    double borderRadius = 4,
+  }) {
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        color: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
+        borderRadius: BorderRadius.circular(borderRadius),
       ),
     );
   }
@@ -105,7 +351,7 @@ class _ErrorView extends StatelessWidget {
               Icon(Icons.error_outline, size: 64, color: Colors.red.withValues(alpha: 0.7)),
               const SizedBox(height: 16),
               Text(
-                'Failed to load test',
+                '${message} ?? Failed to load test',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,

@@ -108,48 +108,53 @@ class _RecentTestCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final timeDisplay = _getTimeAgo(attempt.completedAt);
 
-    return Container(
-      width: 200,
-      margin: const EdgeInsets.only(right: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: context.isDarkMode ? Colors.grey.shade900 : Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            attempt.paper.name,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: context.bodyLarge!.copyWith(fontWeight: FontWeight.w600, letterSpacing: -0.3),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'Score: ${attempt.percentage.toStringAsFixed(1)}%',
-            style: context.bodySmall!.copyWith(
-              color: attempt.percentage >= 50 ? Colors.green : Colors.orange,
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
+    return GestureDetector(
+      onTap: () => context.push(AppRoute.recentlyAttemptedPaper.path, extra: {
+        'attempted_paper_id': attempt.id,
+        'paper_id': attempt.paper.id,
+      }),
+      child: Container(
+        width: 200,
+        margin: const EdgeInsets.only(right: 12),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: context.isDarkMode ? Colors.grey.shade900 : Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              attempt.paper.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.bodyLarge!.copyWith(fontWeight: FontWeight.w600, letterSpacing: -0.3),
             ),
-          ),
-          const Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(timeDisplay, style: context.bodySmall!.copyWith(color: Colors.grey.shade600, fontSize: 10)),
-              Text('${attempt.score} pts', style: context.bodySmall!.copyWith(color: Colors.grey.shade600, fontSize: 10)),
-            ],
-          ),
-        ],
+            const SizedBox(height: 4),
+            Text(
+              'Score: ${attempt.percentage.toStringAsFixed(1)}%',
+              style: context.bodySmall!.copyWith(
+                color: attempt.percentage >= 50 ? Colors.green : Colors.orange,
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(timeDisplay, style: context.bodySmall!.copyWith(color: Colors.grey.shade600, fontSize: 10)),
+                Text('${attempt.score} pts', style: context.bodySmall!.copyWith(color: Colors.grey.shade600, fontSize: 10)),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-// Optional: Helper for empty state
 class _NoRecentDataWidget extends StatelessWidget {
   const _NoRecentDataWidget();
   @override
@@ -188,7 +193,7 @@ class _RecentsLoadingWidgetState extends State<_RecentsLoadingWidget> with Singl
     final isDark = context.isDarkMode;
 
     return SizedBox(
-      height: 120, // Adjusted height to match the "heavier" feel
+      height: 120,
       child: ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: ExamDashboardView.horizontalPadding),
         scrollDirection: Axis.horizontal,
@@ -199,7 +204,7 @@ class _RecentsLoadingWidgetState extends State<_RecentsLoadingWidget> with Singl
             animation: _controller,
             builder: (context, child) {
               return Container(
-                width: 210, // Matching the width used in your data cards
+                width: 210,
                 margin: const EdgeInsets.only(right: 12),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -211,8 +216,8 @@ class _RecentsLoadingWidgetState extends State<_RecentsLoadingWidget> with Singl
                     end: Alignment.bottomRight,
                     stops: [0.0, _controller.value, 1.0],
                     colors: isDark
-                        ? [Colors.transparent, Colors.white.withOpacity(0.05), Colors.transparent]
-                        : [Colors.transparent, Colors.white.withOpacity(0.6), Colors.transparent],
+                        ? [Colors.transparent, Colors.white.withValues(alpha: 0.05), Colors.transparent]
+                        : [Colors.transparent, Colors.white.withValues(alpha: 0.1), Colors.transparent],
                   ),
                 ),
                 child: child,

@@ -1,8 +1,8 @@
-class AttemptedQuestions {
+class AttemptedQuestionsResponse {
   final String paperId;
   final List<AttemptedQuestion> questions;
 
-  AttemptedQuestions({required this.paperId, required this.questions});
+  AttemptedQuestionsResponse({required this.paperId, required this.questions});
 
   Map<String, dynamic> toJson() {
     return {'paper_id': paperId, 'questions': questions.map((q) => q.toJson()).toList()};

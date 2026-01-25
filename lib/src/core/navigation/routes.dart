@@ -28,6 +28,10 @@ enum AppRoute {
   questions('/questions'),
   paperResult('/paperResult'),
 
+  /* Recently Attempted Paper */
+  recentlyAttemptedPaper('/recentlyAttemptedPaper'),
+  recentlyAttemptedQuestions('/recentlyAttemptedQuestions'),
+
   /* Productivity */
   createProjectForm('/createProjectForm');
 
