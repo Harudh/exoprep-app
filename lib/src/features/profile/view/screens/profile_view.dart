@@ -26,7 +26,7 @@ class _ProfileViewState extends State<ProfileView> {
             children: [
               const ProfileHeader(),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

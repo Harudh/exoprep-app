@@ -27,7 +27,7 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
             // Header
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 64, 20, 0),
+                padding: const EdgeInsets.fromLTRB(8, 64, 8, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -67,7 +67,7 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
             // My Exams Section
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Text("Exams", style: context.titleMedium!.copyWith(fontWeight: FontWeight.w700, letterSpacing: -0.5)),
               ),
             ),
@@ -80,7 +80,7 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
                   valueListenable: _homeViewmodel.userExams,
                   builder: (context, value, child) {
                     return ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
                       scrollDirection: Axis.horizontal,
                       itemCount: _homeViewmodel.userExams.value.length + 1,
                       itemBuilder: (context, index) {
@@ -171,7 +171,7 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
                   delegate: SliverChildBuilderDelegate((context, index) {
                     final List<Exam> exam = _homeViewmodel.popularExams.value;
                     return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+                      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: context.isDarkMode ? Colors.grey.shade900 : Colors.white,
