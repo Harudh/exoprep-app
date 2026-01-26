@@ -1,3 +1,4 @@
+import 'package:root/src/models/streak_heatmap_model/streak_heatmap.dart';
 import 'package:root/src/models/paper_model/attempted_paper_model.dart';
 import 'package:root/src/models/paper_model/paper_details_model.dart';
 import 'package:root/src/core/exceptions/network_exception.dart';
@@ -47,6 +48,16 @@ class PapersRepository {
     try {
       final response = await _papersService.submitPaper(data: data);
       log('Paper Submit Response: $response');
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    }
+  }
+
+  Future<StreakHeatmapModel> getStreakHeatmap({required String examId, required String query}) async {
+    try {
+      final response = await _papersService.getStreakHeatmap(examId: examId, query: query);
+      final streakJson = response.data!;
+      return StreakHeatmapModel.fromJson(streakJson);
     } on DioException catch (e) {
       throw NetworkException.fromDioError(e);
     }

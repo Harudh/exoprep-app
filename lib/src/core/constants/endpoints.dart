@@ -25,6 +25,8 @@ class AppEndpoints {
 
   static String getRecentlyAttemptedPaper(String attemptedPaperId) => '$baseURL/api/v1/quiz/attempts/$attemptedPaperId';
 
+  static String getStreakHeatmap(String examId, String query) => '$baseURL/api/v1/leaderboard/exam/$examId/heatmap?$query';
+
   /*----------------- Subjects Endpoints -------------------*/
   static String getSubjects(String query) => '$baseURL/api/v1/subjects?$query';
 

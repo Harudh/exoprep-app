@@ -8,6 +8,7 @@ import 'package:root/src/models/paper_model/paper_model.dart';
 import 'package:root/src/core/navigation/routes.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+import 'package:root/src/models/streak_heatmap_model/streak_heatmap.dart';
 
 part 'widgets/practice_papers_section.dart';
 part 'widgets/exam_dashboard_header.dart';
