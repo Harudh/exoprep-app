@@ -1,10 +1,14 @@
 import 'package:root/src/core/common/ui/widgets/background_gradient.dart';
-import 'package:root/src/core/common/ui/widgets/theme_toggle_switch.dart';
+import 'package:root/src/core/extensions/app_scope_extension.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
-import 'package:root/src/core/navigation/routes.dart';
-import 'package:root/src/core/theme/colors.dart';
+import 'package:root/src/features/home/user_exam_container.dart';
+import 'package:root/src/features/home/user_exms_shimmer.dart';
+import 'package:root/src/features/home/home_viewmodel.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:root/src/models/exam_model/exam_model.dart';
+
+part 'home_mixin.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -13,33 +17,10 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
-  final List<Map<String, dynamic>> myExams = [
-    {'name': 'JEE Mains', 'color': const Color(0xFF6366F1), 'icon': Icons.engineering},
-    {'name': 'NEET', 'color': const Color(0xFFEC4899), 'icon': Icons.medical_services},
-    {'name': 'GATE', 'color': const Color(0xFF8B5CF6), 'icon': Icons.computer},
-    {'name': 'CAT', 'color': const Color(0xFF10B981), 'icon': Icons.school},
-  ];
-
-  final List<Map<String, dynamic>> popularExams = [
-    {'name': 'JEE Main 2026', 'date': 'Apr 2026', 'enrolled': '2.4M'},
-    {'name': 'NEET UG 2026', 'date': 'May 2026', 'enrolled': '1.8M'},
-    {'name': 'GATE 2026', 'date': 'Feb 2026', 'enrolled': '950K'},
-    // {'name': 'CAT 2025', 'date': 'Nov 2025', 'enrolled': '340K'},
-    // {'name': 'UPSC CSE 2026', 'date': 'Jun 2026', 'enrolled': '1.1M'},
-  ];
-
-  final List<Map<String, dynamic>> todos = [
-    {'task': 'Physics: Thermodynamics revision', 'completed': false},
-    {'task': 'Chemistry: Practice redox reactions', 'completed': false},
-    {'task': 'Math: Complete trigonometry exercises', 'completed': true},
-    {'task': 'Take weekly mock test', 'completed': false},
-  ];
-
+class _HomeViewState extends State<HomeView> with HomeMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: const ThemeToggleSwitch(),
       body: BackgroundGradient(
         child: CustomScrollView(
           slivers: [
@@ -95,171 +76,54 @@ class _HomeViewState extends State<HomeView> {
             SliverToBoxAdapter(
               child: SizedBox(
                 height: 225,
-                child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: myExams.length + 1,
-                  itemBuilder: (context, index) {
-                    final screenWidth = MediaQuery.of(context).size.width;
-                    final cardWidth = screenWidth * 0.9;
+                child: ValueListenableBuilder(
+                  valueListenable: _homeViewmodel.userExams,
+                  builder: (context, value, child) {
+                    return ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _homeViewmodel.userExams.value.length + 1,
+                      itemBuilder: (context, index) {
+                        final screenWidth = MediaQuery.of(context).size.width;
+                        final cardWidth = screenWidth * 0.9;
 
-                    if (index == myExams.length) {
-                      return Container(
-                        width: cardWidth,
-                        margin: const EdgeInsets.only(left: 12),
-                        decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300, width: 1.5),
-                        ),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.add_circle_outline, size: 36, color: Colors.grey.shade400),
-                              const SizedBox(height: 12),
-                              Text(
-                                "Add New Exam",
-                                style: context.titleMedium!.copyWith(color: Colors.grey.shade600, fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }
+                        if (_homeViewmodel.userExams.value.isEmpty) {
+                          return ExamCardShimmer(width: cardWidth);
+                        }
 
-                    const totalPapers = 60;
-                    final exam = myExams[index];
-                    final papersGiven = 28 + (index * 4);
-                    final accuracy = 85 - (index * 3);
-                    final rank = 980 - (index * 120);
-                    final streak = 15 + (index * 2);
-                    final progress = papersGiven / totalPapers;
-
-                    return GestureDetector(
-                      onTap: () {
-                        AppRoute.examDashboard.pushNested(context, AppRoute.home);
-                      },
-                      child: Container(
-                        width: cardWidth,
-                        margin: const EdgeInsets.only(right: 12),
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: context.isDarkMode ? Colors.grey.shade900 : Colors.white,
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  exam['name'] as String,
-                                  style: context.headlineSmall!.copyWith(fontWeight: FontWeight.w800, letterSpacing: -0.5),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                  decoration: BoxDecoration(
-                                    color: context.isDarkMode ? Colors.grey.shade900 : Colors.white,
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(color: context.isDarkMode ? Colors.grey.shade700 : Colors.grey.shade300),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.trending_up, size: 12, color: Colors.grey.shade600),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        "#$rank",
-                                        style: context.bodySmall!.copyWith(fontWeight: FontWeight.w700, fontSize: 11),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              "Competitive Engineering Examination",
-                              style: context.bodySmall!.copyWith(color: Colors.grey.shade600, fontSize: 12),
-                            ),
-                            const SizedBox(height: 16),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Progress", style: context.bodySmall!.copyWith(fontWeight: FontWeight.w600, fontSize: 12)),
-                                Text(
-                                  "$papersGiven/$totalPapers papers",
-                                  style: context.bodySmall!.copyWith(fontWeight: FontWeight.w700, fontSize: 12),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(4),
-                              child: LinearProgressIndicator(
-                                value: progress,
-                                backgroundColor: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade200,
-                                // color: context.isDarkMode ? Colors.white : Colors.black,
-                                color: AppColors.primaryColor,
-                                minHeight: 6,
+                        if (index == _homeViewmodel.userExams.value.length) {
+                          return Container(
+                            width: cardWidth,
+                            margin: const EdgeInsets.only(left: 12),
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300,
+                                width: 1.5,
                               ),
                             ),
-                            const Spacer(),
-                            Container(
-                              padding: const EdgeInsets.all(14),
-                              decoration: BoxDecoration(
-                                color: context.isDarkMode ? Colors.grey.shade900 : Colors.white,
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade200),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.check_circle_outline, size: 34, color: Colors.green),
-                                      const SizedBox(width: 6),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text("$accuracy%", style: context.bodyLarge!.copyWith(fontWeight: FontWeight.w800)),
-                                          Text(
-                                            "Accuracy",
-                                            style: context.bodySmall!.copyWith(color: Colors.grey.shade600, fontSize: 10),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    width: 1,
-                                    height: 30,
-                                    color: context.isDarkMode ? Colors.grey.shade700 : Colors.grey.shade300,
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.local_fire_department, size: 34, color: Colors.orange),
-                                      const SizedBox(width: 6),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text("$streak", style: context.bodyLarge!.copyWith(fontWeight: FontWeight.w800)),
-                                          Text(
-                                            "Day Streak",
-                                            style: context.bodySmall!.copyWith(color: Colors.grey.shade600, fontSize: 10),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                  Icon(Icons.add_circle_outline, size: 36, color: Colors.grey.shade400),
+                                  const SizedBox(height: 12),
+                                  Text(
+                                    "Add New Exam",
+                                    style: context.titleMedium!.copyWith(
+                                      color: Colors.grey.shade600,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
+                          );
+                        }
+
+                        return UserExamContainer(cardWidth: cardWidth, exam: _homeViewmodel.userExams.value[index]);
+                      },
                     );
                   },
                 ),
@@ -292,40 +156,53 @@ class _HomeViewState extends State<HomeView> {
             const SliverToBoxAdapter(child: SizedBox(height: 12)),
 
             // Popular Exams List
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                final exam = popularExams[index];
-                return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: context.isDarkMode ? Colors.grey.shade900 : Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              exam['name'] as String,
-                              style: context.bodyLarge!.copyWith(fontWeight: FontWeight.w600, letterSpacing: -0.3),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              "${exam['date']} • ${exam['enrolled']} students",
-                              style: context.bodySmall!.copyWith(color: Colors.grey.shade600, fontSize: 12),
-                            ),
-                          ],
-                        ),
+            ValueListenableBuilder(
+              valueListenable: _homeViewmodel.popularExams,
+              builder: (context, value, child) {
+                if (_homeViewmodel.popularExams.value.isEmpty) {
+                  return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => const PopularExamShimmer(),
+                      childCount: 5, // Show 5 skeleton rows
+                    ),
+                  );
+                }
+                return SliverList(
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    final List<Exam> exam = _homeViewmodel.popularExams.value;
+                    return Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: context.isDarkMode ? Colors.grey.shade900 : Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300),
                       ),
-                      Icon(Icons.chevron_right, color: Colors.grey.shade400),
-                    ],
-                  ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  exam[index].name,
+                                  style: context.bodyLarge!.copyWith(fontWeight: FontWeight.w600, letterSpacing: -0.3),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  "June • 1.5M students",
+                                  style: context.bodySmall!.copyWith(color: Colors.grey.shade600, fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(Icons.chevron_right, color: Colors.grey.shade400),
+                        ],
+                      ),
+                    );
+                  }, childCount: _homeViewmodel.popularExams.value.length),
                 );
-              }, childCount: popularExams.length),
+              },
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 24)),
           ],
