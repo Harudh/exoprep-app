@@ -1,5 +1,6 @@
 import 'package:root/src/features/authentication/authentication_viewmodel.dart';
 import 'package:root/src/features/exam_dashboard/exam_dashboard_viewmodel.dart';
+import 'package:root/src/features/home/home_viewmodel.dart';
 import 'package:root/src/features/productivity/productivity_viewmodel.dart';
 import 'package:root/src/repositories/productivity_project_repository.dart';
 import 'package:root/src/repositories/authentication_repository.dart';
@@ -34,11 +35,13 @@ class AppDI extends StatelessWidget {
     final authViewModel = AuthenticationViewModel(authRepository: authRepository, userRepository: userRepository);
     final productivityViewModel = ProductivityViewModel(productivityRepository: productivityProjectRepository);
     final examDashboardViewModel = ExamDashboardViewModel(papersRepository: papersRepository);
+    final homeViewModel = HomeViewmodel();
 
     return AppScope(
       authViewModel: authViewModel,
       productivityViewModel: productivityViewModel,
       examDashboardViewModel: examDashboardViewModel,
+      homeViewModel: homeViewModel,
       child: AuthListener(child: child),
     );
   }
