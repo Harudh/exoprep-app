@@ -11,7 +11,7 @@ class HomeService {
   }
 
   Future<ResponseModel> getLeafExams() async {
-    final response = await _dioClient.get(AppEndpoints.getExams);
+    final response = await _dioClient.get(AppEndpoints.getLeafExams());
     return ResponseModel.fromResponse(response);
   }
 }
