@@ -8,16 +8,15 @@ mixin HomeMixin on State<HomeView> {
 
     // Move the assignment here. This method is safe for context lookups.
     _homeViewmodel = context.homeViewModel;
+    // Keep the post-frame callback here for the initial fetch
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _homeViewmodel.fetchDashboardData();
+    });
   }
 
   @override
   void initState() {
     super.initState(); // Call super first
-
-    // Keep the post-frame callback here for the initial fetch
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _homeViewmodel.fetchDashboardData();
-    });
   }
 
   @override
