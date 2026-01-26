@@ -15,7 +15,6 @@ class StreakSection extends StatelessWidget {
             return _StreakLoadingWidget();
           }
 
-          // For error state, show widget with zero values
           if (state.status == ViewModelStatus.error) {
             return _StreakContentWidget(streakData: null);
           }
@@ -46,10 +45,12 @@ class _StreakContentWidgetState extends State<_StreakContentWidget> with SingleT
   late AnimationController _animationController;
   late Animation<double> _expandAnimation;
   late Animation<double> _iconRotation;
+  late int _selectedYear;
 
   @override
   void initState() {
     super.initState();
+    _selectedYear = DateTime.now().year;
     _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 250));
     _expandAnimation = CurvedAnimation(parent: _animationController, curve: Curves.easeInOutCubic);
     _iconRotation = Tween<double>(
@@ -75,6 +76,12 @@ class _StreakContentWidgetState extends State<_StreakContentWidget> with SingleT
     });
   }
 
+  List<int> _getAvailableYears() {
+    final currentYear = DateTime.now().year;
+    final startYear = widget.streakData?.streakStartDate.year ?? currentYear;
+    return List.generate(currentYear - startYear + 1, (index) => startYear + index).reversed.toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDarkMode;
@@ -96,7 +103,6 @@ class _StreakContentWidgetState extends State<_StreakContentWidget> with SingleT
       ),
       child: Column(
         children: [
-          // Main Streak Display
           Material(
             color: Colors.transparent,
             child: InkWell(
@@ -108,7 +114,6 @@ class _StreakContentWidgetState extends State<_StreakContentWidget> with SingleT
                   children: [
                     Row(
                       children: [
-                        // Current Streak
                         Expanded(
                           child: _MinimalStreakItem(
                             icon: Icons.local_fire_department_rounded,
@@ -119,17 +124,13 @@ class _StreakContentWidgetState extends State<_StreakContentWidget> with SingleT
                           ),
                         ),
 
-                        // Divider
                         Container(
                           width: 1,
                           height: 44,
                           margin: const EdgeInsets.symmetric(horizontal: 16),
-                          decoration: BoxDecoration(
-                           color: isDark ? Colors.grey.shade800: Colors.grey.shade200,
-                          ),
+                          color: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
                         ),
 
-                        // Longest Streak
                         Expanded(
                           child: _MinimalStreakItem(
                             icon: Icons.emoji_events_rounded,
@@ -141,12 +142,9 @@ class _StreakContentWidgetState extends State<_StreakContentWidget> with SingleT
                         ),
                       ],
                     ),
-                    SizedBox(height: 12),
 
                     if (hasData) ...[
                       const SizedBox(height: 14),
-
-                      // Expand Button
                       AnimatedBuilder(
                         animation: _iconRotation,
                         builder: (context, child) {
@@ -177,8 +175,6 @@ class _StreakContentWidgetState extends State<_StreakContentWidget> with SingleT
                       ),
                     ] else ...[
                       const SizedBox(height: 12),
-
-                      // No data message
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                         decoration: BoxDecoration(
@@ -217,7 +213,6 @@ class _StreakContentWidgetState extends State<_StreakContentWidget> with SingleT
             ),
           ),
 
-          // Expandable Heatmap Calendar (only if has data)
           if (hasData)
             SizeTransition(
               sizeFactor: _expandAnimation,
@@ -227,32 +222,71 @@ class _StreakContentWidgetState extends State<_StreakContentWidget> with SingleT
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 20),
                     height: 1,
-                    decoration: BoxDecoration(
-                      color: isDark ? Colors.grey.shade800: Colors.grey.shade200,
-                    ),
+                    color: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
+                    padding: const EdgeInsets.fromLTRB(16, 20, 16, 24),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Stats Row
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            _ActivityStat(label: 'Total Attempts', value: totalAttempts.toString(), isDark: isDark),
-                            const SizedBox(width: 20),
-                            _ActivityStat(label: 'Active Days', value: activeDays.toString(), isDark: isDark),
+                            Builder(
+                              builder: (BuildContext context) {
+                                return Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    onTap: () => _showYearPicker(context, isDark),
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                      decoration: BoxDecoration(
+                                        color: isDark ? Colors.grey.shade800 : Colors.grey.shade50,
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(color: isDark ? Colors.grey.shade800 : Colors.grey.shade200, width: 1),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            _selectedYear.toString(),
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w600,
+                                              color: isDark ? Colors.white : Colors.grey.shade900,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Icon(
+                                            Icons.arrow_drop_down_rounded,
+                                            color: isDark ? Colors.grey.shade400 : Colors.grey.shade700,
+                                            size: 20,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+
+                            Row(
+                              children: [
+                                _CompactStat(label: 'Total', value: totalAttempts.toString(), isDark: isDark),
+                                const SizedBox(width: 12),
+                                _CompactStat(label: 'Active', value: activeDays.toString(), isDark: isDark),
+                              ],
+                            ),
                           ],
                         ),
 
                         const SizedBox(height: 20),
 
-                        // Heatmap Calendar
-                        _ModernHeatmapCalendar(calendarData: calendarData, isDark: isDark),
+                        _GitHubStyleHeatmap(calendarData: calendarData, selectedYear: _selectedYear, isDark: isDark),
 
                         const SizedBox(height: 16),
 
-                        // Legend
                         _MinimalLegend(isDark: isDark),
                       ],
                     ),
@@ -262,6 +296,221 @@ class _StreakContentWidgetState extends State<_StreakContentWidget> with SingleT
             ),
         ],
       ),
+    );
+  }
+
+  void _showYearPicker(BuildContext context, bool isDark) {
+    final availableYears = _getAvailableYears();
+    final RenderBox button = context.findRenderObject() as RenderBox;
+    final RenderBox overlay = Navigator.of(context).overlay!.context.findRenderObject() as RenderBox;
+    final RelativeRect position = RelativeRect.fromRect(
+      Rect.fromPoints(
+        button.localToGlobal(Offset.zero, ancestor: overlay),
+        button.localToGlobal(button.size.bottomRight(Offset.zero), ancestor: overlay),
+      ),
+      Offset.zero & overlay.size,
+    );
+
+    showMenu<int>(
+      context: context,
+      position: position,
+      elevation: 8,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      color: isDark ? Colors.grey.shade900 : Colors.white,
+      constraints: const BoxConstraints(maxWidth: 160),
+      items: availableYears.map((year) {
+        final isSelected = year == _selectedYear;
+        return PopupMenuItem<int>(
+          value: year,
+          height: 44,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                year.toString(),
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                  color: isSelected
+                      ? (isDark ? Colors.white : Colors.grey.shade900)
+                      : (isDark ? Colors.grey.shade400 : Colors.grey.shade700),
+                ),
+              ),
+              if (isSelected) Icon(Icons.check_rounded, color: const Color(0xFF10B981), size: 18),
+            ],
+          ),
+        );
+      }).toList(),
+    ).then((selectedYear) {
+      if (selectedYear != null && selectedYear != _selectedYear) {
+        setState(() {
+          _selectedYear = selectedYear;
+        });
+      }
+    });
+  }
+}
+
+class _CompactStat extends StatelessWidget {
+  final String label;
+  final String value;
+  final bool isDark;
+
+  const _CompactStat({required this.label, required this.value, required this.isDark});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: isDark ? Colors.white : Colors.grey.shade900,
+            height: 1,
+          ),
+        ),
+        const SizedBox(width: 3),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 10,
+            fontWeight: FontWeight.w500,
+            color: isDark ? Colors.grey.shade500 : Colors.grey.shade600,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _GitHubStyleHeatmap extends StatelessWidget {
+  final Map<String, CalendarDayData> calendarData;
+  final int selectedYear;
+  final bool isDark;
+
+  const _GitHubStyleHeatmap({required this.calendarData, required this.selectedYear, required this.isDark});
+
+  Color _getIntensityColor(int attempts) {
+    if (attempts == 0) {
+      return isDark ? const Color(0xFF1A1A1A) : const Color(0xFFEBEDF0);
+    }
+
+    if (attempts >= 5) {
+      return const Color(0xFF0D9668);
+    } else if (attempts >= 3) {
+      return const Color(0xFF26A269);
+    } else if (attempts >= 2) {
+      return const Color(0xFF57D9A3);
+    } else {
+      return const Color(0xFF9BE9A8);
+    }
+  }
+
+  List<DateTime> _getYearDates() {
+    final startDate = DateTime(selectedYear, 1, 1);
+    final endDate = DateTime(selectedYear, 12, 31);
+    final daysDiff = endDate.difference(startDate).inDays + 1;
+
+    return List.generate(daysDiff, (index) => startDate.add(Duration(days: index)));
+  }
+
+  List<List<DateTime?>> _organizeIntoWeeks() {
+    final yearDates = _getYearDates();
+    final weeks = <List<DateTime?>>[];
+
+    final firstDate = yearDates.first;
+    final startWeekday = firstDate.weekday;
+
+    final firstWeek = List<DateTime?>.filled(7, null);
+    for (int i = startWeekday - 1; i < 7 && (i - startWeekday + 1) < yearDates.length; i++) {
+      firstWeek[i] = yearDates[i - startWeekday + 1];
+    }
+    weeks.add(firstWeek);
+
+    int currentIndex = 7 - startWeekday + 1;
+    while (currentIndex < yearDates.length) {
+      final week = <DateTime?>[];
+      for (int i = 0; i < 7; i++) {
+        if (currentIndex < yearDates.length) {
+          week.add(yearDates[currentIndex]);
+          currentIndex++;
+        } else {
+          week.add(null);
+        }
+      }
+      weeks.add(week);
+    }
+
+    return weeks;
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+  }
+
+  String _formatDateDisplay(DateTime date) {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return '${months[date.month - 1]} ${date.day}, ${date.year}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final weeks = _organizeIntoWeeks();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: weeks.map((week) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 2),
+                child: Column(
+                  children: week.map((date) {
+                    if (date == null) {
+                      return Container(width: 11, height: 11, margin: const EdgeInsets.only(bottom: 2));
+                    }
+
+                    final dateKey = _formatDate(date);
+                    final dayData = calendarData[dateKey];
+                    final attempts = dayData?.attempts ?? 0;
+                    final avgScore = dayData?.avgScore ?? 0.0;
+
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 2),
+                      child: Tooltip(
+                        message: attempts > 0
+                            ? '${_formatDateDisplay(date)}\n$attempts attempt${attempts > 1 ? 's' : ''}\nAvg: ${avgScore.toStringAsFixed(1)}'
+                            : '${_formatDateDisplay(date)}\nNo attempts',
+                        textStyle: const TextStyle(fontSize: 10, color: Colors.white),
+                        decoration: BoxDecoration(
+                          color: isDark ? Colors.grey.shade800 : Colors.grey.shade900,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Container(
+                          width: 11,
+                          height: 11,
+                          decoration: BoxDecoration(
+                            color: _getIntensityColor(attempts),
+                            borderRadius: BorderRadius.circular(2),
+                            border: attempts > 0
+                                ? null
+                                : Border.all(color: isDark ? Colors.grey.shade800 : Colors.grey.shade300, width: 0.5),
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -286,16 +535,12 @@ class _MinimalStreakItem extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Icon with gradient background
         Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(color: iconColor.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
           child: Icon(icon, color: iconColor, size: 24),
         ),
-
         const SizedBox(width: 12),
-
-        // Text Info
         Flexible(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -330,217 +575,6 @@ class _MinimalStreakItem extends StatelessWidget {
   }
 }
 
-class _ActivityStat extends StatelessWidget {
-  final String label;
-  final String value;
-  final bool isDark;
-
-  const _ActivityStat({required this.label, required this.value, required this.isDark});
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        decoration: BoxDecoration(
-          color: isDark ? Colors.grey.shade800 : Colors.grey.shade50,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: isDark ? Colors.grey.shade800 : Colors.grey.shade200, width: 1),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                color: isDark ? Colors.white : Colors.grey.shade900,
-                height: 1.2,
-              ),
-            ),
-            const SizedBox(height: 2),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w500,
-                color: isDark ? Colors.grey.shade500 : Colors.grey.shade600,
-                letterSpacing: 0.1,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ModernHeatmapCalendar extends StatelessWidget {
-  final Map<String, CalendarDayData> calendarData;
-  final bool isDark;
-
-  const _ModernHeatmapCalendar({required this.calendarData, required this.isDark});
-
-  Color _getIntensityColor(int attempts) {
-    if (attempts == 0) {
-      return isDark ? const Color(0xFF1A1A1A) : const Color(0xFFF5F5F5);
-    }
-
-    const baseColor = Color(0xFF10B981);
-
-    if (attempts >= 5) {
-      return baseColor;
-    } else if (attempts >= 3) {
-      return baseColor.withValues(alpha: 0.7);
-    } else if (attempts >= 2) {
-      return baseColor.withValues(alpha: 0.45);
-    } else {
-      return baseColor.withValues(alpha: 0.25);
-    }
-  }
-
-  List<DateTime> _getLast12Weeks() {
-    final today = DateTime.now();
-    return List.generate(84, (index) {
-      return today.subtract(Duration(days: 83 - index));
-    });
-  }
-
-  String _formatDate(DateTime date) {
-    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final last12Weeks = _getLast12Weeks();
-    final weeks = <List<DateTime>>[];
-
-    for (int i = 0; i < last12Weeks.length; i += 7) {
-      weeks.add(last12Weeks.sublist(i, i + 7 > last12Weeks.length ? last12Weeks.length : i + 7));
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: Row(children: _buildMonthLabels(last12Weeks)),
-        ),
-
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'].asMap().entries.map((entry) {
-                return Container(
-                  height: 14,
-                  padding: const EdgeInsets.only(right: 8, top: 2, bottom: 2),
-                  child: Text(
-                    entry.value,
-                    style: TextStyle(
-                      fontSize: 9,
-                      fontWeight: FontWeight.w500,
-                      color: isDark ? Colors.grey.shade600 : Colors.grey.shade500,
-                      height: 1,
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: weeks.map((week) {
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 3),
-                      child: Column(
-                        children: week.asMap().entries.map((entry) {
-                          final date = entry.value;
-                          final dateKey = _formatDate(date);
-                          final dayData = calendarData[dateKey];
-                          final attempts = dayData?.attempts ?? 0;
-                          final avgScore = dayData?.avgScore ?? 0.0;
-
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 3),
-                            child: Tooltip(
-                              message: attempts > 0
-                                  ? '${_formatDateDisplay(date)}\n$attempts attempt${attempts > 1 ? 's' : ''}\nAvg: ${avgScore.toStringAsFixed(1)}'
-                                  : '${_formatDateDisplay(date)}\nNo attempts',
-                              textStyle: const TextStyle(fontSize: 11, color: Colors.white),
-                              decoration: BoxDecoration(
-                                color: isDark ? Colors.grey.shade800 : Colors.grey.shade900,
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Container(
-                                width: 11,
-                                height: 11,
-                                decoration: BoxDecoration(
-                                  color: _getIntensityColor(attempts),
-                                  borderRadius: BorderRadius.circular(2.5),
-                                  border: attempts > 0
-                                      ? null
-                                      : Border.all(color: isDark ? Colors.grey.shade800 : Colors.grey.shade300, width: 0.5),
-                                ),
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  List<Widget> _buildMonthLabels(List<DateTime> days) {
-    final months = <String, int>{};
-    var currentMonth = '';
-
-    for (var i = 0; i < days.length; i += 7) {
-      final monthName = _getMonthName(days[i].month);
-      if (monthName != currentMonth) {
-        months[monthName] = i ~/ 7;
-        currentMonth = monthName;
-      }
-    }
-
-    return months.entries.map((entry) {
-      return Padding(
-        padding: EdgeInsets.only(left: entry.value * 14.0),
-        child: Text(
-          entry.key,
-          style: TextStyle(
-            fontSize: 10,
-            fontWeight: FontWeight.w600,
-            color: isDark ? Colors.grey.shade500 : Colors.grey.shade600,
-            letterSpacing: 0.3,
-          ),
-        ),
-      );
-    }).toList();
-  }
-
-  String _getMonthName(int month) {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return months[month - 1];
-  }
-
-  String _formatDateDisplay(DateTime date) {
-    return '${date.day} ${_getMonthName(date.month)} ${date.year}';
-  }
-}
-
 class _MinimalLegend extends StatelessWidget {
   final bool isDark;
 
@@ -554,44 +588,40 @@ class _MinimalLegend extends StatelessWidget {
         Text(
           'Less',
           style: TextStyle(
-            fontSize: 10,
+            fontSize: 9,
             fontWeight: FontWeight.w500,
             color: isDark ? Colors.grey.shade600 : Colors.grey.shade500,
             letterSpacing: 0.2,
           ),
         ),
-        const SizedBox(width: 6),
-        ...[0, 1, 2, 3, 5].map((attempts) {
+        const SizedBox(width: 4),
+        ...[
+          const Color(0xFFEBEDF0),
+          const Color(0xFF9BE9A8),
+          const Color(0xFF57D9A3),
+          const Color(0xFF26A269),
+          const Color(0xFF0D9668),
+        ].map((color) {
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 2),
+            padding: const EdgeInsets.symmetric(horizontal: 1.5),
             child: Container(
               width: 11,
               height: 11,
               decoration: BoxDecoration(
-                color: attempts == 0
-                    ? (isDark ? const Color(0xFF1A1A1A) : const Color(0xFFF5F5F5))
-                    : const Color(0xFF10B981).withValues(
-                        alpha: attempts == 1
-                            ? 0.25
-                            : attempts == 2
-                            ? 0.45
-                            : attempts == 3
-                            ? 0.7
-                            : 1.0,
-                      ),
-                borderRadius: BorderRadius.circular(2.5),
-                border: attempts == 0
+                color: isDark && color == const Color(0xFFEBEDF0) ? const Color(0xFF1A1A1A) : color,
+                borderRadius: BorderRadius.circular(2),
+                border: color == const Color(0xFFEBEDF0)
                     ? Border.all(color: isDark ? Colors.grey.shade800 : Colors.grey.shade300, width: 0.5)
                     : null,
               ),
             ),
           );
         }),
-        const SizedBox(width: 6),
+        const SizedBox(width: 4),
         Text(
           'More',
           style: TextStyle(
-            fontSize: 10,
+            fontSize: 9,
             fontWeight: FontWeight.w500,
             color: isDark ? Colors.grey.shade600 : Colors.grey.shade500,
             letterSpacing: 0.2,
@@ -615,12 +645,10 @@ class _StreakLoadingWidgetState extends State<_StreakLoadingWidget> with SingleT
   void initState() {
     super.initState();
     _shimmerController = AnimationController(vsync: this, duration: const Duration(milliseconds: 1500));
-
     _shimmerAnimation = Tween<double>(
       begin: -2.0,
       end: 2.0,
     ).animate(CurvedAnimation(parent: _shimmerController, curve: Curves.easeInOutSine));
-
     _shimmerController.repeat();
   }
 
@@ -670,19 +698,16 @@ class _StreakLoadingWidgetState extends State<_StreakLoadingWidget> with SingleT
         },
         child: Row(
           children: [
-            // Left Streak Item
             Expanded(
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Icon container
                   Container(
                     width: 44,
                     height: 44,
                     decoration: BoxDecoration(color: baseColor, borderRadius: BorderRadius.circular(12)),
                   ),
                   const SizedBox(width: 12),
-                  // Text shimmer
                   Flexible(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -704,34 +729,17 @@ class _StreakLoadingWidgetState extends State<_StreakLoadingWidget> with SingleT
                 ],
               ),
             ),
-
-            // Divider
-            Container(
-              width: 1,
-              height: 44,
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.transparent, isDark ? Colors.grey.shade700 : Colors.grey.shade300, Colors.transparent],
-                ),
-              ),
-            ),
-
-            // Right Streak Item
+            Container(width: 1, height: 44, margin: const EdgeInsets.symmetric(horizontal: 16), color: baseColor),
             Expanded(
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Icon container
                   Container(
                     width: 44,
                     height: 44,
                     decoration: BoxDecoration(color: baseColor, borderRadius: BorderRadius.circular(12)),
                   ),
                   const SizedBox(width: 12),
-                  // Text shimmer
                   Flexible(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
