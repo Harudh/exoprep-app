@@ -27,7 +27,7 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
             // Header
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(8, 64, 8, 0),
+                padding: const EdgeInsets.fromLTRB(12, 64, 12, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -67,7 +67,7 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
             // My Exams Section
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Text("Exams", style: context.titleMedium!.copyWith(fontWeight: FontWeight.w700, letterSpacing: -0.5)),
               ),
             ),
