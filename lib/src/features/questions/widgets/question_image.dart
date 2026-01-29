@@ -21,28 +21,36 @@ class _QuestionImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageBytes = _decodeBase64();
+    final brightness = Theme.of(context).brightness;
 
     if (imageBytes == null) {
       return const _ErrorImagePlaceholder();
     }
 
-    return RepaintBoundary(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey.withValues(alpha: 0.3), width: 1),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: Image.memory(
-            imageBytes,
-            fit: BoxFit.contain,
-            gaplessPlayback: true,
-            errorBuilder: (context, error, stackTrace) {
-              debugPrint('Error loading image: $error');
-              return const _ErrorImagePlaceholder();
-            },
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3), width: 1),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Image.memory(
+          imageBytes,
+
+          // 🔥 THIS IS THE IMPORTANT PART
+          key: ValueKey(brightness),
+
+          fit: BoxFit.contain,
+          gaplessPlayback: false,
+
+          // Optional: if you want tinting in dark mode
+          color: brightness == Brightness.dark ? Colors.white : null,
+          colorBlendMode: brightness == Brightness.dark ? BlendMode.srcIn : null,
+
+          errorBuilder: (context, error, stackTrace) {
+            debugPrint('Error loading image: $error');
+            return const _ErrorImagePlaceholder();
+          },
         ),
       ),
     );

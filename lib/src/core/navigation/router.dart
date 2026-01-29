@@ -187,8 +187,13 @@ final router = GoRouter(
               routes: [
                 GoRoute(
                   path: AppRoute.examDashboard.path,
-                  pageBuilder: (context, state) =>
-                      AppRouteTransition.slideFromRight(child: const ExamDashboardView(), key: state.pageKey),
+                  pageBuilder: (context, state) {
+                    final examId = state.extra as String;
+                    return AppRouteTransition.slideFromRight(
+                      child: ExamDashboardView(examID: examId),
+                      key: state.pageKey,
+                    );
+                  },
                 ),
               ],
             ),

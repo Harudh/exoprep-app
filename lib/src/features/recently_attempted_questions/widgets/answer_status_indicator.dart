@@ -7,7 +7,7 @@ class _AnswerStatusIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDarkMode;
 
     Color color;
     IconData icon;

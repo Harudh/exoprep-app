@@ -15,7 +15,7 @@ class _ReviewDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDarkMode;
     final dividerColor = isDark ? Colors.grey.shade800 : Colors.grey.shade200;
 
     return Drawer(
@@ -75,7 +75,7 @@ class _ReviewDrawer extends StatelessWidget {
 class _ReviewLegendSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDarkMode;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,7 +114,7 @@ class _LegendItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDarkMode;
 
     return Row(
       children: [
@@ -202,7 +202,7 @@ class _QuestionGridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDarkMode;
 
     Color backgroundColor;
     Color textColor;
@@ -277,7 +277,7 @@ class _ReviewStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDarkMode;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -294,25 +294,21 @@ class _ReviewStats extends StatelessWidget {
         _StatRow(
           label: 'Total Questions',
           value: '${recentlyAttemptedPaper.totalQuestions}',
-          isDark: isDark,
         ),
         const SizedBox(height: 8),
         _StatRow(
           label: 'Attempted',
           value: '${recentlyAttemptedPaper.attemptedCount}',
-          isDark: isDark,
         ),
         const SizedBox(height: 8),
         _StatRow(
           label: 'Time Taken',
           value: _formatDuration(recentlyAttemptedPaper.timeTaken),
-          isDark: isDark,
         ),
         const SizedBox(height: 8),
         _StatRow(
           label: 'Score',
           value: '${recentlyAttemptedPaper.score}',
-          isDark: isDark,
         ),
       ],
     );
@@ -323,15 +319,14 @@ class _StatRow extends StatelessWidget {
   const _StatRow({
     required this.label,
     required this.value,
-    required this.isDark,
   });
 
   final String label;
   final String value;
-  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
+    final isDark = context.isDarkMode;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

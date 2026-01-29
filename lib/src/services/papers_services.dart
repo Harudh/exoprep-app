@@ -29,4 +29,9 @@ class PapersService {
     final response = await _dioClient.get(AppEndpoints.getRecentlyAttemptedPaper(attemptedPaperId));
     return ResponseModel.fromResponse(response);
   }
+
+  Future<ResponseModel> getStreakHeatmap({required String examId, required String query}) async {
+    final response = await _dioClient.get(AppEndpoints.getStreakHeatmap(examId ,query));
+    return ResponseModel.fromResponse(response);
+  }
 }

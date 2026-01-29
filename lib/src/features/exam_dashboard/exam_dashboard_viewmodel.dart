@@ -1,3 +1,4 @@
+import 'package:root/src/models/streak_heatmap_model/streak_heatmap.dart';
 import 'package:root/src/models/paper_model/attempted_paper_model.dart';
 import 'package:root/src/core/common/state/viewmodel_state.dart';
 import 'package:root/src/models/paper_model/paper_model.dart';
@@ -23,23 +24,18 @@ class ExamDashboardViewModel {
   // Data notifiers
   final ValueNotifier<List<Paper>> pyqPapers = ValueNotifier([]);
   final ValueNotifier<List<Paper>> mockTestPapers = ValueNotifier([]);
-
-  // Future-ready notifiers for other sections
-  // final ValueNotifier<StreakData?> streakData = ValueNotifier(null);
-  // final ValueNotifier<ContinueProgress?> continueProgress = ValueNotifier(null);
+  final ValueNotifier<StreakHeatmapModel?> streakData = ValueNotifier(null); // Add this
   final ValueNotifier<List<AttemptedPaper>> recentlyAttemptedPapers = ValueNotifier([]);
 
   /// Fetch all dashboard data concurrently
   Future<void> fetchDashboardData({required String examID}) async {
     try {
-      // Execute all API calls in parallel using Future.wait
       await Future.wait([
         _fetchPYQPapers(examID),
         _fetchMockTestPapers(examID),
-        // _fetchStreakData(examID),
-        // _fetchContinueProgress(examID),
+        _fetchStreakData(examID), // Add this
         _fetchRecentlyCompleted(examID),
-      ], eagerError: false); // eagerError: false continues even if one fails
+      ], eagerError: false);
 
       AppLogs.info('All dashboard data fetched successfully');
     } catch (e) {
@@ -54,7 +50,6 @@ class ExamDashboardViewModel {
     try {
       final query = 'page=1&pageSize=5&exam_id=$examID&paperType=PYQ';
       final result = await _papersRepository.getPapers(query: query);
-      //await Future.delayed(Duration(seconds: 2));
 
       pyqPapers.value = result;
       pyqState.value = ViewModelState.success(data: result, type: ExamDashboardStates.practice.toString());
@@ -74,7 +69,6 @@ class ExamDashboardViewModel {
     try {
       final query = 'page=1&pageSize=5&exam_id=$examID&paperType=MOCK';
       final result = await _papersRepository.getPapers(query: query);
-      //await Future.delayed(Duration(seconds: 2));
 
       mockTestPapers.value = result;
       mockTestState.value = ViewModelState.success(data: result, type: ExamDashboardStates.practice.toString());
@@ -87,51 +81,21 @@ class ExamDashboardViewModel {
     }
   }
 
-  // Template methods for future APIs - uncomment when endpoints are ready
+  /// Fetch Streak Heatmap Data
+  Future<void> _fetchStreakData(String examID) async {
+    streakState.value = ViewModelState.loading(mode: ExamDashboardStates.streak.toString());
+    final query = '';
 
-  // Future<void> _fetchStreakData(String examID) async {
-  //   streakState.value = ViewModelState.loading(
-  //     mode: ExamDashboardStates.streak.toString()
-  //   );
-  //
-  //   try {
-  //     final result = await _papersRepository.getStreakData(examID: examID);
-  //     streakData.value = result;
-  //     streakState.value = ViewModelState.success(
-  //       data: result,
-  //       type: ExamDashboardStates.streak.toString()
-  //     );
-  //     AppLogs.info('Streak data fetched successfully');
-  //   } catch (e) {
-  //     AppLogs.warning("Error fetching streak data: $e");
-  //     streakState.value = ViewModelState.error(
-  //       error: e.toString(),
-  //       type: ExamDashboardStates.streak.toString()
-  //     );
-  //   }
-  // }
-
-  // Future<void> _fetchContinueProgress(String examID) async {
-  //   continueState.value = ViewModelState.loading(
-  //     mode: ExamDashboardStates.left.toString()
-  //   );
-  //
-  //   try {
-  //     final result = await _papersRepository.getContinueProgress(examID: examID);
-  //     continueProgress.value = result;
-  //     continueState.value = ViewModelState.success(
-  //       data: result,
-  //       type: ExamDashboardStates.left.toString()
-  //     );
-  //     AppLogs.info('Continue progress fetched successfully');
-  //   } catch (e) {
-  //     AppLogs.warning("Error fetching continue progress: $e");
-  //     continueState.value = ViewModelState.error(
-  //       error: e.toString(),
-  //       type: ExamDashboardStates.left.toString()
-  //     );
-  //   }
-  // }
+    try {
+      final result = await _papersRepository.getStreakHeatmap(examId: examID, query: query);
+      streakData.value = result;
+      streakState.value = ViewModelState.success(data: result, type: ExamDashboardStates.streak.toString());
+      AppLogs.info('Streak heatmap data fetched successfully');
+    } catch (e) {
+      AppLogs.warning("Error fetching streak data: $e");
+      streakState.value = ViewModelState.error(error: e.toString(), type: ExamDashboardStates.streak.toString());
+    }
+  }
 
   Future<void> _fetchRecentlyCompleted(String examID) async {
     recentsState.value = ViewModelState.loading(mode: ExamDashboardStates.recents.toString());
@@ -139,7 +103,6 @@ class ExamDashboardViewModel {
 
     try {
       final result = await _papersRepository.recentlyAttemptedPapers(query: query);
-      //await Future.delayed(Duration(seconds: 2));
       recentlyAttemptedPapers.value = result;
       recentsState.value = ViewModelState.success(data: result, type: ExamDashboardStates.recents.toString());
       AppLogs.info('Recently completed fetched successfully');
@@ -158,14 +121,9 @@ class ExamDashboardViewModel {
     await _fetchMockTestPapers(examID);
   }
 
-  // Future refresh methods for other sections
-  // Future<void> refreshStreakData(String examID) async {
-  //   await _fetchStreakData(examID);
-  // }
-
-  // Future<void> refreshContinueProgress(String examID) async {
-  //   await _fetchContinueProgress(examID);
-  // }
+  Future<void> refreshStreakData(String examID) async {
+    await _fetchStreakData(examID);
+  }
 
   Future<void> refreshRecentlyCompleted(String examID) async {
     await _fetchRecentlyCompleted(examID);
@@ -179,5 +137,7 @@ class ExamDashboardViewModel {
     mockTestState.dispose();
     pyqPapers.dispose();
     mockTestPapers.dispose();
+    streakData.dispose();
+    recentlyAttemptedPapers.dispose();
   }
 }

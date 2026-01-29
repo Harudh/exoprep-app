@@ -26,7 +26,7 @@ class UserExamContainer extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        AppRoute.examDashboard.pushNested(context, AppRoute.home);
+        AppRoute.examDashboard.pushNested(context, AppRoute.home, extra: exam.id,);
       },
       child: Container(
         width: cardWidth,

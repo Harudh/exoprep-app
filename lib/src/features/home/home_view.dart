@@ -4,9 +4,9 @@ import 'package:root/src/core/extensions/context_extension.dart';
 import 'package:root/src/features/home/user_exam_container.dart';
 import 'package:root/src/features/home/user_exms_shimmer.dart';
 import 'package:root/src/features/home/home_viewmodel.dart';
+import 'package:root/src/models/exam_model/exam_model.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:root/src/models/exam_model/exam_model.dart';
 
 part 'home_mixin.dart';
 
@@ -27,7 +27,7 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
             // Header
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(8, 64, 8, 0),
+                padding: const EdgeInsets.fromLTRB(12, 64, 12, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -67,7 +67,7 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
             // My Exams Section
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Text("Exams", style: context.titleMedium!.copyWith(fontWeight: FontWeight.w700, letterSpacing: -0.5)),
               ),
             ),
@@ -84,7 +84,7 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
                       scrollDirection: Axis.horizontal,
                       itemCount: _homeViewmodel.userExams.value.length + 1,
                       itemBuilder: (context, index) {
-                        final screenWidth = MediaQuery.of(context).size.width;
+                        final screenWidth = context.screenWidth;
                         final cardWidth = screenWidth * 0.9;
 
                         if (_homeViewmodel.userExams.value.isEmpty) {

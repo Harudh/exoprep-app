@@ -25,7 +25,7 @@ class ProfileTile extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(color: isDark ? const Color(0xFF1E1E1E) : Colors.white, borderRadius: BorderRadius.circular(16)),
+      decoration: BoxDecoration(color: isDark ? const Color(0xFF1E1E1E) : Colors.grey.shade100, borderRadius: BorderRadius.circular(16)),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
 

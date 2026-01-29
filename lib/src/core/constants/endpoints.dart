@@ -2,7 +2,7 @@ class AppEndpoints {
   AppEndpoints._();
 
   // static const String baseURL = 'http://3.109.221.178:5432';
-  static const String baseURL = 'http://localhost:4000';
+  static const String baseURL = 'https://exoprep-server.harudh.in';
 
   /*----------------- Auth Endpoints -------------------*/
   static String get user => '$baseURL/api/v1/users';
@@ -24,6 +24,8 @@ class AppEndpoints {
   static String getRecentAttempts(String query) => '$baseURL/api/v1/quiz/attempts?$query';
 
   static String getRecentlyAttemptedPaper(String attemptedPaperId) => '$baseURL/api/v1/quiz/attempts/$attemptedPaperId';
+
+  static String getStreakHeatmap(String examId, String query) => '$baseURL/api/v1/leaderboard/exam/$examId/heatmap?$query';
 
   /*----------------- Subjects Endpoints -------------------*/
   static String getSubjects(String query) => '$baseURL/api/v1/subjects?$query';

@@ -11,7 +11,7 @@ class _ReviewHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDarkMode;
     final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
@@ -89,7 +89,7 @@ class _ScoreBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDarkMode;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
