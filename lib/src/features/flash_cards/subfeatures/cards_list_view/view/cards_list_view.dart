@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:root/src/core/common/ui/widgets/background_gradient.dart';
-import 'package:root/src/core/common/ui/widgets/circle_button.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:root/src/core/navigation/router.dart';
 import 'package:root/src/core/navigation/routes.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
+import 'package:root/src/core/common/ui/widgets/circle_button.dart';
+import 'package:root/src/core/common/ui/widgets/background_gradient.dart';
 import 'package:root/src/features/flash_cards/subfeatures/cards_list_view/cubit/cards_list_view_cubit.dart';
 import 'package:root/src/features/flash_cards/subfeatures/cards_list_view/widgets/flash_cards_list_tile.dart';
 
@@ -59,7 +60,7 @@ class _CardsListViewState extends State<CardsListView> {
                   actions: [
                     Padding(
                       padding: const EdgeInsets.only(right: 12.0),
-                      child: Center(child: CircleButton(icon: Icons.more_vert)),
+                      child: Center(child: CircleButton(icon: IonIcons.notifications)),
                     ),
                   ],
                 ),
@@ -84,15 +85,19 @@ class _CardsListViewState extends State<CardsListView> {
               ],
             ),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              context.pushNamed(
-                AppRoute.createFlashCardsView.name,
-                extra: {'id': context.read<CardsListViewCubit>().decksId, 'name': widget.deckName},
-              );
-            },
-            shape: const CircleBorder(),
-            child: const Icon(Icons.add),
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.only(bottom: 100),
+            child: FloatingActionButton(
+              onPressed: () {
+                context.pushNamed(
+                  AppRoute.createFlashCardsView.name,
+                  extra: {'id': context.read<CardsListViewCubit>().decksId, 'name': widget.deckName},
+                );
+              },
+              shape: const CircleBorder(),
+              backgroundColor: context.isDarkMode ? Colors.white : Colors.black,
+              child: Icon(Icons.add, size: 30, color: context.isDarkMode ? Colors.black : Colors.white),
+            ),
           ),
         );
       },
