@@ -2,8 +2,10 @@ class Paper {
   final int year;
   final String id;
   final String name;
-  final ExamInPaper exam;
+  final bool isActive;
   final String paperType;
+  final ExamInPaper exam;
+  final String accessType;
   final String description;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -14,9 +16,11 @@ class Paper {
     required this.name,
     required this.exam,
     required this.year,
+    required this.isActive,
     required this.paperType,
     required this.createdAt,
     required this.updatedAt,
+    required this.accessType,
     required this.description,
     required this.durationInMinutes,
   });
@@ -25,8 +29,10 @@ class Paper {
     return Paper(
       year: json['year'] ?? 0,
       id: json['id']?.toString() ?? '',
+      isActive: json['isActive'] ?? false,
       name: json['name']?.toString() ?? '',
       durationInMinutes: json['duration'] ?? 0,
+      accessType: json['accessType'].toString(),
       paperType: json['paperType']?.toString() ?? '',
       description: json['description']?.toString() ?? '',
       exam: ExamInPaper.fromJson(json['exam'] as Map<String, dynamic>? ?? {}),
@@ -42,6 +48,7 @@ class Paper {
       'year': year,
       'exam': exam.toJson(),
       'paperType': paperType,
+      'accessType': accessType,
       'description': description,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
@@ -50,7 +57,7 @@ class Paper {
 
   @override
   String toString() {
-    return 'Paper(id: $id, name: $name, description: $description, exam: $exam, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Paper(id: $id, name: $name, description: $description, exam: $exam, createdAt: $createdAt, updatedAt: $updatedAt), accessType: $accessType';
   }
 }
 

@@ -188,9 +188,13 @@ final router = GoRouter(
                 GoRoute(
                   path: AppRoute.examDashboard.path,
                   pageBuilder: (context, state) {
-                    final examId = state.extra as String;
+                    final data = state.extra as Map<String, dynamic>;
+
+                    final examId = data['examid'] as String;
+                    final examName = data['examName'] as String;
+
                     return AppRouteTransition.slideFromRight(
-                      child: ExamDashboardView(examID: examId),
+                      child: ExamDashboardView(examID: examId, examName: examName),
                       key: state.pageKey,
                     );
                   },

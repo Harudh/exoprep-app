@@ -261,7 +261,13 @@ class _PaperCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        _showPaperOptionsDialog(context);
+        paper.accessType != 'FREE'
+            ? OverlayBannerService.show(
+                context,
+                title: 'Access Denied',
+                description: 'You need to have a premium plan to access this paper Please purchase one',
+              )
+            : _showPaperOptionsDialog(context);
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
@@ -288,7 +294,21 @@ class _PaperCard extends StatelessWidget {
                 ],
               ),
             ),
-            Icon(Icons.chevron_right, color: Colors.grey.shade400),
+            paper.accessType == "FREE"
+                ? IconButton(
+                    onPressed: () => _showPaperOptionsDialog(context),
+                    icon: Icon(Icons.chevron_right, color: Colors.grey.shade400),
+                  )
+                : IconButton(
+                    onPressed: () {
+                      OverlayBannerService.show(
+                        context,
+                        title: 'Access Denied',
+                        description: 'You need to have a premium plan to access this paper Please purchase one',
+                      );
+                    },
+                    icon: Icon(Icons.lock, color: Colors.grey.shade400),
+                  ),
           ],
         ),
       ),
