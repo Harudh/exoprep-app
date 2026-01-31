@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
 import 'package:root/src/core/theme/colors.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class Landing extends StatelessWidget {
   const Landing({
@@ -24,6 +24,8 @@ class Landing extends StatelessWidget {
     final isDark = context.isDarkMode;
 
     return Scaffold(
+      backgroundColor: Colors.transparent,
+      extendBody: true,
       body: navigationShell,
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),

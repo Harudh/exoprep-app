@@ -29,3 +29,5 @@ enum QuestionStates {
 }
 
 enum AttemptedPaperStates { idle, dataLoading, dataLoadedSuccess, dataLoadingError }
+
+enum PaperAccessStatus { free, paid }

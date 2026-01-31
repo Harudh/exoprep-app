@@ -21,7 +21,7 @@ class _ReviewOptionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDarkMode;
 
     Color borderColor;
     Color backgroundColor;

@@ -13,7 +13,8 @@ class HomeViewmodel {
 
   Future<void> fetchDashboardData() async {
     homeViewState.value = ViewModelState.loading();
-
+    popularExams.value = [];
+    userExams.value = [];
     try {
       // Execute all API calls in parallel using Future.wait
       await Future.wait([_fetchUserExams(), _fetchLeafExams()], eagerError: false);

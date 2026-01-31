@@ -28,7 +28,7 @@ class _ReviewQuestionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDarkMode;
     final isAttempted = _isAttempted();
 
     return Container(
@@ -79,7 +79,7 @@ class _ReviewQuestionCard extends StatelessWidget {
 class _NotAttemptedChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDarkMode;
     final color = isDark ? const Color(0xFF6B7280) : const Color(0xFF9CA3AF);
 
     return Container(
@@ -114,7 +114,7 @@ class _QuestionNumber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDarkMode;
     final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
@@ -252,7 +252,7 @@ class _ErrorImagePlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDarkMode;
     final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
@@ -291,7 +291,7 @@ class _ReviewNumericalAnswer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDarkMode;
 
     // Get user's attempted answer from response
     final userAnswer = response?.attemptedAnswer ?? '';
@@ -437,7 +437,7 @@ class _ReviewOptionsSection extends StatelessWidget {
 class _MultipleChoiceIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDarkMode;
     final infoColor = isDark ? const Color(0xFF60A5FA) : const Color(0xFF3B82F6);
 
     return Container(
@@ -469,7 +469,7 @@ class _MarksAwarded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.isDarkMode;
     final color = marksAwarded > 0
         ? const Color(0xFF10B981)
         : marksAwarded < 0

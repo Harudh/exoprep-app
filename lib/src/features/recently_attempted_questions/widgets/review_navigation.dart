@@ -17,8 +17,8 @@ class _ReviewNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final colorScheme = Theme.of(context).colorScheme;
+    final isDark = context.isDarkMode;
+    final colorScheme = context.colorScheme;
     final isFirstQuestion = currentIndex == 0;
     final isLastQuestion = currentIndex >= totalQuestions - 1;
 
