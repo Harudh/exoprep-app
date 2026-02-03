@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:root/src/core/navigation/router.dart';
 import 'package:root/src/core/theme/colors.dart';
 import 'package:root/src/core/navigation/routes.dart';
+import 'package:root/src/features/home/home_viewmodel.dart';
 import 'package:root/src/models/exam_model/exam_model.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
 
 class UserExamContainer extends StatelessWidget {
-  const UserExamContainer({super.key, required this.cardWidth, required this.exam});
+  const UserExamContainer({super.key, required this.cardWidth, required this.exam, required this.viewModel});
 
   final double cardWidth;
+  final HomeViewmodel viewModel;
   final Exam exam;
 
   @override
@@ -25,8 +28,12 @@ class UserExamContainer extends StatelessWidget {
     final int streak = analytics?.currentStreak ?? 0;
 
     return GestureDetector(
-      onTap: () {
-        AppRoute.examDashboard.pushNested(context, AppRoute.home, extra: exam.id,);
+      onTap: () async {
+        await router.push(
+          '${AppRoute.home.path}/${AppRoute.examDashboard.path}',
+          extra: {"examid": exam.id, "examName": exam.name},
+        );
+        await viewModel.fetchDashboardData();
       },
       child: Container(
         width: cardWidth,

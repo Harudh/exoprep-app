@@ -14,10 +14,12 @@ class AppEndpoints {
 
   static String get getUserExams => "$baseURL/api/v1/users/get-user-exams";
 
+  static String getExamAnalytics(String examId) => "$baseURL/api/v1/quiz/analytics/exam/$examId";
+
   static String getLeafExams({String? query}) => '$baseURL/api/v1/exams/leaf?search=${query ?? ""}';
   /*----------------- Papers Endpoints -------------------*/
 
-  static String getPapers(String query) => '$baseURL/api/v1/papers?$query';
+  static String getPapers(String query) => '$baseURL/api/v1/papers?isActive=true&$query';
 
   static String getPaperDetails(String paperID) => '$baseURL/api/v1/papers/$paperID';
 

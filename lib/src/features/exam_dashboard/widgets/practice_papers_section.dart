@@ -101,9 +101,12 @@ class _PYQTab extends StatelessWidget {
         }
 
         if (state.status == ViewModelStatus.error) {
-          return _PapersErrorWidget(
-            message: 'We couldn\'t load the PYQ papers.',
-            onRetry: () => viewModel.refreshPYQPapers(viewModel.examID),
+          // Wrapped in SingleChildScrollView so the error widget allows pulling/scrolling
+          return SingleChildScrollView(
+            child: _PapersErrorWidget(
+              message: 'We couldn\'t load the PYQ papers.',
+              onRetry: () => viewModel.refreshPYQPapers(viewModel.examID),
+            ),
           );
         }
 
@@ -258,7 +261,13 @@ class _PaperCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        _showPaperOptionsDialog(context);
+        paper.accessType != 'FREE'
+            ? OverlayBannerService.show(
+                context,
+                title: 'Access Denied',
+                description: 'You need to have a premium plan to access this paper Please purchase one',
+              )
+            : _showPaperOptionsDialog(context);
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
@@ -276,11 +285,30 @@ class _PaperCard extends StatelessWidget {
                 children: [
                   Text(paper.name, style: context.bodyLarge!.copyWith(fontWeight: FontWeight.w600, letterSpacing: -0.3)),
                   const SizedBox(height: 4),
-                  Text(paper.description, style: context.bodySmall!.copyWith(color: Colors.grey.shade600, fontSize: 12)),
+                  Text(
+                    paper.description,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.bodySmall!.copyWith(color: Colors.grey.shade600, fontSize: 12),
+                  ),
                 ],
               ),
             ),
-            Icon(Icons.chevron_right, color: Colors.grey.shade400),
+            paper.accessType == "FREE"
+                ? IconButton(
+                    onPressed: () => _showPaperOptionsDialog(context),
+                    icon: Icon(Icons.chevron_right, color: Colors.grey.shade400),
+                  )
+                : IconButton(
+                    onPressed: () {
+                      OverlayBannerService.show(
+                        context,
+                        title: 'Access Denied',
+                        description: 'You need to have a premium plan to access this paper Please purchase one',
+                      );
+                    },
+                    icon: Icon(Icons.lock, color: Colors.grey.shade400),
+                  ),
           ],
         ),
       ),

@@ -1,8 +1,10 @@
 import 'package:root/src/core/common/ui/widgets/background_gradient.dart';
 import 'package:root/src/core/extensions/app_scope_extension.dart';
+import 'package:root/src/core/common/state/viewmodel_state.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
-import 'package:root/src/features/home/user_exam_container.dart';
+import 'package:root/src/features/home/empty_userexams_container.dart';
 import 'package:root/src/features/home/user_exms_shimmer.dart';
+import 'package:root/src/features/home/user_exam_container.dart';
 import 'package:root/src/features/home/home_viewmodel.dart';
 import 'package:root/src/models/exam_model/exam_model.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -34,13 +36,15 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        /*
                         Text(
                           "Welcome back,",
                           style: context.bodySmall!.copyWith(color: Colors.grey.shade600, letterSpacing: -0.2),
                         ),
                         const SizedBox(height: 2),
+                        */
                         Text(
-                          "Zahaan Mahajan",
+                          "Welcome back",
                           style: context.headlineSmall!.copyWith(fontWeight: FontWeight.w800, letterSpacing: -0.5),
                         ),
                       ],
@@ -77,7 +81,7 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
               child: SizedBox(
                 height: 225,
                 child: ValueListenableBuilder(
-                  valueListenable: _homeViewmodel.userExams,
+                  valueListenable: _homeViewmodel.homeViewState,
                   builder: (context, value, child) {
                     return ListView.builder(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -87,42 +91,22 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
                         final screenWidth = context.screenWidth;
                         final cardWidth = screenWidth * 0.9;
 
-                        if (_homeViewmodel.userExams.value.isEmpty) {
-                          return ExamCardShimmer(width: cardWidth);
-                        }
-
-                        if (index == _homeViewmodel.userExams.value.length) {
-                          return Container(
-                            width: cardWidth,
-                            margin: const EdgeInsets.only(left: 12),
-                            decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(
-                                color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300,
-                                width: 1.5,
-                              ),
-                            ),
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.add_circle_outline, size: 36, color: Colors.grey.shade400),
-                                  const SizedBox(height: 12),
-                                  Text(
-                                    "Add New Exam",
-                                    style: context.titleMedium!.copyWith(
-                                      color: Colors.grey.shade600,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                        if (value.status == ViewModelStatus.loading) {
+                          return Row(
+                            children: [
+                              ExamCardShimmer(width: cardWidth),
+                              EmptyUserExamContainer(homeViewmodel: _homeViewmodel, cardWidth: cardWidth),
+                            ],
                           );
+                        } else if (_homeViewmodel.userExams.value.isEmpty || index == _homeViewmodel.userExams.value.length) {
+                          return EmptyUserExamContainer(homeViewmodel: _homeViewmodel, cardWidth: cardWidth);
                         }
 
-                        return UserExamContainer(cardWidth: cardWidth, exam: _homeViewmodel.userExams.value[index]);
+                        return UserExamContainer(
+                          cardWidth: cardWidth,
+                          exam: _homeViewmodel.userExams.value[index],
+                          viewModel: _homeViewmodel,
+                        );
                       },
                     );
                   },
@@ -157,7 +141,7 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
 
             // Popular Exams List
             ValueListenableBuilder(
-              valueListenable: _homeViewmodel.popularExams,
+              valueListenable: _homeViewmodel.homeViewState,
               builder: (context, value, child) {
                 if (_homeViewmodel.popularExams.value.isEmpty) {
                   return SliverList(
