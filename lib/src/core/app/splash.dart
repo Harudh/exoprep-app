@@ -66,12 +66,20 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
                 duration: const Duration(milliseconds: 1000),
                 builder: (context, value, child) => Opacity(
                   opacity: value,
-                  child: Text(
-                    AppStrings.appName,
-                    style: context.headlineLarge!.copyWith(
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: -0.5,
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/icons/logo.png', height: 40, ),
+                      SizedBox(width: 12),
+                      Text(
+                        AppStrings.appName,
+                        style: context.headlineLarge!.copyWith(
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: -0.5,
+                        ),
+                      ),
+                      SizedBox(width: 12),
+                    ],
                   ),
                 ),
               ),
