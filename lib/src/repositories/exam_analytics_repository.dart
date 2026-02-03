@@ -14,8 +14,9 @@ class ExamAnalyticsRepository {
     try {
       final response = await _examAnalyticsService.getExamAnalytics(examId);
       log('Response: $response');
-      final json = response.data?['data'];
-      return ExamAnalyticsModel.fromJson(json);
+      final json = response.data;
+      ExamAnalyticsModel analyticsModel = ExamAnalyticsModel.fromJson(json);
+      return analyticsModel;
     } on DioException catch (e) {
       throw NetworkException.fromDioError(e);
     }
