@@ -19,6 +19,7 @@ enum AppRoute {
 
   /* Nested Navigation */
   examDashboard('examDashboard'),
+  examAnalytics('examAnalytics'),
   decksListView('/decksListView'),
   cardsListView('/cardsListView'),
 

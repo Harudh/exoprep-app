@@ -1,4 +1,5 @@
 import 'package:root/src/core/common/ui/overlays/alert_overlay.dart';
+import 'package:root/src/core/navigation/router.dart';
 import 'package:root/src/features/exam_dashboard/exam_dashboard_viewmodel.dart';
 import 'package:root/src/core/common/ui/widgets/background_gradient.dart';
 import 'package:root/src/models/streak_heatmap_model/streak_heatmap.dart';
@@ -40,7 +41,7 @@ class _ExamDashboardViewState extends State<ExamDashboardView> with ExamDashboar
           child: NestedScrollView(
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return [
-                ExamDashboardHeader(examName: widget.examName),
+                ExamDashboardHeader(examName: widget.examName, examId: widget.examID),
                 const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
                 StreakSection(viewModel: _examDashboardViewModel),

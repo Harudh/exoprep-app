@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:root/src/core/app/splash.dart';
 import 'package:root/src/core/app/landing.dart';
 import 'package:root/src/core/navigation/routes.dart';
+import 'package:root/src/features/exam_analytics/exam_analytics_view.dart';
 import 'package:root/src/features/home/home_view.dart';
 import 'package:root/src/models/paper_model/paper_model.dart';
 import 'package:root/src/core/navigation/route_transition.dart';
@@ -195,6 +196,25 @@ final router = GoRouter(
 
                     return AppRouteTransition.slideFromRight(
                       child: ExamDashboardView(examID: examId, examName: examName),
+                      key: state.pageKey,
+                    );
+                  },
+                ),
+              ],
+            ),
+
+            GoRoute(
+              path: AppRoute.home.path,
+              pageBuilder: (context, state) => const NoTransitionPage(child: HomeView()),
+              routes: [
+                GoRoute(
+                  path: AppRoute.examAnalytics.path,
+                  pageBuilder: (context, state) {
+                    final data = state.extra as Map<String, dynamic>;
+                    final examId = data['examid'] as String;
+
+                    return AppRouteTransition.slideFromRight(
+                      child: ExamAnalyticsView(examId: examId),
                       key: state.pageKey,
                     );
                   },
