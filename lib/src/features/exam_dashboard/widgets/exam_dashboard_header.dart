@@ -2,8 +2,8 @@ part of '../exam_dashboard_view.dart';
 
 class ExamDashboardHeader extends StatelessWidget {
   final String examName;
-
-  const ExamDashboardHeader({super.key, required this.examName});
+  final String examId;
+  const ExamDashboardHeader({super.key, required this.examName, required this.examId});
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,24 @@ class ExamDashboardHeader extends StatelessWidget {
                 child: const Icon(Icons.arrow_back, size: 22),
               ),
             ),
+            const Spacer(),
             Text(examName, style: context.headlineSmall!.copyWith(fontWeight: FontWeight.w800, letterSpacing: -0.5)),
-            SizedBox(width: 48),
+            const Spacer(),
+            GestureDetector(
+              onTap: () {
+                router.push('${AppRoute.home.path}/${AppRoute.examAnalytics.path}', extra: {"examid": examId});
+              },
+              child: Container(
+                height: 44,
+                width: 44,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade100,
+                  border: Border.all(color: context.isDarkMode ? Colors.grey.shade700 : Colors.grey.shade300),
+                ),
+                child: const Icon(Icons.analytics_outlined, size: 22),
+              ),
+            ),
           ],
         ),
       ),

@@ -30,7 +30,8 @@ class ProfileHeader extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 55,
-                      backgroundColor: Colors.amber,
+                      backgroundColor: context.isDarkMode ? Colors.grey.shade600 : Colors.grey.shade200,
+
                       child: ClipOval(
                         child: CachedNetworkImage(
                           imageUrl: cubit.user!.profilePic,
@@ -45,11 +46,11 @@ class ProfileHeader extends StatelessWidget {
                       ),
                     ),
 
-                    Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: const BoxDecoration(color: Colors.blueAccent, shape: BoxShape.circle),
-                      child: const Icon(Icons.edit, color: Colors.white, size: 16),
-                    ),
+                    // Container(
+                    //   padding: const EdgeInsets.all(6),
+                    //   decoration: const BoxDecoration(color: Colors.blueAccent, shape: BoxShape.circle),
+                    //   child: const Icon(Icons.edit, color: Colors.white, size: 16),
+                    // ),
                   ],
                 ),
 

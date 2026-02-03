@@ -2,10 +2,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:toastification/toastification.dart';
 import 'package:root/src/core/navigation/routes.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
-import 'package:root/src/core/common/ui/widgets/circle_button.dart';
 import 'package:root/src/core/common/ui/widgets/background_gradient.dart';
 import 'package:root/src/features/flash_cards/cubit/flash_cards_cubit.dart';
 import 'package:root/src/features/flash_cards/widgets/collection_card_tile.dart';
@@ -36,7 +36,19 @@ class _FlashCardsCollectionViewState extends State<FlashCardsCollectionView> {
                   floating: true,
                   elevation: 0,
                   actions: [
-                    CircleButton(icon: Icons.more_vert),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        height: 44,
+                        width: 44,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade100,
+                          border: Border.all(color: context.isDarkMode ? Colors.grey.shade700 : Colors.grey.shade300),
+                        ),
+                        child: const Icon(IonIcons.notifications, size: 22),
+                      ),
+                    ),
                     const SizedBox(width: 12),
                   ],
                   flexibleSpace: FlexibleSpaceBar(
@@ -51,6 +63,13 @@ class _FlashCardsCollectionViewState extends State<FlashCardsCollectionView> {
 
                 if (state is LoadingState && context.read<FlashCardsCubit>().collections.isEmpty) ...[
                   const SliverFillRemaining(child: Center(child: CircularProgressIndicator())),
+                ] else if (context.read<FlashCardsCubit>().collections.isEmpty) ...[
+                  SliverFillRemaining(
+                    child: GestureDetector(
+                      onTap: showCollectionCreationDialog,
+                      child: Center(child: Text('Please add a collection')),
+                    ),
+                  ),
                 ] else if (state is CollectionsLoadedState || context.read<FlashCardsCubit>().collections.isNotEmpty) ...[
                   SliverPadding(
                     padding: const EdgeInsets.all(16),
@@ -84,10 +103,16 @@ class _FlashCardsCollectionViewState extends State<FlashCardsCollectionView> {
               ],
             ),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: showCollectionCreationDialog,
-            shape: const CircleBorder(),
-            child: const Icon(Icons.add),
+          floatingActionButton: Padding(
+            padding: EdgeInsets.only(bottom: 100),
+            child: FloatingActionButton(
+              onPressed: showCollectionCreationDialog,
+              isExtended: true,
+              shape: CircleBorder(),
+              tooltip: 'Create',
+              backgroundColor: context.isDarkMode ? Colors.white : Colors.black,
+              child: Icon(Icons.add, size: 30, color: context.isDarkMode ? Colors.black : Colors.white),
+            ),
           ),
         );
       },

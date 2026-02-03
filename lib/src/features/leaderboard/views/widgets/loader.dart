@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class LeaderboardLoadingWidget extends StatefulWidget {
-  const LeaderboardLoadingWidget({super.key});
+  const LeaderboardLoadingWidget({super.key, this.showbg = true});
+  final bool showbg;
 
   @override
   State<LeaderboardLoadingWidget> createState() => _LeaderboardLoadingWidgetState();
@@ -75,16 +76,18 @@ class _LeaderboardLoadingWidgetState extends State<LeaderboardLoadingWidget> wit
 
     return Scaffold(
       extendBody: true,
-      backgroundColor: bgColorBottom,
+      backgroundColor: widget.showbg ? bgColorBottom : null,
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [bgColorTop, bgColorBottom],
-            stops: const [0.0, 0.4],
-          ),
-        ),
+        decoration: widget.showbg
+            ? BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [bgColorTop, bgColorBottom],
+                  stops: const [0.0, 0.4],
+                ),
+              )
+            : null,
         child: SafeArea(
           child: Center(
             child: AnimatedBuilder(
