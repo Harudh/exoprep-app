@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:root/src/core/common/ui/widgets/background_gradient.dart';
 import 'package:root/src/core/common/ui/widgets/circle_button.dart';
 import 'package:root/src/core/navigation/router.dart';
@@ -59,7 +60,7 @@ class _DecksListViewState extends State<DecksListView> {
                   actions: [
                     Padding(
                       padding: const EdgeInsets.only(right: 12.0),
-                      child: Center(child: CircleButton(icon: Icons.more_vert)),
+                      child: Center(child: CircleButton(icon: IonIcons.notifications)),
                     ),
                   ],
                 ),
@@ -129,10 +130,14 @@ class _DecksListViewState extends State<DecksListView> {
               ],
             ),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: showDecksDialog,
-            shape: const CircleBorder(),
-            child: const Icon(Icons.add),
+          floatingActionButton: Padding(
+            padding: EdgeInsets.only(bottom: 100),
+            child: FloatingActionButton(
+              onPressed: showDecksDialog,
+              shape: const CircleBorder(),
+              backgroundColor: context.isDarkMode ? Colors.white : Colors.black,
+              child: Icon(Icons.add, size: 30, color: context.isDarkMode ? Colors.black : Colors.white),
+            ),
           ),
         );
       },

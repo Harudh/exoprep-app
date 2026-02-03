@@ -25,7 +25,7 @@ class RecentsSection extends StatelessWidget {
                     if (state.status == ViewModelStatus.success && (state.data?.length ?? 0) > 5)
                       InkWell(
                         onTap: () {
-                          //TODO: View Attempted Papers History
+                          //!TODO: View Attempted Papers History
                         },
                         borderRadius: BorderRadius.circular(8),
                         child: Padding(
@@ -109,10 +109,10 @@ class _RecentTestCard extends StatelessWidget {
     final timeDisplay = _getTimeAgo(attempt.completedAt);
 
     return GestureDetector(
-      onTap: () => context.push(AppRoute.recentlyAttemptedPaper.path, extra: {
-        'attempted_paper_id': attempt.id,
-        'paper_id': attempt.paper.id,
-      }),
+      onTap: () => context.push(
+        AppRoute.recentlyAttemptedPaper.path,
+        extra: {'attempted_paper_id': attempt.id, 'paper_id': attempt.paper.id},
+      ),
       child: Container(
         width: 200,
         margin: const EdgeInsets.only(right: 12),
