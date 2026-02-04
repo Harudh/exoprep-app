@@ -56,10 +56,16 @@ dev_dependencies:
 
   isar_community_generator: 3.3.0-dev.3
   change_app_package_name: ^1.5.0
+  flutter_launcher_icons: ^0.14.4
   json_serializable: ^6.11.2
   flutter_lints: ^6.0.0
   build_runner: ^2.7.0
   rename_app: ^1.6.5
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  image_path: "assets/icons/logo.png"
+  ios: true
 
 flutter:
   uses-material-design: true
