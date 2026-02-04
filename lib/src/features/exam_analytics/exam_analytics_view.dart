@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:root/src/core/common/state/viewmodel_state.dart';
+import 'package:root/src/core/common/ui/widgets/background_gradient.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
 import 'package:root/src/features/exam_analytics/analytics.dart';
 import 'package:root/src/core/common/ui/widgets/circle_button.dart';
@@ -20,29 +21,42 @@ class ExamAnalyticsView extends StatefulWidget {
 class _ExamAnalyticsViewState extends State<ExamAnalyticsView> with ExamAnalyticsMixin {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Exam Analytics', style: context.headlineSmall!.copyWith(fontWeight: FontWeight.w800, letterSpacing: -0.5)),
-
-        centerTitle: true,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 12),
-          child: CircleButton(icon: Icons.arrow_back, ontap: () => context.pop()),
-        ),
-      ),
-      body: ValueListenableBuilder<ViewModelState>(
-        valueListenable: _examAnalyticsViewmodel.examAnalyticsState,
-        builder: (context, state, child) {
-          log('State is : ${state.status}');
-          if (state.status == ViewModelStatus.loading) {
-            return LeaderboardLoadingWidget(showbg: false);
-          } else if (state.status == ViewModelStatus.error) {
-            return Center(child: Text('Error: ${state.error}'));
-          } else if (state.status == ViewModelStatus.success) {
-            return AnalyticsView(model: _examAnalyticsViewmodel.examAnalyticsModel);
-          }
-          return const SizedBox.shrink();
-        },
+    return BackgroundGradient(
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            backgroundColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
+            floating: true,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: CircleButton(icon: Icons.arrow_back, ontap: () => context.pop()),
+            ),
+            title: Text(
+              'Exam Analytics',
+              style: context.headlineSmall!.copyWith(fontWeight: FontWeight.w800, letterSpacing: -0.5),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: ValueListenableBuilder<ViewModelState>(
+              valueListenable: _examAnalyticsViewmodel.examAnalyticsState,
+              builder: (context, state, child) {
+                log('State is : ${state.status}');
+                if (state.status == ViewModelStatus.loading) {
+                  return SizedBox(
+                    height: context.screenHeight - 100,
+                    child: Center(child: LeaderboardLoadingWidget(showbg: false)),
+                  );
+                } else if (state.status == ViewModelStatus.error) {
+                  return Center(child: Text('Error: ${state.error}'));
+                } else if (state.status == ViewModelStatus.success) {
+                  return AnalyticsView(analytics: _examAnalyticsViewmodel.examAnalyticsModel);
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
