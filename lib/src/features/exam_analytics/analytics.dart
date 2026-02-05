@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:root/src/core/extensions/context_extension.dart';
 import 'package:root/src/features/exam_analytics/widgets/monthly_progress.dart';
 import 'package:root/src/features/exam_analytics/widgets/subject_wise_breakdown.dart';
 import 'package:root/src/features/exam_analytics/widgets/summary_widget.dart';
@@ -18,15 +19,24 @@ class AnalyticsView extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AnalyticsSummaryWidget(analytics: analytics),
           const SizedBox(height: 12),
-          if (analytics.monthlyProgress.isNotEmpty) MonthlyProgressWidget(monthlyProgress: analytics.monthlyProgress),
+          if (analytics.monthlyProgress.isNotEmpty) ...[
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+
+              child: Text('Monthly Performance', style: context.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+            ),
+            const SizedBox(height: 8),
+            MonthlyProgressWidget(monthlyProgress: analytics.monthlyProgress),
+          ],
+
           const SizedBox(height: 12),
           SubjectWiseBreakdownWidget(subjectPerformance: analytics.subjectPerformance),
           StrongWeekSubjectsCard(title: 'Strong topics', topics: analytics.strengths, scrollController: scrollController),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
           StrongWeekSubjectsCard(title: 'Weak topics', topics: analytics.weaknesses, scrollController: scrollController),
 
           const SizedBox(height: 120),

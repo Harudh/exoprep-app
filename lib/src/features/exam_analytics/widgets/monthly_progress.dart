@@ -44,14 +44,10 @@ class _MonthlyProgressWidgetState extends State<MonthlyProgressWidget> {
           color: context.isDarkMode ? Colors.grey.shade900 : Colors.white,
           border: Border.all(color: context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300),
         ),
-        padding: const EdgeInsets.fromLTRB(4, 20, 12, 12),
+        padding: const EdgeInsets.fromLTRB(4, 20, 16, 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: Text('Monthly Performance', style: context.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
-            ),
             const SizedBox(height: 20),
             Expanded(
               child: LineChart(
