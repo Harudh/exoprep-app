@@ -2,17 +2,59 @@ import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
 
-class SubjectsFlowCard extends StatelessWidget {
+class StrongWeekSubjectsCard extends StatefulWidget {
   final String title;
   final List<String> topics;
+  final ScrollController scrollController;
+  final double scrollOffset;
 
-  const SubjectsFlowCard({super.key, required this.title, required this.topics});
+  const StrongWeekSubjectsCard({
+    super.key,
+    required this.title,
+    required this.topics,
+    required this.scrollController,
+    this.scrollOffset = 100.0,
+  });
+
+  @override
+  State<StrongWeekSubjectsCard> createState() => _StrongWeekSubjectsCardState();
+}
+
+class _StrongWeekSubjectsCardState extends State<StrongWeekSubjectsCard> {
+  late ExpandableController _expandableController;
+
+  @override
+  void initState() {
+    super.initState();
+    _expandableController = ExpandableController(initialExpanded: true);
+    _expandableController.addListener(_onExpandChange);
+  }
+
+  void _onExpandChange() {
+    if (_expandableController.expanded) {
+      Future.delayed(const Duration(milliseconds: 50), () {
+        if (mounted) {
+          adjustScroll(
+            controller: widget.scrollController,
+            pixels: widget.scrollOffset,
+            duration: const Duration(milliseconds: 800),
+          );
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _expandableController.removeListener(_onExpandChange);
+    _expandableController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (topics.isEmpty) return const SizedBox.shrink();
+    if (widget.topics.isEmpty) return const SizedBox.shrink();
 
-    // Define colors based on theme once for cleaner code
     final borderColor = context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300;
     final cardColor = context.isDarkMode ? Colors.grey.shade900 : Colors.white;
     final chipColor = context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade100;
@@ -27,8 +69,10 @@ class SubjectsFlowCard extends StatelessWidget {
         border: Border.all(color: borderColor),
       ),
       child: ExpandableNotifier(
-        initialExpanded: false,
+        controller: _expandableController,
         child: ScrollOnExpand(
+          scrollOnExpand: true,
+          scrollOnCollapse: false,
           child: ExpandablePanel(
             theme: const ExpandableThemeData(
               headerAlignment: ExpandablePanelHeaderAlignment.center,
@@ -44,7 +88,7 @@ class SubjectsFlowCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
                 children: [
-                  Expanded(child: Text(title, style: context.titleSmall)),
+                  Expanded(child: Text(widget.title, style: context.titleSmall)),
                   ExpandableIcon(
                     theme: ExpandableThemeData(
                       expandIcon: Icons.keyboard_arrow_down_rounded,
@@ -66,7 +110,7 @@ class SubjectsFlowCard extends StatelessWidget {
                 child: Wrap(
                   spacing: 6,
                   runSpacing: 8,
-                  children: topics.map((topic) {
+                  children: widget.topics.map((topic) {
                     return Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
@@ -90,5 +134,27 @@ class SubjectsFlowCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+void adjustScroll({
+  bool animate = true,
+  required double pixels,
+  required ScrollController controller,
+  Duration duration = const Duration(milliseconds: 300),
+  Curve curve = Curves.easeInOut,
+}) {
+  if (!controller.hasClients) return;
+
+  final double currentPos = controller.offset;
+  final double maxScroll = controller.position.maxScrollExtent;
+  final double minScroll = controller.position.minScrollExtent;
+
+  final double targetPos = (currentPos + pixels).clamp(minScroll, maxScroll);
+
+  if (animate) {
+    controller.animateTo(targetPos, duration: duration, curve: curve);
+  } else {
+    controller.jumpTo(targetPos);
   }
 }
