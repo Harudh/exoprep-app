@@ -1,10 +1,10 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:root/src/core/common/state/viewmodel_state.dart';
-import 'package:root/src/core/common/ui/widgets/background_gradient.dart';
 import 'package:root/src/core/extensions/context_extension.dart';
 import 'package:root/src/features/exam_analytics/analytics.dart';
 import 'package:root/src/core/common/ui/widgets/circle_button.dart';
+import 'package:root/src/core/common/ui/widgets/background_gradient.dart';
 import 'package:root/src/features/leaderboard/views/widgets/loader.dart';
 import 'package:root/src/features/exam_analytics/exam_analytics_viewmodel.dart';
 
@@ -23,6 +23,7 @@ class _ExamAnalyticsViewState extends State<ExamAnalyticsView> with ExamAnalytic
   Widget build(BuildContext context) {
     return BackgroundGradient(
       child: CustomScrollView(
+        controller: scrollController,
         slivers: [
           SliverAppBar(
             backgroundColor: Colors.transparent,
@@ -45,12 +46,12 @@ class _ExamAnalyticsViewState extends State<ExamAnalyticsView> with ExamAnalytic
                 if (state.status == ViewModelStatus.loading) {
                   return SizedBox(
                     height: context.screenHeight - 100,
-                    child: Center(child: LeaderboardLoadingWidget(showbg: false)),
+                    child: Center(child: LeaderboardLoadingWidget(showbg: true)),
                   );
                 } else if (state.status == ViewModelStatus.error) {
                   return Center(child: Text('Error: ${state.error}'));
                 } else if (state.status == ViewModelStatus.success) {
-                  return AnalyticsView(analytics: _examAnalyticsViewmodel.examAnalyticsModel);
+                  return AnalyticsView(analytics: _examAnalyticsViewmodel.examAnalyticsModel, scrollController: scrollController);
                 }
                 return const SizedBox.shrink();
               },

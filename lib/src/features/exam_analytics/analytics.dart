@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:root/src/features/exam_analytics/widgets/strong_week_subjects_widget.dart';
+import 'package:root/src/features/exam_analytics/widgets/monthly_progress.dart';
+import 'package:root/src/features/exam_analytics/widgets/subject_wise_breakdown.dart';
+import 'package:root/src/features/exam_analytics/widgets/summary_widget.dart';
 import 'package:root/src/models/exam_analytics_model/exam_analytics_model.dart';
+import 'package:root/src/features/exam_analytics/widgets/strong_week_subjects_widget.dart';
 
 class AnalyticsView extends StatelessWidget {
   final ExamAnalyticsModel analytics;
+  final ScrollController scrollController;
 
-  const AnalyticsView({super.key, required this.analytics});
+  const AnalyticsView({super.key, required this.analytics, required this.scrollController});
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +20,14 @@ class AnalyticsView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          AnalyticsSummaryWidget(analytics: analytics),
           const SizedBox(height: 12),
-          SubjectsFlowCard(title: 'Strong topics', topics: analytics.strengths),
+          if (analytics.monthlyProgress.isNotEmpty) MonthlyProgressWidget(monthlyProgress: analytics.monthlyProgress),
           const SizedBox(height: 12),
-          SubjectsFlowCard(title: 'Weak topics', topics: analytics.weaknesses),
+          SubjectWiseBreakdownWidget(subjectPerformance: analytics.subjectPerformance),
+          StrongWeekSubjectsCard(title: 'Strong topics', topics: analytics.strengths, scrollController: scrollController),
+          const SizedBox(height: 12),
+          StrongWeekSubjectsCard(title: 'Weak topics', topics: analytics.weaknesses, scrollController: scrollController),
 
           const SizedBox(height: 120),
         ],
