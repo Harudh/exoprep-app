@@ -5,8 +5,9 @@ import 'package:root/src/core/extensions/context_extension.dart';
 import 'package:root/src/features/exam_analytics/analytics.dart';
 import 'package:root/src/core/common/ui/widgets/circle_button.dart';
 import 'package:root/src/core/common/ui/widgets/background_gradient.dart';
-import 'package:root/src/features/leaderboard/views/widgets/loader.dart';
+import 'package:root/src/features/exam_analytics/widgets/exam_analytics_shimmer.dart';
 import 'package:root/src/features/exam_analytics/exam_analytics_viewmodel.dart';
+import 'package:root/src/features/leaderboard/views/widgets/empty_widget.dart';
 
 part 'exam_analytics_mixin.dart';
 
@@ -44,12 +45,9 @@ class _ExamAnalyticsViewState extends State<ExamAnalyticsView> with ExamAnalytic
               builder: (context, state, child) {
                 log('State is : ${state.status}');
                 if (state.status == ViewModelStatus.loading) {
-                  return SizedBox(
-                    height: context.screenHeight - 100,
-                    child: Center(child: LeaderboardLoadingWidget(showbg: true)),
-                  );
+                  return ExamAnalyticsLoadingShimmer();
                 } else if (state.status == ViewModelStatus.error) {
-                  return Center(child: Text('Error: ${state.error}'));
+                  return LeaderboardEmptyWidget(subtitle: 'Analytics will be availabe as soon as you start giving quizes');
                 } else if (state.status == ViewModelStatus.success) {
                   return AnalyticsView(analytics: _examAnalyticsViewmodel.examAnalyticsModel, scrollController: scrollController);
                 }

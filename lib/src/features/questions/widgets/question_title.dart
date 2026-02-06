@@ -1,7 +1,7 @@
 part of '../questions_view.dart';
 
-class _QuestionTitle extends StatelessWidget {
-  const _QuestionTitle({required this.title});
+class QuestionTitle extends StatelessWidget {
+  const QuestionTitle({required this.title});
 
   final String title;
 

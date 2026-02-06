@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:root/src/core/common/ui/widgets/background_gradient.dart';
 import 'package:root/src/core/theme/colors.dart';
 import 'package:root/src/core/logger/logger.dart';
 import 'package:root/src/core/navigation/routes.dart';
@@ -10,6 +9,7 @@ import 'package:root/src/core/common/state/viewmodel_state.dart';
 import 'package:root/src/models/subject_model/subject_model.dart';
 import 'package:root/src/models/question_model/question_model.dart';
 import 'package:root/src/models/paper_model/paper_details_model.dart';
+import 'package:root/src/core/common/ui/widgets/background_gradient.dart';
 import 'package:root/src/features/attempt_paper/attempt_paper_viewmodel.dart';
 
 part 'attempt_paper_mixin.dart';
@@ -72,10 +72,7 @@ class _LoadingViewState extends State<_LoadingView> with SingleTickerProviderSta
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1500),
-    )..repeat();
+    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 1500))..repeat();
   }
 
   @override
@@ -100,12 +97,7 @@ class _LoadingViewState extends State<_LoadingView> with SingleTickerProviderSta
                 floating: false,
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBar(
-                  title: _skeletonBlock(
-                    width: 120,
-                    height: 18,
-                    isDark: isDark,
-                    borderRadius: 4,
-                  ),
+                  title: _skeletonBlock(width: 120, height: 18, isDark: isDark, borderRadius: 4),
                   centerTitle: true,
                   titlePadding: const EdgeInsets.only(bottom: 16),
                 ),
@@ -186,16 +178,8 @@ class _LoadingViewState extends State<_LoadingView> with SingleTickerProviderSta
                       end: Alignment.bottomRight,
                       stops: [0.0, _controller.value, 1.0],
                       colors: isDark
-                          ? [
-                        Colors.grey.shade800,
-                        Colors.grey.shade700,
-                        Colors.grey.shade800,
-                      ]
-                          : [
-                        Colors.grey.shade300,
-                        Colors.grey.shade200,
-                        Colors.grey.shade300,
-                      ],
+                          ? [Colors.grey.shade800, Colors.grey.shade700, Colors.grey.shade800]
+                          : [Colors.grey.shade300, Colors.grey.shade200, Colors.grey.shade300],
                     ),
                   ),
                 );
@@ -207,11 +191,7 @@ class _LoadingViewState extends State<_LoadingView> with SingleTickerProviderSta
     );
   }
 
-  Widget _buildShimmerCard({
-    required bool isDark,
-    required Widget child,
-    EdgeInsets padding = const EdgeInsets.all(16),
-  }) {
+  Widget _buildShimmerCard({required bool isDark, required Widget child, EdgeInsets padding = const EdgeInsets.all(16)}) {
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, _) {
@@ -220,24 +200,14 @@ class _LoadingViewState extends State<_LoadingView> with SingleTickerProviderSta
           decoration: BoxDecoration(
             color: isDark ? const Color(0xFF1A1A1A) : Colors.white,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: isDark ? const Color(0xFF2A2A2A) : const Color(0xFFE5E7EB),
-            ),
+            border: Border.all(color: isDark ? const Color(0xFF2A2A2A) : const Color(0xFFE5E7EB)),
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               stops: [0.0, _controller.value, 1.0],
               colors: isDark
-                  ? [
-                Colors.transparent,
-                Colors.white.withValues(alpha: 0.03),
-                Colors.transparent,
-              ]
-                  : [
-                Colors.transparent,
-                Colors.white.withValues(alpha: 0.1),
-                Colors.transparent,
-              ],
+                  ? [Colors.transparent, Colors.white.withValues(alpha: 0.03), Colors.transparent]
+                  : [Colors.transparent, Colors.white.withValues(alpha: 0.1), Colors.transparent],
             ),
           ),
           child: child,
@@ -301,10 +271,7 @@ class _LoadingViewState extends State<_LoadingView> with SingleTickerProviderSta
           margin: const EdgeInsets.only(top: 6),
           width: 6,
           height: 6,
-          decoration: BoxDecoration(
-            color: isDark ? Colors.grey.shade700 : Colors.grey.shade300,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: isDark ? Colors.grey.shade700 : Colors.grey.shade300, shape: BoxShape.circle),
         ),
         const SizedBox(width: 12),
         Expanded(
@@ -314,12 +281,7 @@ class _LoadingViewState extends State<_LoadingView> with SingleTickerProviderSta
     );
   }
 
-  Widget _skeletonBlock({
-    required double width,
-    required double height,
-    required bool isDark,
-    double borderRadius = 4,
-  }) {
+  Widget _skeletonBlock({required double width, required double height, required bool isDark, double borderRadius = 4}) {
     return Container(
       width: width,
       height: height,

@@ -14,8 +14,8 @@ class AnalyticsSummaryWidget extends StatelessWidget {
     return Column(
       children: [
         Wrap(
-          spacing: 12,
-          runSpacing: 12,
+          spacing: 8,
+          runSpacing: 8,
           alignment: WrapAlignment.spaceBetween,
           children: [
             _MetricCard(
@@ -57,17 +57,16 @@ class AnalyticsSummaryWidget extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 8),
 
         _ScoreHeroCard(percentage: analytics.avgScorePercentage),
-        const SizedBox(height: 12),
       ],
     );
   }
 
   double _calculateWidth(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return (width - 44) / 2;
+    return (width - 36) / 2;
   }
 
   String _formatTime(num seconds) {
