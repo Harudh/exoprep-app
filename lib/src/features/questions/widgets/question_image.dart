@@ -1,7 +1,7 @@
 part of '../questions_view.dart';
 
-class _QuestionImage extends StatelessWidget {
-  const _QuestionImage({required this.base64Image});
+class QuestionImage extends StatelessWidget {
+  const QuestionImage({required this.base64Image});
 
   final String base64Image;
 

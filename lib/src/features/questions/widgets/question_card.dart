@@ -26,10 +26,10 @@ class _QuestionCard extends StatelessWidget {
         children: [
           _QuestionNumber(number: questionNumber),
           const SizedBox(height: 16),
-          _QuestionTitle(title: question.title),
+          QuestionTitle(title: question.title),
           if (question.image != null && question.image!.isNotEmpty) ...[
             const SizedBox(height: 20),
-            _QuestionImage(base64Image: question.image!),
+            QuestionImage(base64Image: question.image!),
           ],
           const SizedBox(height: 20),
           if (_isNumericalQuestion())
