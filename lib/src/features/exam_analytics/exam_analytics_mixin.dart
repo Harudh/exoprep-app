@@ -2,10 +2,12 @@ part of 'exam_analytics_view.dart';
 
 mixin ExamAnalyticsMixin on State<ExamAnalyticsView> {
   late ExamAnalyticsViewmodel _examAnalyticsViewmodel;
+  late ScrollController scrollController;
 
   @override
   void initState() {
     _examAnalyticsViewmodel = ExamAnalyticsViewmodel();
+    scrollController = ScrollController();
     super.initState();
   }
 
@@ -20,6 +22,8 @@ mixin ExamAnalyticsMixin on State<ExamAnalyticsView> {
 
   @override
   void dispose() {
+    scrollController.dispose();
+
     super.dispose();
   }
 }
