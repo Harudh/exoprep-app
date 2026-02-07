@@ -36,13 +36,14 @@ class _ProfileViewState extends State<ProfileView> {
                       title: "Premium",
                       subtitle: "Unlock offline access and premium features",
                     ),
+                    /*
                     const ProfileTile(
                       icon: Icons.assignment_turned_in,
                       title: "Attempted Papers",
                       subtitle: "Review papers you’ve already attempted",
                     ),
                     const ProfileTile(icon: Icons.insights, title: "Analytics", subtitle: "Track your performance and progress"),
-
+                    */
                     const SizedBox(height: 20),
                     _SectionHeader(title: "Settings & Support"),
                     ProfileTile(
